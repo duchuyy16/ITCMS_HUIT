@@ -17,6 +17,7 @@ namespace ITCMS_HUIT.Models
         public int SoTuan { get; set; }
         public decimal HocPhi { get; set; }
         public string? Mota { get; set; }
+        public string? HinhAnh { get; set; }
 
         public virtual ChuongTrinhDaoTao IdchuongTrinhNavigation { get; set; } = null!;
         public virtual ICollection<LopHoc> LopHocs { get; set; }

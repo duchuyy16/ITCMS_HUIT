@@ -11,9 +11,11 @@ namespace ITCMS_HUIT.Repository.Interfaces
     public interface ILopHocRepo : IBaseRepository<LopHoc>
     {
         List<LopHoc> GetAll();
-        LopHoc GetById(int id);
         List<LopHoc> GetAllByUserId(int userId);
-        LopHoc GetByUserId(int userId);
         List<LopHoc> Search(string keyword);
+        LopHoc GetById(int id);
+        LopHoc GetByUserId(int userId);
+        bool IsExist(int id);
+        int Count();
     }
 }

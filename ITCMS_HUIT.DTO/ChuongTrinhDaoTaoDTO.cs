@@ -11,6 +11,7 @@ namespace ITCMS_HUIT.DTO
         public int IdchuongTrinh { get; set; }
         public string TenChuongTrinh { get; set; } = null!;
 
-        public List<KhoaHocDTO>? KhoaHocs { get; set; }
     }
+
+    
 }

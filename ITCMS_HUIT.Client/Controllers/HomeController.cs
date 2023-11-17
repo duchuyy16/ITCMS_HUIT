@@ -1,4 +1,5 @@
-﻿using ITCMS_HUIT.Client.Models;
+﻿using ITCMS_HUIT.Client.Common;
+using ITCMS_HUIT.Client.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,11 +14,6 @@ namespace ITCMS_HUIT.Client.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();
@@ -27,6 +23,12 @@ namespace ITCMS_HUIT.Client.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Index()
+        {
+            var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
+            return View(dsKhoaHoc);
         }
     }
 }

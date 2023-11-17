@@ -15,6 +15,11 @@ namespace ITCMS_HUIT.Repository.Implement
         {
         }
 
+        public int Count()
+        {
+            return _context.ChuongTrinhDaoTaos.Count();
+        }
+
         public List<ChuongTrinhDaoTao> GetAll()
         {
             return _context.ChuongTrinhDaoTaos.ToList();

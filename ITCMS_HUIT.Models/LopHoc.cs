@@ -17,10 +17,10 @@ namespace ITCMS_HUIT.Models
         public DateTime NgayKetThuc { get; set; }
         public string DiaDiem { get; set; } = null!;
         public int IdkhoaHoc { get; set; }
-        public int IdgiaoVien { get; set; }
+        public string? IdgiaoVien { get; set; }
 
-        public virtual GiaoVien IdgiaoVienNavigation { get; set; } = null!;
+        public virtual GiaoVien? IdgiaoVienNavigation { get; set; }
         public virtual KhoaHoc IdkhoaHocNavigation { get; set; } = null!;
-        public virtual ICollection<ThongTinHocVien> ThongTinHocViens { get; set; }
+        public virtual ICollection<ThongTinHocVien>? ThongTinHocViens { get; set; }
     }
 }

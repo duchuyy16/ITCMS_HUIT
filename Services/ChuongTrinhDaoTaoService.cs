@@ -16,6 +16,11 @@ namespace Services
             _chuongTrinhDaoTao = ctdt.ChuongTrinhDaoTaoRepo;
         }
 
+        public int Count()
+        {
+            return _chuongTrinhDaoTao.Count();
+        }
+
         public List<ChuongTrinhDaoTaoDTO> GetAll()
         {
             var dsChuongTrinhDT= _chuongTrinhDaoTao.GetAll();
@@ -23,7 +28,7 @@ namespace Services
             var dsChuongTrinhDaoTaoDTO = dsChuongTrinhDT.Select(s => new ChuongTrinhDaoTaoDTO
             {
                 IdchuongTrinh = s.IdchuongTrinh,
-                TenChuongTrinh = s.TenChuongTrinh,
+                TenChuongTrinh = s.TenChuongTrinh!,
             }).ToList();
 
             return dsChuongTrinhDaoTaoDTO;

@@ -1,8 +1,10 @@
-﻿using ITCMS_HUIT.DTO;
+﻿using AutoMapper;
+using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Implement;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +15,27 @@ namespace Services
 {
     public class LopHocService
     {
-        public readonly ILopHocRepo _lophoc;
-        public LopHocService(IRepo lophoc)
+        private readonly IMapper _mapper;
+        public readonly ILopHocRepo _lopHoc;
+        public LopHocService(IRepo lophoc, IMapper mapper)
         {
-            _lophoc = lophoc.LopHocRepo;
+            _mapper = mapper;
+            _lopHoc = lophoc.LopHocRepo;
+        }
+
+        public int Count()
+        {
+            return _lopHoc.Count();
+        }
+
+        public bool IsExist(int id)
+        {
+            return _lopHoc.IsExist(id);
         }
 
         public List<LopHocDTO> GetAll()
         {
-            var dsLopHoc = _lophoc.GetAll();
+            var dsLopHoc = _lopHoc.GetAll();
             var dsLopHocDTO = dsLopHoc.Select(s => new LopHocDTO
             {
                 IdlopHoc = s.IdlopHoc,
@@ -30,12 +44,11 @@ namespace Services
                 NgayBatDau = s.NgayBatDau,
                 NgayKetThuc = s.NgayKetThuc,
                 DiaDiem = s.DiaDiem,
-                IdkhoaHocNavigation = s.IdkhoaHocNavigation.Adapt<KhoaHocDTO>(),
+                IdgiaoVien = s.IdgiaoVien,
+                IdkhoaHoc = s.IdkhoaHoc,
                 IdgiaoVienNavigation = s.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
-                ThongTinHocViens = s.ThongTinHocViens.Select(t => new ThongTinHocVienDTO
-                {
-                    IdhocVien = t.IdhocVien,
-                }).ToList()
+                IdkhoaHocNavigation=s.IdkhoaHocNavigation.Adapt<KhoaHocModel>(),
+                
             }).ToList();
 
             return dsLopHocDTO;
@@ -43,7 +56,7 @@ namespace Services
 
         public LopHocDTO GetById(int id)
         {
-            var lopHoc=_lophoc.GetById(id);
+            var lopHoc= _lopHoc.GetById(id);
             LopHocDTO lopHocDTO = new LopHocDTO
             {
                 IdlopHoc = lopHoc.IdlopHoc,
@@ -52,19 +65,17 @@ namespace Services
                 NgayBatDau = lopHoc.NgayBatDau,
                 NgayKetThuc = lopHoc.NgayKetThuc,
                 DiaDiem = lopHoc.DiaDiem,
-                IdkhoaHocNavigation = lopHoc.IdkhoaHocNavigation.Adapt<KhoaHocDTO>(),
+                IdgiaoVien=lopHoc.IdgiaoVien,
+                IdkhoaHoc=lopHoc.IdkhoaHoc,
+                IdkhoaHocNavigation = lopHoc.IdkhoaHocNavigation.Adapt<KhoaHocModel>(),
                 IdgiaoVienNavigation = lopHoc.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
-                ThongTinHocViens = lopHoc.ThongTinHocViens.Select(t => new ThongTinHocVienDTO
-                {
-                    IdhocVien = t.IdhocVien,
-                }).ToList()
             };
             return lopHocDTO;
         }
 
         public List<LopHocDTO> Search(string keyword)
         {
-            var lophoc = _lophoc.Search(keyword);
+            var lophoc = _lopHoc.Search(keyword);
 
             var dsLopHocDTO = lophoc.Select(s => new LopHocDTO
             {
@@ -74,17 +85,62 @@ namespace Services
                 NgayBatDau = s.NgayBatDau,
                 NgayKetThuc = s.NgayKetThuc,
                 DiaDiem = s.DiaDiem,
-                IdkhoaHocNavigation = s.IdkhoaHocNavigation.Adapt<KhoaHocDTO>(),
+                IdgiaoVien = s.IdgiaoVien,
+                IdkhoaHoc = s.IdkhoaHoc,
+                IdkhoaHocNavigation = s.IdkhoaHocNavigation.Adapt<KhoaHocModel>(),
                 IdgiaoVienNavigation = s.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
-                ThongTinHocViens = s.ThongTinHocViens.Select(t => new ThongTinHocVienDTO
-                {
-                    IdhocVien = t.IdhocVien,
-                }).ToList()
             }).ToList();
 
             return dsLopHocDTO;
         }
 
+        public bool Delete(LopHocDTO model)
+        {
+            var lopHoc = _lopHoc.GetById(model.IdlopHoc);
 
+            var result= _lopHoc.Delete(lopHoc);
+
+            return result;
+        }
+
+        public bool Update(LopHocDTO model)
+        {
+            var lopHoc = new LopHoc
+            {
+                IdlopHoc = model.IdlopHoc,
+                TenLopHoc = model.TenLopHoc,
+                ThoiGian = model.ThoiGian,
+                NgayBatDau = model.NgayBatDau,
+                NgayKetThuc = model.NgayKetThuc,
+                DiaDiem = model.DiaDiem,
+                IdgiaoVien = model.IdgiaoVien,
+                IdkhoaHoc=model.IdkhoaHoc,
+            };
+
+            var result = _lopHoc.Update(lopHoc);
+
+            return result;
+        }
+
+        public LopHocDTO Add(LopHocDTO model)
+        {
+            var lopHoc = new LopHoc
+            {
+                TenLopHoc = model.TenLopHoc,
+                ThoiGian = model.ThoiGian,
+                NgayBatDau = model.NgayBatDau,
+                NgayKetThuc = model.NgayKetThuc,
+                DiaDiem = model.DiaDiem,
+                IdgiaoVien = model.IdgiaoVien,
+                IdkhoaHoc = model.IdkhoaHoc,
+            };
+
+            var result = _lopHoc.Add(lopHoc);
+
+            var lopHocDTO=_mapper.Map<LopHocDTO>(result);
+
+            return lopHocDTO;
+        }
     }
+
 }

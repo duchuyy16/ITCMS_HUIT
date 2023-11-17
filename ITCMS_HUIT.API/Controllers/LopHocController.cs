@@ -1,4 +1,5 @@
 ﻿using ITCMS_HUIT.DTO;
+using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,28 +11,52 @@ namespace ITCMS_HUIT.API.Controllers
     [ApiController]
     public class LopHocController : ControllerBase
     {
-        private readonly LopHocService _lophoc;
+        private readonly LopHocService _lopHoc;
         public LopHocController(LopHocService lophoc)
         {
-            _lophoc = lophoc;
+            _lopHoc = lophoc;
         }
 
-        [HttpPost("DanhSachLopHoc")]
+        [HttpPost("kiem-tra-ton-tai/{id}")]
+        public bool IsExist(int id)
+        {
+            return _lopHoc.IsExist(id);
+        }
+
+        [HttpPost("danh-sach-lop-hoc")]
         public List<LopHocDTO> GetAll()
         {
-            return _lophoc.GetAll();
+            return _lopHoc.GetAll();
         }
 
-        [HttpPost("DanhSachLopHoc")]
+        [HttpPost("lop-hoc/{id}")]
         public LopHocDTO GetById(int id)
         {
-            return _lophoc.GetById(id);
+            return _lopHoc.GetById(id);
         }
 
-        [HttpPost("DanhSachLopHoc")]
+        [HttpPost("tim-kiem-lop-hoc/{keyword}")]
         public List<LopHocDTO> Search(string keyword)
         {
-            return _lophoc.Search(keyword);
+            return _lopHoc.Search(keyword);
+        }
+
+        [HttpPost("xoa-lop-hoc")]
+        public bool Delete(LopHocDTO model)
+        {
+            return _lopHoc.Delete(model);
+        }
+
+        [HttpPost("cap-nhat-lop-hoc")]
+        public bool Update(LopHocDTO model)
+        {
+            return _lopHoc.Update(model);
+        }
+
+        [HttpPost("them-lop-hoc")]
+        public LopHocDTO Add(LopHocDTO model)
+        {
+            return _lopHoc.Add(model);
         }
     }
 }

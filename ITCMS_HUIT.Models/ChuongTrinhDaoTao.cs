@@ -11,7 +11,7 @@ namespace ITCMS_HUIT.Models
         }
 
         public int IdchuongTrinh { get; set; }
-        public string TenChuongTrinh { get; set; } = null!;
+        public string? TenChuongTrinh { get; set; }
 
         public virtual ICollection<KhoaHoc> KhoaHocs { get; set; }
     }

@@ -16,9 +16,14 @@ namespace ITCMS_HUIT.Repository.Implement
         {
         }
 
+        public int Count()
+        {
+            return _context.LopHocs.Count();
+        }
+
         public List<LopHoc> GetAll()
         {
-            return _context.LopHocs.Include(i=>i.IdgiaoVienNavigation).Include(k=>k.IdkhoaHocNavigation).Include(t=>t.ThongTinHocViens).ToList();
+            return _context.LopHocs.Include(i=>i.IdgiaoVienNavigation).Include(k=>k.IdkhoaHocNavigation).ToList();
         }
 
         public List<LopHoc> GetAllByUserId(int userId)
@@ -28,7 +33,7 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public LopHoc GetById(int id)
         {
-            return _context.LopHocs.Include(i => i.IdgiaoVienNavigation).Include(k => k.IdkhoaHocNavigation).Include(t => t.ThongTinHocViens).SingleOrDefault(l => l.IdlopHoc == id)!;
+            return _context.LopHocs.Include(i => i.IdgiaoVienNavigation).Include(k => k.IdkhoaHocNavigation).FirstOrDefault(l => l.IdlopHoc == id)!;
         }
 
         public LopHoc GetByUserId(int userId)
@@ -36,9 +41,14 @@ namespace ITCMS_HUIT.Repository.Implement
             throw new NotImplementedException();
         }
 
+        public bool IsExist(int id)
+        {
+            return _context.LopHocs.Any(g => g.IdlopHoc == id);
+        }
+
         public List<LopHoc> Search(string keyword)
         {
-            return _context.LopHocs.Include(i => i.IdgiaoVienNavigation).Include(k => k.IdkhoaHocNavigation).Include(t => t.ThongTinHocViens).Where(s=>s.TenLopHoc == keyword).ToList();
+            return _context.LopHocs.Include(i => i.IdgiaoVienNavigation).Include(k => k.IdkhoaHocNavigation).Where(s=>s.TenLopHoc.Contains(keyword)).ToList();
         }
     }
 }

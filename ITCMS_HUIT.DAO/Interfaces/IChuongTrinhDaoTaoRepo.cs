@@ -11,5 +11,6 @@ namespace ITCMS_HUIT.Repository.Interfaces
     public interface IChuongTrinhDaoTaoRepo : IBaseRepository<ChuongTrinhDaoTao>
     {
         List<ChuongTrinhDaoTao> GetAll();
+        int Count();
     }
 }

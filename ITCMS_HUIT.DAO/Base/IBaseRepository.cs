@@ -10,6 +10,7 @@ namespace ITCMS_HUIT.Repository.Base
     {
         T? Add(T entity);
         bool Update(T entity);
+        T? UpdateTTHV(T entity);
         bool Delete(T entity);
     }
 }

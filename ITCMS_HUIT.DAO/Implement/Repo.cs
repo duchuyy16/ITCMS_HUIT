@@ -21,5 +21,12 @@ namespace ITCMS_HUIT.Repository.Implement
         public IChuongTrinhDaoTaoRepo ChuongTrinhDaoTaoRepo => new ChuongTrinhDaoTaoRepo(_context);
         
         public IKhoaHocRepo KhoaHocRepo => new KhoaHocRepo(_context);
+
+        public IGiaoVienRepo GiaoVienRepo => new GiaoVienRepo(_context);
+
+        public IThongTinHocVienRepo ThongTinHocVienRepo => new ThongTinHocVienRepo(_context);
+
+        public IHocVienRepo HocVienRepo => new HocVienRepo(_context);
+
     }
 }

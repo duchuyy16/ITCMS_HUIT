@@ -34,5 +34,12 @@ namespace ITCMS_HUIT.Repository.Base
             _context.SaveChanges();
             return true;
         }
+
+        public T? UpdateTTHV(T entity)
+        {
+            _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            return entity;
+        }
     }
 }

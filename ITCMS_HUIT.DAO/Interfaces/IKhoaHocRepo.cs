@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace ITCMS_HUIT.Repository.Interfaces
 {
-    public interface IKhoaHocRepo: IBaseRepository<KhoaHoc>
+    public interface IKhoaHocRepo : IBaseRepository<KhoaHoc>
     {
         KhoaHoc GetById(int id);
-        List<KhoaHoc> GetByIdCTDD(int chuongTrinhID);
+        List<KhoaHoc> GetByIdCTDT(int chuongTrinhID);
         List<KhoaHoc> GetAll();
         List<KhoaHoc> Search(string keyword);
+        bool IsExist(int id);
     }
 }

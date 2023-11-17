@@ -15,7 +15,7 @@ namespace ITCMS_HUIT.API.Controllers
             _chuongTrinhDaoTao = chuongTrinhDaoTao;
         }
 
-        [HttpPost("DanhSachChuongTrinhDaoTao")]
+        [HttpPost("danh-sach-chuong-trinh-dao-tao")]
         public List<ChuongTrinhDaoTaoDTO> GetAll()
         {
             return _chuongTrinhDaoTao.GetAll();

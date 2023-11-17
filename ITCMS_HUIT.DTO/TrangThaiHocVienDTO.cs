@@ -11,7 +11,5 @@ namespace ITCMS_HUIT.DTO
         public int IdtrangThai { get; set; }
         public string TenTrangThai { get; set; } = null!;
         public string MoTa { get; set; } = null!;
-
-        public List<HocVienDTO>? HocViens { get; set; }
     }
 }

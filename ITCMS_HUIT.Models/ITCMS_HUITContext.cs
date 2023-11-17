@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ITCMS_HUIT.Models
@@ -17,6 +16,12 @@ namespace ITCMS_HUIT.Models
         {
         }
 
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
+        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; } = null!;
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } = null!;
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
+        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<ChuongTrinhDaoTao> ChuongTrinhDaoTaos { get; set; } = null!;
         public virtual DbSet<DoiTuongDangKy> DoiTuongDangKies { get; set; } = null!;
         public virtual DbSet<GiaoVien> GiaoViens { get; set; } = null!;
@@ -36,6 +41,87 @@ namespace ITCMS_HUIT.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AspNetRole>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
+
+                entity.Property(e => e.Name).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<AspNetRoleClaim>(entity =>
+            {
+                entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.AspNetRoleClaims)
+                    .HasForeignKey(d => d.RoleId);
+            });
+
+            modelBuilder.Entity<AspNetUser>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
+
+                entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+                entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+
+                entity.Property(e => e.UserName).HasMaxLength(256);
+
+                entity.HasMany(d => d.Roles)
+                    .WithMany(p => p.Users)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "AspNetUserRole",
+                        l => l.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                        r => r.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                        j =>
+                        {
+                            j.HasKey("UserId", "RoleId");
+
+                            j.ToTable("AspNetUserRoles");
+
+                            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+                        });
+            });
+
+            modelBuilder.Entity<AspNetUserClaim>(entity =>
+            {
+                entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserClaims)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserLogin>(entity =>
+            {
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+                entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserLogins)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserToken>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserTokens)
+                    .HasForeignKey(d => d.UserId);
+            });
+
             modelBuilder.Entity<ChuongTrinhDaoTao>(entity =>
             {
                 entity.HasKey(e => e.IdchuongTrinh)
@@ -45,9 +131,7 @@ namespace ITCMS_HUIT.Models
 
                 entity.Property(e => e.IdchuongTrinh).HasColumnName("IDChuongTrinh");
 
-                entity.Property(e => e.TenChuongTrinh)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.TenChuongTrinh).HasMaxLength(255);
             });
 
             modelBuilder.Entity<DoiTuongDangKy>(entity =>
@@ -67,7 +151,7 @@ namespace ITCMS_HUIT.Models
             modelBuilder.Entity<GiaoVien>(entity =>
             {
                 entity.HasKey(e => e.IdgiaoVien)
-                    .HasName("PK__GiaoVien__F2A3A3BDBEE3D49D");
+                    .HasName("PK__GiaoVien__F2A3A3BD2F6AF16A");
 
                 entity.ToTable("GiaoVien");
 
@@ -131,6 +215,8 @@ namespace ITCMS_HUIT.Models
 
                 entity.Property(e => e.IdkhoaHoc).HasColumnName("IDKhoaHoc");
 
+                entity.Property(e => e.HinhAnh).HasMaxLength(255);
+
                 entity.Property(e => e.HocPhi).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.IdchuongTrinh).HasColumnName("IDChuongTrinh");
@@ -155,7 +241,9 @@ namespace ITCMS_HUIT.Models
 
                 entity.Property(e => e.DiaDiem).HasMaxLength(255);
 
-                entity.Property(e => e.IdgiaoVien).HasColumnName("IDGiaoVien");
+                entity.Property(e => e.IdgiaoVien)
+                    .HasMaxLength(450)
+                    .HasColumnName("IDGiaoVien");
 
                 entity.Property(e => e.IdkhoaHoc).HasColumnName("IDKhoaHoc");
 
@@ -170,8 +258,7 @@ namespace ITCMS_HUIT.Models
                 entity.HasOne(d => d.IdgiaoVienNavigation)
                     .WithMany(p => p.LopHocs)
                     .HasForeignKey(d => d.IdgiaoVien)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LopHoc__IDGiaoVi__2E1BDC42");
+                    .HasConstraintName("FK__LopHoc__GiaoVien");
 
                 entity.HasOne(d => d.IdkhoaHocNavigation)
                     .WithMany(p => p.LopHocs)

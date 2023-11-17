@@ -1,4 +1,5 @@
-﻿using ITCMS_HUIT.DTO;
+﻿using AutoMapper;
+using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
@@ -12,12 +13,19 @@ namespace Services
 {
     public class KhoaHocService
     {
-        public readonly IKhoaHocRepo _khoaHoc;
-        public KhoaHocService(IRepo khoaHoc)
+        private readonly IMapper _mapper;
+        private readonly IKhoaHocRepo _khoaHoc;
+        public KhoaHocService(IRepo khoaHoc, IMapper mapper)
         {
+            _mapper = mapper;
             _khoaHoc = khoaHoc.KhoaHocRepo;
         }
-      
+
+        public bool IsExist(int id)
+        {
+            return _khoaHoc.IsExist(id);
+        }
+
         public bool Update(KhoaHocDTO model)
         {
             var khoaHoc = new KhoaHoc
@@ -28,7 +36,8 @@ namespace Services
                 SoGio = model.SoGio,
                 SoTuan = model.SoTuan,
                 HocPhi = model.HocPhi,
-                Mota = model.Mota
+                Mota = model.Mota,
+                HinhAnh=model.HinhAnh,
             };
 
             var result = _khoaHoc.Update(khoaHoc);
@@ -36,9 +45,40 @@ namespace Services
             return result;
         }
 
+        public bool Delete(KhoaHocDTO model)
+        {
+            var khoaHoc=_khoaHoc.GetById(model.IdkhoaHoc);
+            
+            var result=_khoaHoc.Delete(khoaHoc);
+
+            return result;
+        }
+
+        public KhoaHocDTO Add(KhoaHocDTO model)
+        {
+            var khoaHoc = new KhoaHoc
+            {
+                IdchuongTrinh = model.IdchuongTrinh,
+                TenKhoaHoc = model.TenKhoaHoc,
+                SoGio = model.SoGio,
+                SoTuan = model.SoTuan,
+                HocPhi = model.HocPhi,
+                Mota = model.Mota,
+                HinhAnh = model.HinhAnh,
+            };
+
+            var result = _khoaHoc.Add(khoaHoc);
+
+            var khoaHocDTO = _mapper.Map<KhoaHocDTO>(result);
+
+            return khoaHocDTO;
+        }
+
         public List<KhoaHocDTO> GetAll()
         {
             var dsKhoaHoc = _khoaHoc.GetAll();
+
+            //var dsKhoaHocDTO = _mapper.Map<List<KhoaHocDTO>>(dsKhoaHoc);
 
             var dsKhoaHocDTO = dsKhoaHoc.Select(s => new KhoaHocDTO
             {
@@ -49,24 +89,9 @@ namespace Services
                 SoTuan = s.SoTuan,
                 HocPhi = s.HocPhi,
                 Mota = s.Mota,
+                HinhAnh = s.HinhAnh,
                 IdchuongTrinhNavigation = s.IdchuongTrinhNavigation.Adapt<ChuongTrinhDaoTaoDTO>(),
-                
-                LopHocs = s.LopHocs.Select(l => new LopHocDTO
-                {
-                    IdlopHoc = l.IdlopHoc,
-                    TenLopHoc = l.TenLopHoc,
-                    ThoiGian = l.ThoiGian,
-                    NgayBatDau = l.NgayBatDau,
-                    NgayKetThuc = l.NgayKetThuc,
-                    DiaDiem = l.DiaDiem,
-                    IdkhoaHocNavigation = l.IdkhoaHocNavigation.Adapt<KhoaHocDTO>(),
-                    IdgiaoVienNavigation = l.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
-                    ThongTinHocViens = l.ThongTinHocViens.Select(t => new ThongTinHocVienDTO
-                    {
-                        IdhocVien = t.IdhocVien,
-                    }).ToList()
-                }).ToList()
-
+                LopHocs=s.LopHocs.Adapt<List<LopHocModel>>()
             }).ToList();
 
             return dsKhoaHocDTO;
@@ -85,24 +110,9 @@ namespace Services
                 SoTuan = s.SoTuan,
                 HocPhi = s.HocPhi,
                 Mota = s.Mota,
+                HinhAnh = s.HinhAnh,
                 IdchuongTrinhNavigation = s.IdchuongTrinhNavigation.Adapt<ChuongTrinhDaoTaoDTO>(),
-
-                LopHocs = s.LopHocs.Select(l => new LopHocDTO
-                {
-                    IdlopHoc = l.IdlopHoc,
-                    TenLopHoc = l.TenLopHoc,
-                    ThoiGian = l.ThoiGian,
-                    NgayBatDau = l.NgayBatDau,
-                    NgayKetThuc = l.NgayKetThuc,
-                    DiaDiem = l.DiaDiem,
-                    IdkhoaHocNavigation = l.IdkhoaHocNavigation.Adapt<KhoaHocDTO>(),
-                    IdgiaoVienNavigation = l.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
-                    ThongTinHocViens = l.ThongTinHocViens.Select(t => new ThongTinHocVienDTO
-                    {
-                        IdhocVien = t.IdhocVien,
-                    }).ToList()
-                }).ToList()
-
+                LopHocs = s.LopHocs.Adapt<List<LopHocModel>>()
             }).ToList();
 
             return dsKhoaHocDTO;
@@ -121,27 +131,35 @@ namespace Services
                 SoTuan = khoaHoc.SoTuan,
                 HocPhi = khoaHoc.HocPhi,
                 Mota = khoaHoc.Mota,
+                HinhAnh = khoaHoc.HinhAnh,
                 IdchuongTrinhNavigation = khoaHoc.IdchuongTrinhNavigation.Adapt<ChuongTrinhDaoTaoDTO>(),
-
-                LopHocs = khoaHoc.LopHocs.Select(l => new LopHocDTO
-                {
-                    IdlopHoc = l.IdlopHoc,
-                    TenLopHoc = l.TenLopHoc,
-                    ThoiGian = l.ThoiGian,
-                    NgayBatDau = l.NgayBatDau,
-                    NgayKetThuc = l.NgayKetThuc,
-                    DiaDiem = l.DiaDiem,
-                    IdkhoaHocNavigation = l.IdkhoaHocNavigation.Adapt<KhoaHocDTO>(),
-                    IdgiaoVienNavigation = l.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
-                    ThongTinHocViens = l.ThongTinHocViens.Select(t => new ThongTinHocVienDTO
-                    {
-                        IdhocVien = t.IdhocVien,
-                    }).ToList()
-                }).ToList()
+                LopHocs = khoaHoc.LopHocs.Adapt<List<LopHocModel>>(),
 
             };
 
             return khoaHocDTO;
+        }
+
+        public List<KhoaHocDTO> GetByIdCTDT(int id)
+        {
+            var idCTDT = _khoaHoc.GetByIdCTDT(id);
+
+            var dsKhoaHocDTO = idCTDT.Select(s => new KhoaHocDTO
+            {
+                IdkhoaHoc = s.IdkhoaHoc,
+                IdchuongTrinh = s.IdchuongTrinh,
+                TenKhoaHoc = s.TenKhoaHoc,
+                SoGio = s.SoGio,
+                SoTuan = s.SoTuan,
+                HocPhi = s.HocPhi,
+                Mota = s.Mota,
+                HinhAnh = s.HinhAnh,
+                IdchuongTrinhNavigation = s.IdchuongTrinhNavigation.Adapt<ChuongTrinhDaoTaoDTO>(),
+                LopHocs = s.LopHocs.Adapt<List<LopHocModel>>(),
+
+            }).ToList();
+
+            return dsKhoaHocDTO;
         }
     }
 }

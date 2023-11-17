@@ -18,8 +18,9 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public List<KhoaHoc> GetAll()
         {
-            return _context.KhoaHocs.Include(c=>c.IdchuongTrinhNavigation).Include(i=>i.LopHocs).ToList();
+            return _context.KhoaHocs.Include(c => c.IdchuongTrinhNavigation).Include(l=>l.LopHocs).ToList();
         }
+
 
         public KhoaHoc GetById(int id)
         {
@@ -28,12 +29,17 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public List<KhoaHoc> Search(string keyword)
         {
-            return _context.KhoaHocs.Include(c => c.IdchuongTrinhNavigation).Include(i => i.LopHocs).Where(w=>w.TenKhoaHoc==keyword).ToList();
+            return _context.KhoaHocs.Include(c => c.IdchuongTrinhNavigation).Include(i => i.LopHocs).Where(w=>w.TenKhoaHoc!.Contains(keyword)).ToList();
         }
 
-        List<KhoaHoc> IKhoaHocRepo.GetByIdCTDD(int chuongTrinhID)
+        public List<KhoaHoc> GetByIdCTDT(int chuongTrinhID)
         {
             return _context.KhoaHocs.Include(c => c.IdchuongTrinhNavigation).Include(i => i.LopHocs).Where(w => w.IdchuongTrinh == chuongTrinhID).ToList();
+        }
+
+        public bool IsExist(int id)
+        {
+            return _context.KhoaHocs.Any(g => g.IdkhoaHoc == id);
         }
     }
 }
