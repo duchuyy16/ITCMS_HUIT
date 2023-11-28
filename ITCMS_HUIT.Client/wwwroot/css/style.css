@@ -73,9 +73,12 @@ IMPORT
     content: "\f10b";
 }
 
-.flaticon-add:before {
+.flaticon-experience:before {
     content: "\f10c";
 }
+/*.flaticon-add:before {
+    content: "\f10c";
+}*/
 
 .flaticon-html-coding:before {
     content: "\f10d";

@@ -25,7 +25,20 @@ namespace ITCMS_HUIT.Client.Controllers
         {
             var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
             var chiTietKhoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+
+            var uRL = string.Format(ConstantValues.KhoaHoc.DanhSachKhoaHocTheoChuongTrinh, id);
+            var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(uRL).Take(4);
+
+            ViewBag.KhoaHocs=dsKhoaHoc;
+
             return View(chiTietKhoaHoc);
         }
+
+        public IActionResult DanhSachKhoaHoc()
+        {
+            var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
+            return View(dsKhoaHoc);
+        }
+
     }
 }

@@ -152,7 +152,7 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost]
-        [Route("thaydoimatkhau")]
+        [Route("thay-doi-mat-khau")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePassword model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);

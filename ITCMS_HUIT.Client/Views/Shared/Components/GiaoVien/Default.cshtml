@@ -1,0 +1,26 @@
+﻿
+<style>
+    .image-teacher{
+        width:182.5px;
+        height:182.5px;
+    }
+</style>
+
+<section class="section gb nopadtop">
+    <div class="container">
+        <div class="row">
+            @foreach(GiaoVienDTO item in Model)
+            {
+                <div class="col-md-3">
+                    <div class="box m30">
+                        <img class="image-teacher" src="~/images/teachers/@item.HinhAnh" alt="Teacher Image 1">
+                        <h4>@item.TenGiaoVien</h4>
+                        <p>@item.TrinhDo</p>
+                    </div>
+                </div>
+
+                <!-- end col -->
+            }        
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>

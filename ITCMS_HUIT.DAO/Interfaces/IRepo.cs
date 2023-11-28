@@ -14,5 +14,7 @@ namespace ITCMS_HUIT.Repository.Interfaces
         IGiaoVienRepo GiaoVienRepo { get; }
         IThongTinHocVienRepo ThongTinHocVienRepo { get; }
         IHocVienRepo HocVienRepo { get; }
+        IDoiTuongDangKyRepo DoiTuongDangKyRepo { get; }
+        ITrangThaiHocVienRepo TrangThaiHocVienRepo { get; }
     }
 }

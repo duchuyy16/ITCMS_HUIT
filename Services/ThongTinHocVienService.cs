@@ -35,6 +35,8 @@ namespace Services
 
             var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
             {
+                IdhocVien=s.IdhocVien,
+                IdlopHoc=s.IdlopHoc,
                 Diem = s.Diem,
                 NgayThongBao = s.NgayThongBao,
                 TrangThaiThongBao = s.TrangThaiThongBao,
@@ -57,6 +59,8 @@ namespace Services
 
             var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
             {
+                IdhocVien = s.IdhocVien,
+                IdlopHoc = s.IdlopHoc,
                 Diem = s.Diem,
                 NgayThongBao = s.NgayThongBao,
                 TrangThaiThongBao = s.TrangThaiThongBao,
@@ -79,6 +83,8 @@ namespace Services
 
             var thongTinHocVienDTO = new ThongTinHocVienDTO
             {
+                IdhocVien = thongTinHocVien.IdhocVien,
+                IdlopHoc = thongTinHocVien.IdlopHoc,
                 Diem = thongTinHocVien.Diem,
                 NgayThongBao = thongTinHocVien.NgayThongBao,
                 TrangThaiThongBao = thongTinHocVien.TrangThaiThongBao,
@@ -142,6 +148,8 @@ namespace Services
         {
             var thongTinHocVien = new ThongTinHocVien
             {
+                IdlopHoc = model.IdlopHoc,
+                IdhocVien = model.IdhocVien,
                 Diem = model.Diem,
                 NgayThongBao = model.NgayThongBao,
                 TrangThaiThongBao = model.TrangThaiThongBao,

@@ -1,5 +1,6 @@
 ﻿using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Repository.Interfaces;
+using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace Services
             {
                 IdchuongTrinh = s.IdchuongTrinh,
                 TenChuongTrinh = s.TenChuongTrinh!,
+                KhoaHocs=s.KhoaHocs.Adapt<List<KhoaHocModel>>()
             }).ToList();
 
             return dsChuongTrinhDaoTaoDTO;

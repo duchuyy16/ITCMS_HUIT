@@ -1,6 +1,7 @@
 ﻿using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Base;
 using ITCMS_HUIT.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,9 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public List<ChuongTrinhDaoTao> GetAll()
         {
-            return _context.ChuongTrinhDaoTaos.ToList();
+            return _context.ChuongTrinhDaoTaos.Include(i=>i.KhoaHocs).ToList();
         }
+
+
     }
 }

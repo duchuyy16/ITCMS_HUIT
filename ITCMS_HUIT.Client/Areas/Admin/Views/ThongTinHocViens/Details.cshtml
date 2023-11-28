@@ -1,0 +1,71 @@
+﻿@model ITCMS_HUIT.Client.Models.ThongTinHocVienDTO
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content" style="margin-top: 60px;">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h3 class="m-b-10">Thông tin chi tiết học viên</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <dl class="row">
+                                            <dt class="col-sm-4">Mã Học Viên:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdhocVien)</dd>
+                                            <dt class="col-sm-4">Mã Lớp Học:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdlopHoc)</dd>
+                                            <dt class="col-sm-4">Điểm:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Diem)</dd>
+                                            <dt class="col-sm-4">Ngày Thông Báo:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.NgayThongBao)</dd>
+                                            <dt class="col-sm-4">Trạng Thái Thanh Toán:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.TrangThaiThanhToan)</dd>
+                                            <dt class="col-sm-4">Số Lần Vắng Mặt:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.SoLanVangMat)</dd>
+                                            <dt class="col-sm-4">Lý Do Thông Báo:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.LyDoThongBao)</dd>
+                                            <dt class="col-sm-4">Học Phí:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.HocPhi)</dd>
+                                            <dt class="col-sm-4">Ngày Giờ Giao Dịch:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.NgayGioGiaoDich)</dd>
+                                            <dt class="col-sm-4">Trạng Thái Thanh Toán:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.TrangThaiThanhToan)</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <a asp-action="Edit" class="btn btn-primary">Sửa</a> |
+                            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

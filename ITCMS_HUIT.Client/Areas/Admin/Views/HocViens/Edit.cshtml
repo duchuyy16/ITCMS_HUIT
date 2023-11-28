@@ -1,0 +1,98 @@
+﻿@model ITCMS_HUIT.Client.Models.HocVienDTO
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content" style="margin-top: 60px;">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h3 class="m-b-10">Cập nhật thông tin học viên</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form asp-action="Edit" class="card">
+                                    <div asp-validation-summary="ModelOnly" class="card-body text-danger"></div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label asp-for="IdhocVien" class="control-label"></label>
+                                            <input asp-for="IdhocVien" class="form-control" />
+                                            <span asp-validation-for="IdhocVien" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="TenHocVien" class="control-label"></label>
+                                            <input asp-for="TenHocVien" class="form-control" />
+                                            <span asp-validation-for="TenHocVien" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="NgaySinh" class="control-label"></label>
+                                            <input asp-for="NgaySinh" class="form-control" />
+                                            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Email" class="control-label"></label>
+                                            <input asp-for="Email" class="form-control" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Sdt" class="control-label"></label>
+                                            <input asp-for="Sdt" class="form-control" />
+                                            <span asp-validation-for="Sdt" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="DiaChi" class="control-label"></label>
+                                            <input asp-for="DiaChi" class="form-control" />
+                                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="NgayDangKy" class="control-label"></label>
+                                            <input asp-for="NgayDangKy" class="form-control" />
+                                            <span asp-validation-for="NgayDangKy" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="IddoiTuong" class="control-label">Đối Tượng</label>
+                                            <select asp-for="IddoiTuong" asp-items="ViewBag.IdDoiTuong" class="form-control">
+                                                <option value="">-- Chọn Đối Tượng --</option>
+                                            </select>
+                                            <span asp-validation-for="IddoiTuong" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="IdtrangThai" class="control-label">Trạng Thái</label>
+                                            <select asp-for="IdtrangThai" asp-items="ViewBag.IdTrangThai" class="form-control">
+                                                <option value="">-- Chọn Trạng Thái --</option>
+                                            </select>
+                                            <span asp-validation-for="IdtrangThai" class="text-danger"></span>
+                                        </div>
+                                        <div class="mt-3">
+                                            <a asp-action="Create" class="btn btn-primary">Cập Nhật</a> |
+                                            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

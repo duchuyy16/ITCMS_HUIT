@@ -159,6 +159,8 @@ namespace ITCMS_HUIT.Models
 
                 entity.Property(e => e.ChungChi).HasMaxLength(255);
 
+                entity.Property(e => e.HinhAnh).HasMaxLength(255);
+
                 entity.Property(e => e.HoSoCaNhan).HasMaxLength(255);
 
                 entity.Property(e => e.TenGiaoVien).HasMaxLength(255);

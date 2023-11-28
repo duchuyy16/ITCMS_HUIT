@@ -40,6 +40,9 @@ builder.Services.AddScoped<KhoaHocService>();
 builder.Services.AddScoped<GiaoVienService>();
 builder.Services.AddScoped<ThongTinHocVienService>();
 builder.Services.AddScoped<HocVienService>();
+builder.Services.AddScoped<CoSoDuLieuService>();
+builder.Services.AddScoped<TrangThaiHocVienService>();
+builder.Services.AddScoped<DoiTuongDangKyService>();
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

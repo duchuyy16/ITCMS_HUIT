@@ -30,7 +30,6 @@ namespace ITCMS_HUIT.Repository.Implement
             return _context.GiaoViens.FirstOrDefault(g => g.IdgiaoVien == id)!;
         }
 
-
         public List<GiaoVien> GetAll()
         {
             return _context.GiaoViens.ToList();

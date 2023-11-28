@@ -24,7 +24,7 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public KhoaHoc GetById(int id)
         {
-            return _context.KhoaHocs.Include(c => c.IdchuongTrinhNavigation).Include(i => i.LopHocs).SingleOrDefault(s=>s.IdkhoaHoc==id)!;
+            return _context.KhoaHocs.Include(c => c.IdchuongTrinhNavigation).Include(i => i.LopHocs).FirstOrDefault(f=>f.IdkhoaHoc==id)!;
         }
 
         public List<KhoaHoc> Search(string keyword)

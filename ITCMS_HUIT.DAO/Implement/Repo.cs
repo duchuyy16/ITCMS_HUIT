@@ -28,5 +28,8 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public IHocVienRepo HocVienRepo => new HocVienRepo(_context);
 
+        public IDoiTuongDangKyRepo DoiTuongDangKyRepo => new DoiTuongDangKyRepo(_context);
+
+        public ITrangThaiHocVienRepo TrangThaiHocVienRepo => new TrangThaiHocVienRepo(_context);
     }
 }

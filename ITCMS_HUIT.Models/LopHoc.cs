@@ -21,6 +21,6 @@ namespace ITCMS_HUIT.Models
 
         public virtual GiaoVien? IdgiaoVienNavigation { get; set; }
         public virtual KhoaHoc IdkhoaHocNavigation { get; set; } = null!;
-        public virtual ICollection<ThongTinHocVien>? ThongTinHocViens { get; set; }
+        public virtual ICollection<ThongTinHocVien> ThongTinHocViens { get; set; }
     }
 }

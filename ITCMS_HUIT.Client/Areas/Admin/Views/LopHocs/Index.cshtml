@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ITCMS_HUIT.Client.Models.LopHocDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content" style="margin-top: 60px;">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h3 class="m-b-10">Danh Sách Lớp Học</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Bảng danh sách các lớp học</h5>
+                                    </div>
+                                    <div class="card-body table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.IdlopHoc)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.TenLopHoc)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.ThoiGian)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.NgayBatDau)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.NgayKetThuc)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.DiaDiem)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.IdkhoaHoc)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.IdgiaoVien)
+                                                        </th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.IdlopHoc)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.TenLopHoc)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ThoiGian)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.NgayBatDau)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.NgayKetThuc)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.DiaDiem)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.IdkhoaHoc)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.IdgiaoVien)
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> |
+                                                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.IdlopHoc"><i class="fas fa-edit"></i></a> |
+                                                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdlopHoc"><i class="fas fa-info-circle"></i></a> |
+                                                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdlopHoc"><i class="fas fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

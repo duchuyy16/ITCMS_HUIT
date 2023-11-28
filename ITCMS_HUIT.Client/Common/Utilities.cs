@@ -10,7 +10,7 @@ namespace ITCMS_HUIT.Client.Common
         public static T SendDataRequest<T>(string APIUrl, object? input = null, string? token = null)
         {
             HttpClient client = new();
-            client.BaseAddress = new System.Uri("https://localhost:44350");
+            client.BaseAddress = new System.Uri("https://localhost:44352");
             client.DefaultRequestHeaders.Accept.Clear();
 
             string accessToken = AppContext.Current!.Session.GetString("Token")!;
@@ -43,74 +43,74 @@ namespace ITCMS_HUIT.Client.Common
             return result;
         }
 
-        static MultipartFormDataContent ConvertObjectToFormData(object data)
-        {
-            var formData = new MultipartFormDataContent();
+        //static MultipartFormDataContent ConvertObjectToFormData(object data)
+        //{
+        //    var formData = new MultipartFormDataContent();
 
-            var properties = data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        //    var properties = data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(data);
+        //    foreach (var property in properties)
+        //    {
+        //        var value = property.GetValue(data);
 
-                if (value is byte[] fileData)
-                {
-                    var fileContent = new ByteArrayContent(fileData);
-                    fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-                    formData.Add(fileContent, property.Name, "file.txt");
-                }
-                else
-                {
-                    var stringValue = value != null ? value.ToString() : string.Empty;
-                    var stringContent = new StringContent(stringValue!, Encoding.UTF8);
-                    formData.Add(stringContent, property.Name);
-                }
-            }
+        //        if (value is byte[] fileData)
+        //        {
+        //            var fileContent = new ByteArrayContent(fileData);
+        //            fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+        //            formData.Add(fileContent, property.Name, "file.txt");
+        //        }
+        //        else
+        //        {
+        //            var stringValue = value != null ? value.ToString() : string.Empty;
+        //            var stringContent = new StringContent(stringValue!, Encoding.UTF8);
+        //            formData.Add(stringContent, property.Name);
+        //        }
+        //    }
 
-            return formData;
-        }
+        //    return formData;
+        //}
 
-        public static T FromData<T>(string APIUrl, object? input = null, IFormFile? imageFile = null)
-        {
-            HttpClient client = new();
-            client.BaseAddress = new System.Uri("https://localhost:44350");
-            client.DefaultRequestHeaders.Accept.Clear();
+        //public static T FromData<T>(string APIUrl, object? input = null, IFormFile? imageFile = null)
+        //{
+        //    HttpClient client = new();
+        //    client.BaseAddress = new System.Uri("https://localhost:44350");
+        //    client.DefaultRequestHeaders.Accept.Clear();
 
-            MultipartFormDataContent formData = ConvertObjectToFormData(input!);
+        //    MultipartFormDataContent formData = ConvertObjectToFormData(input!);
 
-            if (imageFile != null)
-            {
-                byte[] fileBytes;
-                using (var memoryStream = new MemoryStream())
-                {
-                    imageFile.CopyTo(memoryStream);
-                    fileBytes = memoryStream.ToArray();
-                }
+        //    if (imageFile != null)
+        //    {
+        //        byte[] fileBytes;
+        //        using (var memoryStream = new MemoryStream())
+        //        {
+        //            imageFile.CopyTo(memoryStream);
+        //            fileBytes = memoryStream.ToArray();
+        //        }
 
-                ByteArrayContent fileContent = new ByteArrayContent(fileBytes);
-                formData.Add(fileContent, "imageFile", imageFile.FileName);
-            }
+        //        ByteArrayContent fileContent = new ByteArrayContent(fileBytes);
+        //        formData.Add(fileContent, "imageFile", imageFile.FileName);
+        //    }
 
-            HttpResponseMessage response = client.PostAsync(APIUrl, formData).Result;
+        //    HttpResponseMessage response = client.PostAsync(APIUrl, formData).Result;
 
-            T result = default!;
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonString = response.Content.ReadAsStringAsync().Result;
-                var returnData = JsonConvert.DeserializeObject<T>(jsonString);
-                if (returnData != null)
-                {
-                    return returnData;
-                }
-            }
-            else
-            {
-                var statusCode = response.StatusCode;
-                var reasonPhrase = response.ReasonPhrase;
-                var content = response.Content.ReadAsStringAsync().Result;
-            }
-            return result;
-        }
+        //    T result = default!;
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var jsonString = response.Content.ReadAsStringAsync().Result;
+        //        var returnData = JsonConvert.DeserializeObject<T>(jsonString);
+        //        if (returnData != null)
+        //        {
+        //            return returnData;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var statusCode = response.StatusCode;
+        //        var reasonPhrase = response.ReasonPhrase;
+        //        var content = response.Content.ReadAsStringAsync().Result;
+        //    }
+        //    return result;
+        //}
 
         //public static DataTable GetTable<TEntity>(List<TEntity> table, string name) where TEntity : class
         //{

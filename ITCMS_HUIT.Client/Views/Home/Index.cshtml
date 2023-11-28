@@ -2,4 +2,62 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .image-products, .course-details {
+        width: 222.15px;
+    }
 
+    .image-products {
+        height: 148.16px;
+        object-fit: cover; /* Để hình ảnh bảo toàn tỷ lệ khung khi thay đổi kích thước */
+    }
+
+    .course-details {
+        height: 180.2px;
+    }
+</style>
+
+
+<section class="section gb">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>Chương Trình Đào Tạo</h3>
+        </div><!-- end title -->
+        <div id="owl-01" class="owl-carousel owl-theme owl-theme-01">
+            @foreach (KhoaHocDTO item in Model)
+            {
+                <div class="caro-item">
+                    <div class="course-box">
+                        <div class="image-wrap entry">
+                            <img class="image-products" src="~/images/@item.HinhAnh" alt="" class="img-responsive">
+                            <div class="magnifier">
+                                <a asp-action="ChiTietKhoaHoc" asp-controller="KhoaHoc" asp-route-id="@item.IdkhoaHoc" title=""><i class="flaticon-add"></i></a>
+                            </div>
+                        </div><!-- end image-wrap -->
+                        <div class="course-details">
+                            <h4>
+                                <a asp-action="ChiTietKhoaHoc" asp-controller="KhoaHoc" asp-route-id="@item.IdkhoaHoc" title="">@item.TenKhoaHoc</a>
+                            </h4>
+                            <p>@item.Mota</p>
+                        </div><!-- end details -->
+                        <div class="course-footer clearfix">
+                            <div class="pull-right">
+                                <ul class="list-inline">
+                                    <li><i class="fa fa-usd" aria-hidden="true"></i> @string.Format("{0:N0}", @item.HocPhi)đ</li>
+                                </ul>
+                            </div><!-- end left -->
+                        </div><!-- end footer -->
+                    </div><!-- end box -->
+                </div>
+
+                <!-- end col -->
+            }
+        </div>
+
+        <hr class="invis">
+
+        <div class="section-button text-center">
+            <a asp-action="DanhSachKhoaHoc" asp-controller="KhoaHoc" class="btn btn-info">Xem tất cả các khóa học</a>
+        </div>
+    </div><!-- end container -->
+</section>

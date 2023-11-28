@@ -56,17 +56,29 @@
 						<label>Navigation</label>
 					</li>
 					<li class="nav-item">
-						<a href="index.html" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+						<a href="/Admin/trangchu" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
 					</li>
 					<li class="nav-item pcoded-menu-caption">
 						<label>UI Element</label>
 					</li>
 					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Componant</span></a>
+						<a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Danh Mục</span></a>
 						<ul class="pcoded-submenu">
-							<li class=""><a href="bc_button.html" class="">Button</a></li>						
-							<li class=""><a href="bc_tabs.html" class="">Tabs & pills</a></li>
-							<li class=""><a href="bc_typography.html" class="">Typography</a></li>
+							<li class=""><a href="@Url.Action("Index", "KhoaHocs", new { area = "Admin" })" class="">Quản Lí Khóa Học</a></li>
+							<li class=""><a href="@Url.Action("Index", "GiaoViens", new { area = "Admin" })" class="">Quản Lí Giáo Viên</a></li>
+							<li class=""><a href="@Url.Action("Index", "LopHocs", new { area = "Admin" })" class="">Quản Lí Lớp Học</a></li>
+							<li class=""><a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin" })" class="">
+								Quản Lí Thông Tin Học Viên</a></li>
+							<li class="">
+								<a href="@Url.Action("Index", "HocViens", new { area = "Admin" })" class="">
+									Quản Lí Học Viên
+								</a>
+							</li>
+							<li class="">
+								<a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin" })" class="">
+									Quản Lí Cơ Sở Dữ Liệu
+								</a>
+							</li>
 						</ul>
 					</li>				
 					<li class="nav-item pcoded-menu-caption">
@@ -125,7 +137,7 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li>
+				@* <li>
 					<div class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
 						<div class="dropdown-menu dropdown-menu-right notification">
@@ -203,7 +215,7 @@
 							</div>
 						</div>
 					</div>
-				</li>
+				</li> *@
 				<li>
 					<div class="dropdown drp-user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -218,10 +230,8 @@
 								</a>
 							</div>
 							<ul class="pro-body">
-								<li><a href="#!" class="dropdown-item"><i class="feather icon-settings"></i> Settings</a></li>
-								<li><a href="#!" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-								<li><a href="message.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-								<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+								<li><a href="#!" class="dropdown-item"><i class="feather icon-key"></i>Thay đổi mật khẩu</a></li>
+								
 							</ul>
 						</div>
 					</div>
@@ -231,118 +241,14 @@
 	</header>
 	<!-- [ Header ] end -->
 
-	<!-- [ Body ] end -->
-
+@* 	<!-- Dashboard -->
+	@await Component.InvokeAsync("Dashboard")
+ *@
 	<div>
 		@RenderBody();
 	</div>
 
-	<!-- [ Main Content ] start -->
-	<div class="pcoded-main-container">
-		<div class="pcoded-wrapper">
-			<div class="pcoded-content">
-				<div class="pcoded-inner-content">
-					<div class="main-body">
-						<div class="page-wrapper">
-							<!-- [ breadcrumb ] start -->
-							<div class="page-header">
-								<div class="page-block">
-									<div class="row align-items-center">
-										<div class="col-md-12">
-											<div class="page-header-title">
-												<h5>Home</h5>
-											</div>
-											<ul class="breadcrumb">
-												<li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-												<li class="breadcrumb-item"><a href="#!">Analytics Dashboard</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- [ breadcrumb ] end -->
-							<!-- [ Main Content ] start -->
-							<div class="row">
-
-								<!-- product profit start -->
-								<div class="col-xl-3 col-md-6">
-									<div class="card prod-p-card bg-c-red">
-										<div class="card-body">
-											<div class="row align-items-center m-b-25">
-												<div class="col">
-													<h6 class="m-b-5 text-white">Total Profit</h6>
-													<h3 class="m-b-0 text-white">$1,783</h3>
-												</div>
-												<div class="col-auto">
-													<i class="fas fa-money-bill-alt text-c-red f-18"></i>
-												</div>
-											</div>
-											<p class="m-b-0 text-white"><span class="label label-danger m-r-10">+11%</span>From Previous Month</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-3 col-md-6">
-									<div class="card prod-p-card bg-c-blue">
-										<div class="card-body">
-											<div class="row align-items-center m-b-25">
-												<div class="col">
-													<h6 class="m-b-5 text-white">Total Orders</h6>
-													<h3 class="m-b-0 text-white">15,830</h3>
-												</div>
-												<div class="col-auto">
-													<i class="fas fa-database text-c-blue f-18"></i>
-												</div>
-											</div>
-											<p class="m-b-0 text-white"><span class="label label-primary m-r-10">+12%</span>From Previous Month</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-3 col-md-6">
-									<div class="card prod-p-card bg-c-green">
-										<div class="card-body">
-											<div class="row align-items-center m-b-25">
-												<div class="col">
-													<h6 class="m-b-5 text-white">Average Price</h6>
-													<h3 class="m-b-0 text-white">$6,780</h3>
-												</div>
-												<div class="col-auto">
-													<i class="fas fa-dollar-sign text-c-green f-18"></i>
-												</div>
-											</div>
-											<p class="m-b-0 text-white"><span class="label label-success m-r-10">+52%</span>From Previous Month</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-3 col-md-6">
-									<div class="card prod-p-card bg-c-yellow">
-										<div class="card-body">
-											<div class="row align-items-center m-b-25">
-												<div class="col">
-													<h6 class="m-b-5 text-white">Product Sold</h6>
-													<h3 class="m-b-0 text-white">6,784</h3>
-												</div>
-												<div class="col-auto">
-													<i class="fas fa-tags text-c-yellow f-18"></i>
-												</div>
-											</div>
-											<p class="m-b-0 text-white"><span class="label label-warning m-r-10">+52%</span>From Previous Month</p>
-										</div>
-									</div>
-								</div>
-								
-								
-								
-								
-								
-							</div>
-
-							<!-- [ Main Content ] end -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- [ Body ] end -->
 
 	<!-- Required Js -->
 	<script src="~/admin/assets/js/vendor-all.min.js"></script>

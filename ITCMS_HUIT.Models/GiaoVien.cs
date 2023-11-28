@@ -15,6 +15,7 @@ namespace ITCMS_HUIT.Models
         public string ChungChi { get; set; } = null!;
         public string HoSoCaNhan { get; set; } = null!;
         public string IdgiaoVien { get; set; } = null!;
+        public string? HinhAnh { get; set; }
 
         public virtual ICollection<LopHoc> LopHocs { get; set; }
     }

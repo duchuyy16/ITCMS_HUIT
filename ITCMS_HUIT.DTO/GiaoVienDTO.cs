@@ -13,5 +13,6 @@ namespace ITCMS_HUIT.DTO
         public string TrinhDo { get; set; } = null!;
         public string ChungChi { get; set; } = null!;
         public string HoSoCaNhan { get; set; } = null!;
+        public string HinhAnh { get; set; } = null!;
     }
 }

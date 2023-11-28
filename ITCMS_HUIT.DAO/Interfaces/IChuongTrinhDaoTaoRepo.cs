@@ -12,5 +12,6 @@ namespace ITCMS_HUIT.Repository.Interfaces
     {
         List<ChuongTrinhDaoTao> GetAll();
         int Count();
+        
     }
 }

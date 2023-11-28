@@ -39,7 +39,8 @@ namespace Services
                 TenGiaoVien = x.TenGiaoVien,
                 TrinhDo = x.TrinhDo,
                 ChungChi = x.ChungChi,
-                HoSoCaNhan = x.HoSoCaNhan,              
+                HoSoCaNhan = x.HoSoCaNhan,      
+                HinhAnh=x.HinhAnh!,
             }).ToList();
 
             return dsGiaoVienDTO;
@@ -49,13 +50,14 @@ namespace Services
         {
             var giaoVien= _giaoVien.GetById(id);
 
-            var giaoVienDTO = new GiaoVienDTO
+            GiaoVienDTO giaoVienDTO = new GiaoVienDTO
             {
                 IdgiaoVien = giaoVien.IdgiaoVien,
                 TenGiaoVien = giaoVien.TenGiaoVien,
                 TrinhDo = giaoVien.TrinhDo,
                 ChungChi = giaoVien.ChungChi,
                 HoSoCaNhan = giaoVien.HoSoCaNhan,
+                HinhAnh = giaoVien.HinhAnh!,
             };
 
             return giaoVienDTO;
@@ -79,6 +81,7 @@ namespace Services
                 TrinhDo = model.TrinhDo,
                 ChungChi = model.ChungChi,
                 HoSoCaNhan = model.HoSoCaNhan,
+                HinhAnh= model.HinhAnh!,
             };
 
             var result = _giaoVien.Update(giaoVien);
@@ -94,7 +97,8 @@ namespace Services
                 TrinhDo = model.TrinhDo,
                 ChungChi = model.ChungChi,
                 HoSoCaNhan = model.HoSoCaNhan,
-                IdgiaoVien=model.IdgiaoVien!
+                IdgiaoVien=model.IdgiaoVien!,
+                HinhAnh = model.HinhAnh!,
             };
 
             var result = _giaoVien.Add(giaoVien);

@@ -1,0 +1,100 @@
+﻿@model ITCMS_HUIT.Client.Models.ThongTinHocVienDTO
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content" style="margin-top: 60px;">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h3 class="m-b-10">Cập nhật thông tin học viên</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form asp-action="Edit" class="card">
+                                    <div asp-validation-summary="ModelOnly" class="card-body text-danger"></div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label asp-for="IdhocVien" class="control-label">Mã Học Viên</label>
+                                            <input asp-for="IdhocVien" class="form-control" />
+                                            <span asp-validation-for="IdhocVien" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="IdlopHoc" class="control-label">Mã Lớp Học</label>
+                                            <input asp-for="IdlopHoc" class="form-control" />
+                                            <span asp-validation-for="IdlopHoc" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Diem" class="control-label">Điểm</label>
+                                            <input asp-for="Diem" class="form-control" />
+                                            <span asp-validation-for="Diem" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="NgayThongBao" class="control-label">Ngày Thông Báo</label>
+                                            <input asp-for="NgayThongBao" class="form-control" />
+                                            <span asp-validation-for="NgayThongBao" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" asp-for="TrangThaiThongBao" /> @Html.DisplayNameFor(model => model.TrangThaiThongBao)
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="SoLanVangMat" class="control-label">Số Lần Vắng Mặt</label>
+                                            <input asp-for="SoLanVangMat" class="form-control" />
+                                            <span asp-validation-for="SoLanVangMat" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="LyDoThongBao" class="control-label">Lý Do Thông Báo</label>
+                                            <input asp-for="LyDoThongBao" class="form-control" />
+                                            <span asp-validation-for="LyDoThongBao" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="HocPhi" class="control-label">Học Phí</label>
+                                            <input asp-for="HocPhi" class="form-control" />
+                                            <span asp-validation-for="HocPhi" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="NgayGioGiaoDich" class="control-label">Ngày Giờ Giao Dịch</label>
+                                            <input asp-for="NgayGioGiaoDich" class="form-control" />
+                                            <span asp-validation-for="NgayGioGiaoDich" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="TrangThaiThanhToan" class="control-label">Trạng Thái Thanh Toán</label>
+                                            <input asp-for="TrangThaiThanhToan" class="form-control" />
+                                            <span asp-validation-for="TrangThaiThanhToan" class="text-danger"></span>
+                                        </div>
+                                        <div class="mt-3">
+                                            <a asp-action="Create" class="btn btn-primary">Cập Nhật</a> |
+                                            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
