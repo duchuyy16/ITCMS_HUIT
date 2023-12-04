@@ -16,10 +16,26 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("danh-sach-trang-thai-hoc-vien")]
-        public List<TrangThaiHocVienDTO> GetAll()
+        public IActionResult GetAll()
         {
-            return _trangThai.GetAll();
+            try
+            {
+                List<TrangThaiHocVienDTO> trangThaiList = _trangThai.GetAll();
 
+                var apiResponse = new ApiResponse<List<TrangThaiHocVienDTO>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách trạng thái học viên",
+                    Data = trangThaiList
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
+
     }
 }

@@ -18,45 +18,158 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("kiem-tra-ton-tai/{id}")]
-        public bool IsExist(int id)
+        public IActionResult IsExist(int id)
         {
-            return _lopHoc.IsExist(id);
+            try
+            {
+                bool isExist = _lopHoc.IsExist(id);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Success",
+                    Message = isExist ? "Lớp học tồn tại" : "Lớp học không tồn tại",
+                    Data = isExist
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("danh-sach-lop-hoc")]
-        public List<LopHocDTO> GetAll()
+        public IActionResult GetAll()
         {
-            return _lopHoc.GetAll();
+            try
+            {
+                List<LopHocDTO> lopHocList = _lopHoc.GetAll();
+
+                var apiResponse = new ApiResponse<List<LopHocDTO>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách lớp học",
+                    Data = lopHocList
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("lop-hoc/{id}")]
-        public LopHocDTO GetById(int id)
+        public IActionResult GetById(int id)
         {
-            return _lopHoc.GetById(id);
+            try
+            {
+                LopHocDTO lopHoc = _lopHoc.GetById(id);
+
+                var apiResponse = new ApiResponse<LopHocDTO>
+                {
+                    Status = "Success",
+                    Message = "Thông tin lớp học",
+                    Data = lopHoc
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("tim-kiem-lop-hoc/{keyword}")]
-        public List<LopHocDTO> Search(string keyword)
+        public IActionResult Search(string keyword)
         {
-            return _lopHoc.Search(keyword);
+            try
+            {
+                List<LopHocDTO> searchResults = _lopHoc.Search(keyword);
+
+                var apiResponse = new ApiResponse<List<LopHocDTO>>
+                {
+                    Status = "Success",
+                    Message = "Kết quả tìm kiếm lớp học",
+                    Data = searchResults
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("xoa-lop-hoc")]
-        public bool Delete(LopHocDTO model)
+        public IActionResult Delete(LopHocDTO model)
         {
-            return _lopHoc.Delete(model);
+            try
+            {
+                bool deletionResult = _lopHoc.Delete(model);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = deletionResult ? "Success" : "Error",
+                    Message = deletionResult ? "Xóa lớp học thành công" : "Không thể xóa lớp học",
+                    Data = deletionResult
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("cap-nhat-lop-hoc")]
-        public bool Update(LopHocDTO model)
+        public IActionResult Update(LopHocDTO model)
         {
-            return _lopHoc.Update(model);
+            try
+            {
+                bool updateResult = _lopHoc.Update(model);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = updateResult ? "Success" : "Error",
+                    Message = updateResult ? "Cập nhật lớp học thành công" : "Không thể cập nhật lớp học",
+                    Data = updateResult
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("them-lop-hoc")]
-        public LopHocDTO Add(LopHocDTO model)
+        public IActionResult Add(LopHocDTO model)
         {
-            return _lopHoc.Add(model);
+            try
+            {
+                LopHocDTO addedLopHoc = _lopHoc.Add(model);
+
+                var apiResponse = new ApiResponse<LopHocDTO>
+                {
+                    Status = "Success",
+                    Message = "Thêm lớp học thành công",
+                    Data = addedLopHoc
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
+
     }
 }

@@ -5,8 +5,8 @@ using static ITCMS_HUIT.Client.Common.ConstantValues;
 
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
-    [Area("Admin")] 
-    [Route("Admin/trangchu")] 
+    [Area("Admin")]
+    [Route("Admin/trangchu")]
     public class AdminController : Controller
     {
         public IActionResult Index()

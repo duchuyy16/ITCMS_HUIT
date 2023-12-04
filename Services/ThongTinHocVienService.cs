@@ -124,13 +124,14 @@ namespace Services
                 HocPhi = model.HocPhi,
                 NgayGioGiaoDich = model.NgayGioGiaoDich,
                 TrangThaiThanhToan = model.TrangThaiThanhToan,
+               
             };
 
             var result = _thongTin.UpdateTTHV(thongTinHocVien);
 
             if (result!.SoLanVangMat > 3)
             {
-                _mail?.SendMail(result.IdhocVienNavigation.TenHocVien, result.IdhocVienNavigation.Email, result.LyDoThongBao!);
+                _mail?.SendMail(model.IdhocVienNavigation!.TenHocVien, model.IdhocVienNavigation.Email, result.SoLanVangMat);
                 result.TrangThaiThongBao = true;
             }
 

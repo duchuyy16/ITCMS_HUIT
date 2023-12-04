@@ -27,7 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddDbContext<ITCMS_HUITContext>(options => options.UseSqlServer(configuration.GetConnectionString("ITCMSConnectString")));
 
 // For SendMail
-builder.Services.AddSingleton<MailSettings>(new MailSettings { Email = configuration["Email:Username"], Password = configuration["Email:Password"] });
+builder.Services.AddSingleton<MailSettings>(new MailSettings { Username = configuration["MailSettings:Username"], Password = configuration["MailSettings:Password"] });
 builder.Services.AddScoped<Services.MailKit.IMailService, Services.MailKit.MailService>();
 
 // For Automapper
@@ -43,6 +43,8 @@ builder.Services.AddScoped<HocVienService>();
 builder.Services.AddScoped<CoSoDuLieuService>();
 builder.Services.AddScoped<TrangThaiHocVienService>();
 builder.Services.AddScoped<DoiTuongDangKyService>();
+builder.Services.AddScoped<ChartService>();
+
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

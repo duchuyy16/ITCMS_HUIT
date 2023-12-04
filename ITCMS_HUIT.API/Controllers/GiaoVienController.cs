@@ -16,39 +16,137 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("danh-sach-giao-vien")]
-        public List<GiaoVienDTO> GetAll()
+        public IActionResult GetAll()
         {
-            return _giaoVien.GetAll();
+            try
+            {
+                List<GiaoVienDTO> giaoVienList = _giaoVien.GetAll();
+
+                var apiResponse = new ApiResponse<List<GiaoVienDTO>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách giáo viên",
+                    Data = giaoVienList
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("giao-vien/{id}")]
-        public GiaoVienDTO GetById (string id)
+        public IActionResult GetById(string id)
         {
-            return _giaoVien.GetById(id);
+            try
+            {
+                GiaoVienDTO giaoVien = _giaoVien.GetById(id);
+
+                var apiResponse = new ApiResponse<GiaoVienDTO>
+                {
+                    Status = "Success",
+                    Message = "Thông tin giáo viên",
+                    Data = giaoVien
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("kiem-tra-ton-tai/{id}")]
-        public bool IsExist(string id)
+        public IActionResult IsExist(string id)
         {
-            return _giaoVien.IsExist(id);
+            try
+            {
+                bool isExist = _giaoVien.IsExist(id);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Success",
+                    Message = isExist ? "Giáo viên tồn tại" : "Giáo viên không tồn tại",
+                    Data = isExist
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
+
         [HttpPost("xoa-giao-vien")]
-        public bool Delete(GiaoVienDTO model)
+        public IActionResult Delete(GiaoVienDTO model)
         {
-            return _giaoVien.Delete(model);
+            try
+            {
+                bool deletionResult = _giaoVien.Delete(model);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Success",
+                    Message = deletionResult ? "Xóa giáo viên thành công" : "Không thể xóa giáo viên",
+                    Data = deletionResult
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("cap-nhat-giao-vien")]
-        public bool Update(GiaoVienDTO model)
+        public IActionResult Update(GiaoVienDTO model)
         {
-            return _giaoVien.Update(model);
+            try
+            {
+                bool updateResult = _giaoVien.Update(model);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Success",
+                    Message = updateResult ? "Cập nhật giáo viên thành công" : "Không thể cập nhật giáo viên",
+                    Data = updateResult
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("them-giao-vien")]
-        public GiaoVienDTO Add(GiaoVienDTO model)
+        public IActionResult Add(GiaoVienDTO model)
         {
-            return _giaoVien.Add(model);
+            try
+            {
+                GiaoVienDTO addedGiaoVien = _giaoVien.Add(model);
+
+                var apiResponse = new ApiResponse<GiaoVienDTO>
+                {
+                    Status = "Success",
+                    Message = "Thêm giáo viên thành công",
+                    Data = addedGiaoVien
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
+
     }
 }

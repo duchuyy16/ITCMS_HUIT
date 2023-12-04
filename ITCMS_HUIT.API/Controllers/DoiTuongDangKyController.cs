@@ -16,10 +16,26 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("danh-sach-doi-tuong-dang-ky")]
-        public List<DoiTuongDangKyDTO> GetAll()
+        public IActionResult GetAll()
         {
-            return _doiTuong.GetAll();
+            try
+            {
+                List<DoiTuongDangKyDTO> doiTuongList = _doiTuong.GetAll();
 
+                var apiResponse = new ApiResponse<List<DoiTuongDangKyDTO>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách đối tượng đăng ký",
+                    Data = doiTuongList
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
+
     }
 }

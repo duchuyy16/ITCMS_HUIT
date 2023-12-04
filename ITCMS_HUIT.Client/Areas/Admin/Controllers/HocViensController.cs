@@ -11,7 +11,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [Area("Admin")]
     public class HocViensController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int pageNo = 1)
         {
             try
             {

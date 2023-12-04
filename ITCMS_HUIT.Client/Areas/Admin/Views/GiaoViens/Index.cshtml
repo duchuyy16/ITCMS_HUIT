@@ -4,7 +4,39 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+<style>
+    .pagination-container {
+        display: flex;
+        flex: 1;
+        margin: 12px;
+    }
 
+    .pagination {
+        display: flex;
+        flex: 1;
+        list-style: none;
+        padding: 0;
+        gap: .625rem;
+    }
+
+    .page-item, .page-link {
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .PagedList-pageCountAndLocation {
+        justify-content: space-between;
+        order: -1;
+        flex: 1;
+    }
+
+    .product-management-buttons {
+        margin: 12px;
+    }
+</style>
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content" style="margin-top: 60px;">
@@ -48,12 +80,12 @@
                                                         <th>
                                                             @Html.DisplayNameFor(model => model.ChungChi)
                                                         </th>
-                                                        <th>
+                                                       @*  <th>
                                                             @Html.DisplayNameFor(model => model.HoSoCaNhan)
-                                                        </th>
-                                                        <th>
+                                                        </th> *@
+                                                        @* <th>
                                                             @Html.DisplayNameFor(model => model.HinhAnh)
-                                                        </th>
+                                                        </th> *@
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -73,12 +105,12 @@
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.ChungChi)
                                                             </td>
-                                                            <td>
+                                                            @* <td>
                                                                 @Html.DisplayFor(modelItem => item.HoSoCaNhan)
-                                                            </td>
-                                                            <td>
+                                                            </td> *@
+                                                           @*  <td>
                                                                 @Html.DisplayFor(modelItem => item.HinhAnh)
-                                                            </td>
+                                                            </td> *@
                                                             <td>
                                                                 <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> |
                                                                 <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.IdgiaoVien"><i class="fas fa-edit"></i></a> |
@@ -90,6 +122,19 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @Html.PagedListPager((IPagedList<ITCMS_HUIT.Client.Models.GiaoVienDTO>)Model,
+                                        pageNo => Url.Action("Index", "CoSoDuLieus", new { pageNo, area = "Admin" }),
+                                        new PagedListRenderOptions
+                                        {
+                                        PageClasses = new string[] { "page-link" },
+                                        UlElementClasses = new string[] { "pagination" },
+                                        LiElementClasses = new string[] { "page-item" },
+                                        DisplayItemSliceAndTotal = true,
+                                        DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                                        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                                        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+                                        })
+
                                     </div>
                                 </div>
                             </div>

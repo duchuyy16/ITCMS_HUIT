@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ITCMS_HUIT.Client.Models;
+using Newtonsoft.Json;
+using System.Data;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
@@ -28,10 +30,10 @@ namespace ITCMS_HUIT.Client.Common
             if (response.IsSuccessStatusCode)
             {
                 var jsonString = response.Content.ReadAsStringAsync().Result;
-                var returnData = JsonConvert.DeserializeObject<T>(jsonString);
-                if (returnData != null)
+                var responseData = JsonConvert.DeserializeObject<ApiResponse<T>>(jsonString);
+                if (responseData != null)
                 {
-                    return returnData;
+                    return responseData.Data!;
                 }
             }
             else

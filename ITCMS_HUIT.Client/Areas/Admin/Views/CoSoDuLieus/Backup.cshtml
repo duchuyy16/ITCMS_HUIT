@@ -1,42 +1,10 @@
-﻿@model X.PagedList.IPagedList<string>
-@using static ITCMS_HUIT.Client.Common.FileHelper
+﻿@model List<string>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Backup";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-<style>
-    .pagination-container {
-        display: flex;
-        flex: 1;
-        margin: 12px;
-    }
 
-    .pagination {
-        display: flex;
-        flex: 1;
-        list-style: none;
-        padding: 0;
-        gap: .625rem;
-    }
-
-    .page-item, .page-link {
-        height: 2rem;
-        width: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .PagedList-pageCountAndLocation {
-        justify-content: space-between;
-        order: -1;
-        flex: 1;
-    }
-    .product-management-buttons {
-        margin: 12px;
-    }
-</style>
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content" style="margin-top: 60px;">
@@ -62,14 +30,14 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h5>Bảng danh sách các tệp tin đã sao lưu</h5>
-                                        <br />                                      
+                                        <br />
                                     </div>
                                     <div class="card-body table-border-style">
                                         <div class="backup-button">
-                                            <a id="backupButton" asp-action="Backup" class="btn btn-danger">Sao lưu</a>
+                                            <a asp-action="Backup" class="btn btn-danger">Sao lưu</a>
                                         </div>
                                         <div class="table-responsive">
-                                            <table id="backupTable" class="table table-bordered">
+                                            <table class="table table-bordered">
                                                 <thead class="thead-grey">
                                                     <tr>
                                                         <th scope="col">Đường dẫn Backup</th>
@@ -83,32 +51,17 @@
                                                             <td>
                                                                 @item
                                                             </td>
-                                                            
                                                             <td>
                                                                 <form asp-controller="CoSoDuLieus" asp-action="Restore" method="post">
-                                                                    <input type="hidden" name="backupFileName" value="@GetFileName(item)" />
+                                                                    <input type="hidden" name="backupFileName" value="@item" />
                                                                     <button type="submit" class="btn btn-success">Phục hồi</button>
                                                                 </form>
                                                             </td>
-
-
                                                         </tr>
                                                     }
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @Html.PagedListPager((IPagedList)Model,
-                                        pageNo => Url.Action("Index","CoSoDuLieus", new { pageNo, area="Admin" }),
-                                        new PagedListRenderOptions{
-                                        PageClasses = new string[] { "page-link" },
-                                        UlElementClasses = new string[] { "pagination" },
-                                        LiElementClasses = new string[] { "page-item" },
-                                        DisplayItemSliceAndTotal = true,
-                                        DisplayEllipsesWhenNotShowingAllPageNumbers = true,
-                                        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
-                                        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
-                                        }
-                                        )
                                     </div>
                                 </div>
                             </div>
@@ -120,4 +73,3 @@
         </div>
     </div>
 </section>
-

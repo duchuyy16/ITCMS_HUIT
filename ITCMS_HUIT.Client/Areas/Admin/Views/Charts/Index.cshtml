@@ -1,46 +1,213 @@
-﻿<div class="container-fluid">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(LoadData);
-        function LoadData() {
-            $.ajax({
-                url: '/Admin/Charts/Statistic',
-                dataType: "json",
-                type: "GET",
-                error: function (xhr, status, error) {
-                    var err = eval("(" + xhr.responseText + ")");
-                    toastr.error(err.message);
-                },
-                success: function (data) {
-                    DrawChart(data);
-                    return false;
-                }
-            });
-            return false;
-        }
+﻿@{
+    ViewData["Title"] = "Restore";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
 
-        function DrawChart(data) {
-            var dataArray = [
-                ['CategoryName', 'ProductQuantity']
-            ];
-            $.each(data, function (i, item) {
-                dataArray.push([item["categoryName"], item["productQuantity"]]);
-            });
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content" style="margin-top: 60px;">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h3 class="m-b-10">Bảng Thống Kê Trung Tâm Tin Học</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ bar-simple Chart ] start -->
+                            <div class="col-xl-6">
+                                <div class="card">
+                                    <div class="card-header text-center bg-primary">
+                                        <h5 class="text-white">Biểu đồ cột số lượng khóa học theo chương trình</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="KhoaHocTheoChuongTrinh" style="height:300px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-6">
+                                <div class="card">
+                                    <div class="card-header text-center bg-primary">
+                                        <h5 class="text-white">Biểu đồ cột số lượng đối tượng đăng ký</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="ThongKeDoiTuongDangKy" style="height:300px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            var myData = new google.visualization.arrayToDataTable(dataArray);
-            var options = {
-                title: 'Number of products by category',
-                'width': 400,
-                'height': 200,
-                'legend': 'none'
-            };
-            var chart = new google.visualization.BarChart(document.getElementById('myChart'));
-            chart.draw(myData, options);
-            return false;
-        }
-    </script>
-</div>
-<div class="container-fluid lead">
-    <div id="myChart" style="width:400px; height:200px;"></div>
-</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(function () {
+        LoadData('KhoaHocTheoChuongTrinh', '/Admin/Charts/GetCourseCountsByProgram');
+        LoadData('ThongKeDoiTuongDangKy', '/Admin/Charts/ThongKeDoiTuongDangKy');
+    });
+
+    function LoadData(chartId, url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                DrawChart(data, chartId);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function DrawChart(data, chartId) {
+        var dataArray = [
+            [chartId === 'KhoaHocTheoChuongTrinh' ? 'TenChuongTrinh' : 'DoiTuongDangKy', chartId === 'KhoaHocTheoChuongTrinh' ? 'SoLuongKhoaHoc' : 'SoLuong']
+        ];
+
+        $.each(data, function (i, item) {
+            dataArray.push([item[chartId === 'KhoaHocTheoChuongTrinh' ? 'tenChuongTrinh' : 'doiTuongDangKy'], item[chartId === 'KhoaHocTheoChuongTrinh' ? 'soLuongKhoaHoc' : 'soLuong']]);
+        });
+
+        var myData = new google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học theo chương trình' : 'Số lượng đối tượng đăng ký',
+            legend: { position: 'none' },
+            chartArea: { width: '70%', height: '70%' },
+            hAxis: {
+                title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học' : 'Số lượng',
+                minValue: 0
+            },
+            vAxis: {
+                title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Chương trình' : 'Đối tượng đăng ký',
+                // textStyle: { fontSize: 12 }
+            },
+            bars: 'horizontal'
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById(chartId));
+        chart.draw(myData, options);
+        return false;
+    }
+</script>
+
+@* <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(LoadData);
+    function LoadData() {
+        $.ajax({
+            url: '/Admin/Charts/GetCourseCountsByProgram',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                DrawChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function DrawChart(data) {
+        var dataArray = [
+            ['TenChuongTrinh', 'SoLuongKhoaHoc']
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item["tenChuongTrinh"], item["soLuongKhoaHoc"]]);
+        });
+
+        var myData = new google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: 'Số lượng khóa học theo chương trình',
+            legend: { position: 'none' },
+            chartArea: { width: '70%', height: '70%' },
+            hAxis: {
+                title: 'Số lượng khóa học',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Chương trình',
+                // textStyle: { fontSize: 12 }
+            },
+            bars: 'horizontal'
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('KhoaHocTheoChuongTrinh'));
+        chart.draw(myData, options);
+        return false;
+    }
+</script>
+
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(LoadData);
+    function LoadData() {
+        $.ajax({
+            url: '/Admin/Charts/ThongKeDoiTuongDangKy',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                DrawChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function DrawChart(data) {
+        var dataArray = [
+            ['DoiTuongDangKy', 'SoLuong']
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item["doiTuongDangKy"], item["soLuong"]]);
+        });
+
+        var myData = new google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: 'Số lượng đối tượng đăng ký',
+            legend: { position: 'none' },
+            chartArea: { width: '70%', height: '70%' },
+            hAxis: {
+                title: 'Số lượng',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Đối tượng đăng ký',
+                // textStyle: { fontSize: 12 }
+            },
+            bars: 'horizontal'
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('ThongKeDoiTuongDangKy'));
+        chart.draw(myData, options);
+        return false;
+    }
+</script> *@

@@ -21,21 +21,21 @@ namespace Services
             _context = context;
         }
 
-        public string BackupDatabase()
-        {
-            // Ensure the backup directory exists
-            Directory.CreateDirectory(_configuration["BackupConfiguration:BackupDirectory"]);
+        //public string BackupDatabase()
+        //{
+        //    // Ensure the backup directory exists
+        //    Directory.CreateDirectory(_configuration["BackupConfiguration:BackupDirectory"]);
 
-            // Generate a unique file name based on the current timestamp
-            string backupFileName = $"Backup_{DateTime.Now:yyyyMMddHHmmss}.bak";
-            string backupFilePath = Path.Combine(_configuration["BackupConfiguration:BackupDirectory"], backupFileName);
+        //    // Generate a unique file name based on the current timestamp
+        //    string backupFileName = $"Backup_{DateTime.Now:yyyyMMddHHmmss}.bak";
+        //    string backupFilePath = Path.Combine(_configuration["BackupConfiguration:BackupDirectory"], backupFileName);
 
-            // Use EF Core to execute a raw SQL query for backup
-            _context.Database.ExecuteSqlRaw($"BACKUP DATABASE {_context.Database.GetDbConnection().Database} " +
-                $"TO DISK = '{backupFilePath}'");
+        //    // Use EF Core to execute a raw SQL query for backup
+        //    _context.Database.ExecuteSqlRaw($"BACKUP DATABASE {_context.Database.GetDbConnection().Database} " +
+        //        $"TO DISK = '{backupFilePath}'");
 
-            return backupFilePath;
-        }
+        //    return backupFilePath;
+        //}
 
         //public bool RestoreDatabase(IFormFile file)
         //{
@@ -60,6 +60,31 @@ namespace Services
         //    return true;
         //}
 
+        public List<string> BackupDatabase()
+        {
+            List<string> backupFilePaths = new List<string>();
+
+            // Ensure the backup directory exists
+            string backupDirectory = _configuration["BackupConfiguration:BackupDirectory"];
+            Directory.CreateDirectory(backupDirectory);
+
+            // Generate a unique file name based on the current timestamp
+            string backupFileName = $"Backup_{DateTime.Now:yyyyMMddHHmmss}.bak";
+            string backupFilePath = Path.Combine(backupDirectory, backupFileName);
+
+            // Use EF Core to execute a raw SQL query for backup
+            _context.Database.ExecuteSqlRaw($"BACKUP DATABASE {_context.Database.GetDbConnection().Database} " +
+                $"TO DISK = '{backupFilePath}'");
+
+            // Add the backup file path to the list
+            backupFilePaths.Add(backupFilePath);
+
+            backupFilePaths = Directory.GetFiles(backupDirectory).ToList();
+
+            // Return the list of backup file paths
+            return backupFilePaths;
+        }
+
         public bool RestoreDatabase(string backupFileName)
         {
             string backupDirectory = _configuration["BackupConfiguration:BackupDirectory"];
@@ -68,15 +93,17 @@ namespace Services
             if (!File.Exists(backupFilePath)) return false;
 
             string restoreSql = $"USE [master]; " +
-                                $"ALTER DATABASE {_context.Database.GetDbConnection().Database} SET SINGLE_USER WITH ROLLBACK IMMEDIATE; " +
-                                $"RESTORE DATABASE {_context.Database.GetDbConnection().Database} FROM DISK = '{backupFilePath}' WITH REPLACE;";
+                            $"ALTER DATABASE {_context.Database.GetDbConnection().Database} SET SINGLE_USER WITH ROLLBACK IMMEDIATE; " +
+                            $"RESTORE DATABASE {_context.Database.GetDbConnection().Database} FROM DISK = '{backupFilePath}' WITH REPLACE;";
 
             _context.Database.ExecuteSqlRaw(restoreSql);
+
 
             File.Delete(backupFilePath);
 
             return true;
         }
+        
 
         public List<string> GetBackupFiles()
         {

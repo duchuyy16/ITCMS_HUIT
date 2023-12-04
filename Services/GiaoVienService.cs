@@ -22,7 +22,9 @@ namespace Services
         }
 
         public int Count()
-        {  return _giaoVien.Count(); }
+        {  
+            return _giaoVien.Count(); 
+        }
 
         public bool IsExist(string id)
         {
@@ -77,10 +79,10 @@ namespace Services
             var giaoVien = new GiaoVien
             {
                 IdgiaoVien = model.IdgiaoVien!,
-                TenGiaoVien = model.TenGiaoVien,
-                TrinhDo = model.TrinhDo,
-                ChungChi = model.ChungChi,
-                HoSoCaNhan = model.HoSoCaNhan,
+                TenGiaoVien = model.TenGiaoVien!,
+                TrinhDo = model.TrinhDo!,
+                ChungChi = model.ChungChi!,
+                HoSoCaNhan = model.HoSoCaNhan!,
                 HinhAnh= model.HinhAnh!,
             };
 
@@ -93,10 +95,10 @@ namespace Services
         {
             var giaoVien = new GiaoVien
             {
-                TenGiaoVien = model.TenGiaoVien,
-                TrinhDo = model.TrinhDo,
-                ChungChi = model.ChungChi,
-                HoSoCaNhan = model.HoSoCaNhan,
+                TenGiaoVien = model.TenGiaoVien!,
+                TrinhDo = model.TrinhDo!,
+                ChungChi = model.ChungChi!,
+                HoSoCaNhan = model.HoSoCaNhan!,
                 IdgiaoVien=model.IdgiaoVien!,
                 HinhAnh = model.HinhAnh!,
             };

@@ -15,10 +15,10 @@ namespace Services
     {
         private readonly IMapper _mapper;
         private readonly IKhoaHocRepo _khoaHoc;
-        public KhoaHocService(IRepo khoaHoc, IMapper mapper)
+        public KhoaHocService(IRepo repo, IMapper mapper)
         {
             _mapper = mapper;
-            _khoaHoc = khoaHoc.KhoaHocRepo;
+            _khoaHoc = repo.KhoaHocRepo;
         }
 
         public bool IsExist(int id)

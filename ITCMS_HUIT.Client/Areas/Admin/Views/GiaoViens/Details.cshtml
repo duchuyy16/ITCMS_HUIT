@@ -17,7 +17,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <div class="page-header-title">
-                                            <h3 class="m-b-10">Thông tin chi tiết giáo viên</h3>
+                                            <h3 class="m-b-10">Thông tin chi tiết khóa học</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -34,15 +34,15 @@
                                             <dd class="col-sm-8">@Html.DisplayFor(model => model.IdgiaoVien)</dd>
                                             <dt class="col-sm-4">Tên Giáo Viên:</dt>
                                             <dd class="col-sm-8">@Html.DisplayFor(model => model.TenGiaoVien)</dd>
-                                            <dt class="col-sm-4">Trình Độ:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.TrinhDo)</dd>
                                             <dt class="col-sm-4">Chứng Chỉ:</dt>
                                             <dd class="col-sm-8">@Html.DisplayFor(model => model.ChungChi)</dd>
+                                            <dt class="col-sm-4">Trình Độ:</dt>
+                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.TrinhDo)</dd>
                                             <dt class="col-sm-4">Hồ Sơ Cá Nhân:</dt>
                                             <dd class="col-sm-8">@Html.DisplayFor(model => model.HoSoCaNhan)</dd>
                                             <dt class="col-sm-4">Hình Ảnh:</dt>
-                                            <dd class="col-sm-8">
-                                                <img src="@Model.HinhAnh" alt="Hình ảnh giáo viên" class="img-fluid">
+                                            <dd class="col-sm-8">                                            
+                                                <img src="~/images/@Model.HinhAnh" alt="Hình ảnh giáo viên" class="img-fluid">
                                             </dd>
                                         </dl>
                                     </div>

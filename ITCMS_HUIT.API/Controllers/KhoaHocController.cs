@@ -17,51 +17,181 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("kiem-tra-ton-tai/{id}")]
-        public bool IsExist(int id)
+        public IActionResult IsExist(int id)
         {
-            return _khoaHoc.IsExist(id);
+            try
+            {
+                bool isExist = _khoaHoc.IsExist(id);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Success",
+                    Message = isExist ? "Khóa học tồn tại" : "Khóa học không tồn tại",
+                    Data = isExist
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("danh-sach-khoa-hoc")]
-        public List<KhoaHocDTO> GetAll()
+        public IActionResult GetAll()
         {
-            return _khoaHoc.GetAll();
+            try
+            {
+                List<KhoaHocDTO> khoaHocList = _khoaHoc.GetAll();
+
+                var apiResponse = new ApiResponse<List<KhoaHocDTO>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách khóa học",
+                    Data = khoaHocList
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("tim-kiem-khoa-hoc/{keyword}")]
-        public List<KhoaHocDTO> Search(string keyword)
+        public IActionResult Search(string keyword)
         {
-            return _khoaHoc.Search(keyword);
+            try
+            {
+                List<KhoaHocDTO> searchResult = _khoaHoc.Search(keyword);
+
+                var apiResponse = new ApiResponse<List<KhoaHocDTO>>
+                {
+                    Status = "Success",
+                    Message = "Kết quả tìm kiếm khóa học",
+                    Data = searchResult
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("danh-sach-khoa-hoc-theo-chuong-trinh/{id}")]
-        public List<KhoaHocDTO> GetByIdCTDT(int id)
+        public IActionResult GetByIdCTDT(int id)
         {
-            return _khoaHoc.GetByIdCTDT(id);
+            try
+            {
+                List<KhoaHocDTO> khoaHocList = _khoaHoc.GetByIdCTDT(id);
+
+                var apiResponse = new ApiResponse<List<KhoaHocDTO>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách khóa học theo chương trình đào tạo",
+                    Data = khoaHocList
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost("chi-tiet-khoa-hoc/{id}")]
-        public KhoaHocDTO GetById(int id)
+        public IActionResult GetById(int id)
         {
-            return _khoaHoc.GetById(id);
+            try
+            {
+                KhoaHocDTO khoaHoc = _khoaHoc.GetById(id);
+
+                var apiResponse = new ApiResponse<KhoaHocDTO>
+                {
+                    Status = "Success",
+                    Message = "Thông tin chi tiết khóa học",
+                    Data = khoaHoc
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
+
 
         [HttpPost("xoa-khoa-hoc")]
-        public bool Delete(KhoaHocDTO model)
-        {
-            return _khoaHoc.Delete(model);
-        }
+public IActionResult Delete(KhoaHocDTO model)
+{
+    try
+    {
+        bool deletionResult = _khoaHoc.Delete(model);
 
-        [HttpPost("cap-nhat-khoa-hoc")]
-        public bool Update(KhoaHocDTO model)
+        var apiResponse = new ApiResponse<bool>
         {
-            return _khoaHoc.Update(model);
-        }
+            Status = "Success",
+            Message = deletionResult ? "Xóa khóa học thành công" : "Không thể xóa khóa học",
+            Data = deletionResult
+        };
 
-        [HttpPost("them-khoa-hoc")]
-        public KhoaHocDTO Add(KhoaHocDTO model)
+        return Ok(apiResponse);
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+    }
+}
+
+[HttpPost("cap-nhat-khoa-hoc")]
+public IActionResult Update(KhoaHocDTO model)
+{
+    try
+    {
+        bool updateResult = _khoaHoc.Update(model);
+
+        var apiResponse = new ApiResponse<bool>
         {
-            return _khoaHoc.Add(model);
-        }
+            Status = "Success",
+            Message = updateResult ? "Cập nhật khóa học thành công" : "Không thể cập nhật khóa học",
+            Data = updateResult
+        };
+
+        return Ok(apiResponse);
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+    }
+}
+
+[HttpPost("them-khoa-hoc")]
+public IActionResult Add(KhoaHocDTO model)
+{
+    try
+    {
+        KhoaHocDTO addedKhoaHoc = _khoaHoc.Add(model);
+
+        var apiResponse = new ApiResponse<KhoaHocDTO>
+        {
+            Status = "Success",
+            Message = "Thêm khóa học thành công",
+            Data = addedKhoaHoc
+        };
+
+        return Ok(apiResponse);
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+    }
+}
+
     }
 }

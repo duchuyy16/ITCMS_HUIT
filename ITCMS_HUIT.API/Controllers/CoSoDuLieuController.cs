@@ -27,25 +27,39 @@ namespace ITCMS_HUIT.API.Controllers
         {
             try
             {
-                string backupFilePath = _coSoDuLieuService.BackupDatabase();
+                List<string> backupFilePath = _coSoDuLieuService.BackupDatabase();
 
-                return Ok(new { Message = "Backup thành công.", FilePath = backupFilePath });
+                var apiResponse = new ApiResponse<List<string>>
+                {
+                    Status = "Success",
+                    Message = "Backup thành công.",
+                    Data = backupFilePath
+                };
+
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "Lỗi trong quá trình sao lưu cơ sở dữ liệu.", Error = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
             }
         }
 
         [HttpPost]
-        [Route("restore")]
+        [Route("restore/{backupFileName}")] 
         public IActionResult RestoreDatabase(string backupFileName)
         {
             try
             {
-                _coSoDuLieuService.RestoreDatabase(backupFileName);
+                bool restoreResult = _coSoDuLieuService.RestoreDatabase(backupFileName);
 
-                return Ok(new { Status = "Success", Message = "Restore thành công!" });
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = restoreResult ? "Success" : "Error",
+                    Message = restoreResult ? "Restore thành công!" : "Không thể khôi phục cơ sở dữ liệu.",
+                    Data = restoreResult
+                };
+
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -61,13 +75,20 @@ namespace ITCMS_HUIT.API.Controllers
             {
                 List<string> backupFiles = _coSoDuLieuService.GetBackupFiles();
 
-                return Ok(new { Status = "Success", Message = "Danh sách các tệp tin backup", Data = backupFiles });
+                var apiResponse = new ApiResponse<List<string>>
+                {
+                    Status = "Success",
+                    Message = "Danh sách các tệp tin backup",
+                    Data = backupFiles
+                };
+
+                return Ok(apiResponse);
+
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
             }
-        }
-
+        }     
     }
 }

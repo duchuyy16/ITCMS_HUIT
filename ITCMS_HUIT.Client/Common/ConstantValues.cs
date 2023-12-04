@@ -11,6 +11,12 @@
             public const string ChangePassword = "api/Authenticate/thay-doi-mat-khau";
         }
 
+        public class Chart
+        {
+            public const string GetCourseCountsByProgram = "api/Chart/so-luong-khoa-hoc-theo-chuong-trinh";
+            public const string ThongKeDoiTuongDangKy = "api/Chart/thong-ke-doi-tuong-dang-ky";
+        }
+
         public class CoSoDuLieu
         {
             public const string Backup = "api/CoSoDuLieu/backup";
@@ -23,52 +29,14 @@
             public const string DanhSachChuongTrinhDaoTao = "api/ChuongTrinhDaoTao/danh-sach-chuong-trinh-dao-tao";
         }
 
-        public class TrangThaiHocVien
-        {
-            public const string DanhSachTrangThaiHocVien = "api/TrangThaiHocVien/danh-sach-trang-thai-hoc-vien";
-        }
-
-        public class DoiTuongDangKy
-        {
-            public const string DanhSachDoiTuongDangKy = "api/DoiTuongDangKy/danh-sach-doi-tuong-dang-ky";
-        }
-
         public class Count
         {
             public const string Dashboard = "api/Count/dashboard";
         }
 
-        public class ThongTinHocVien
+        public class DoiTuongDangKy
         {
-            public const string DanhSach = "api/ThongTinHocVien/danh-sach-thong-tin-hoc-vien";
-            public const string KiemTraTonTai = "api/ThongTinHocVien/kiem-tra-ton-tai/{0}&{1}";
-            public const string ThongTinChiTiet = "api/ThongTinHocVien/thong-tin-hoc-vien/{0}&{1}";
-            public const string TimKiem = "api/ThongTinHocVien/tim-kiem-thong-tin-hoc-vien/{0}";
-            public const string Xoa = "api/ThongTinHocVien/xoa-thong-tin-hoc-vien";
-            public const string CapNhat = "api/ThongTinHocVien/cap-nhat-thong-tin-hoc-vien";
-            public const string Them = "api/ThongTinHocVien/them-thong-tin-hoc-vien";
-        }
-
-        public class HocVien
-        {
-            public const string DanhSach = "api/HocVien/danh-sach-hoc-vien";
-            public const string KiemTraTonTai = "api/HocVien/kiem-tra-ton-tai/{0}";
-            public const string ChiTietHocVien = "api/HocVien/hocvien/{0}";
-            public const string TimKiem = "api/HocVien/tim-kiem-hoc-vien/{0}";
-            public const string Xoa = "api/HocVien/xoa-hoc-vien";
-            public const string CapNhat = "api/HocVien/cap-nhat-hoc-vien";
-            public const string Them = "api/HocVien/them-hoc-vien";
-        }
-
-        public class LopHoc
-        {
-            public const string DanhSach = "api/LopHoc/danh-sach-lop-hoc";
-            public const string KiemTraTonTai = "api/LopHoc/kiem-tra-ton-tai/{0}";
-            public const string ChiTietLopHoc = "api/LopHoc/lop-hoc/{0}";
-            public const string TimKiem = "api/LopHoc/tim-kiem-lop-hoc/{0}";
-            public const string Xoa = "api/LopHoc/xoa-lop-hoc";
-            public const string CapNhat = "api/LopHoc/cap-nhat-lop-hoc";
-            public const string Them = "api/LopHoc/them-lop-hoc";
+            public const string DanhSachDoiTuongDangKy = "api/DoiTuongDangKy/danh-sach-doi-tuong-dang-ky";
         }
 
         public class GiaoVien
@@ -82,6 +50,17 @@
             public const string Them = "api/GiaoVien/them-giao-vien";
         }
 
+        public class HocVien
+        {
+            public const string DanhSach = "api/HocVien/danh-sach-hoc-vien";
+            public const string KiemTraTonTai = "api/HocVien/kiem-tra-ton-tai/{0}";
+            public const string ChiTietHocVien = "api/HocVien/hocvien/{0}";
+            public const string TimKiem = "api/HocVien/tim-kiem-hoc-vien/{0}";
+            public const string Xoa = "api/HocVien/xoa-hoc-vien";
+            public const string CapNhat = "api/HocVien/cap-nhat-hoc-vien";
+            public const string Them = "api/HocVien/them-hoc-vien";
+        }
+
         public class KhoaHoc
         {
             public const string DanhSach = "api/KhoaHoc/danh-sach-khoa-hoc";
@@ -92,6 +71,33 @@
             public const string Xoa = "api/KhoaHoc/xoa-khoa-hoc";
             public const string CapNhat = "api/KhoaHoc/cap-nhat-khoa-hoc";
             public const string Them = "api/KhoaHoc/them-khoa-hoc";
+        }
+
+        public class LopHoc
+        {
+            public const string DanhSach = "api/LopHoc/danh-sach-lop-hoc";
+            public const string KiemTraTonTai = "api/LopHoc/kiem-tra-ton-tai/{0}";
+            public const string ChiTietLopHoc = "api/LopHoc/lop-hoc/{0}";
+            public const string TimKiem = "api/LopHoc/tim-kiem-lop-hoc/{0}";
+            public const string Xoa = "api/LopHoc/xoa-lop-hoc";
+            public const string CapNhat = "api/LopHoc/cap-nhat-lop-hoc";
+            public const string Them = "api/LopHoc/them-lop-hoc";
+        }
+
+        public class ThongTinHocVien
+        {
+            public const string DanhSach = "api/ThongTinHocVien/danh-sach-thong-tin-hoc-vien";
+            public const string KiemTraTonTai = "api/ThongTinHocVien/kiem-tra-ton-tai/{0}&{1}";
+            public const string ThongTinChiTiet = "api/ThongTinHocVien/thong-tin-hoc-vien/{0}&{1}";
+            public const string TimKiem = "api/ThongTinHocVien/tim-kiem-thong-tin-hoc-vien/{0}";
+            public const string Xoa = "api/ThongTinHocVien/xoa-thong-tin-hoc-vien";
+            public const string CapNhat = "api/ThongTinHocVien/cap-nhat-thong-tin-hoc-vien";
+            public const string Them = "api/ThongTinHocVien/them-thong-tin-hoc-vien";
+        }
+
+        public class TrangThaiHocVien
+        {
+            public const string DanhSachTrangThaiHocVien = "api/TrangThaiHocVien/danh-sach-trang-thai-hoc-vien";
         }
     }
 }

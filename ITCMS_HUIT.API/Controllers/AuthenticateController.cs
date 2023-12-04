@@ -21,7 +21,7 @@ namespace ITCMS_HUIT.API.Controllers
         private readonly IConfiguration _configuration;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthenticateController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, 
+        public AuthenticateController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
             IConfiguration configuration, SignInManager<IdentityUser> signInManager, GiaoVienService giaoVien)
         {
             _giaoVien = giaoVien;
@@ -50,10 +50,17 @@ namespace ITCMS_HUIT.API.Controllers
         [Route("dangxuat")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-
-            return Ok(new Response { Status = "Success", Message = "Logout successful!" });
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return Ok(new { message = "Đăng xuất thành công." });
+            }
+            catch 
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi khi đăng xuất." });
+            }
         }
+
 
         [HttpPost]
         [Route("dangnhap")]
@@ -92,7 +99,7 @@ namespace ITCMS_HUIT.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User already exists!" });
 
             IdentityUser user = new()
             {
@@ -103,7 +110,7 @@ namespace ITCMS_HUIT.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
             // Kiểm tra và tạo role Giáo viên nếu chưa tồn tại
             if (!await _roleManager.RoleExistsAsync(UserRoles.Teacher))
@@ -115,19 +122,36 @@ namespace ITCMS_HUIT.API.Controllers
             var addTeacher = _giaoVien.Add(new GiaoVienDTO
             {
                 IdgiaoVien = user.Id,
+                TenGiaoVien=user.UserName!,
+                ChungChi="",
+                TrinhDo="",
+                HoSoCaNhan="",
+                HinhAnh="",
             });
 
-            return Ok(new Response { Status = "Success", Message = "Teacher created successfully!" });
+            if (addTeacher == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Teacher creation failed! Please check details and try again." });
+            }
+
+            var apiResponse = new ApiResponse<Register>
+            {
+                Status = "Success",
+                Message = "Teacher created successfully!",
+                Data = null
+            };
+
+            return Ok(apiResponse);
         }
 
 
         [HttpPost]
         [Route("dangky-quantri")]
-        public async Task<IActionResult> RegisterAdminOrTeacher([FromBody] Register model)
+        public async Task<IActionResult> RegisterAdmin([FromBody] Register model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User already exists!" });
 
             IdentityUser user = new()
             {
@@ -138,17 +162,20 @@ namespace ITCMS_HUIT.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Teacher))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher));
-                await _userManager.AddToRoleAsync(user, UserRoles.Teacher);
+            var apiResponse = new ApiResponse<Register>
+            {
+                Status = "Success",
+                Message = "User created successfully!",
+                Data = null
+            };
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(apiResponse);
         }
 
         [HttpPost]
@@ -157,17 +184,24 @@ namespace ITCMS_HUIT.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists == null)
-                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "User does not exists!" });
+                return StatusCode(StatusCodes.Status404NotFound, new { Status = "Error", Message = "User does not exists!" });
 
             if (string.Compare(model.NewPassword, model.ConfirmNewPassword) != 0)
-                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "The new password and confirm new password does not match!" });
+                return StatusCode(StatusCodes.Status400BadRequest, new { Status = "Error", Message = "The new password and confirm new password does not match!" });
 
             var result = await _userManager.ChangePasswordAsync(userExists, model.CurrentPassword, model.NewPassword);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                return StatusCode(StatusCodes.Status500InternalServerError, new
                 { Status = "Error", Message = "Something went wrong" });
 
-            return Ok(new Response { Status = "Success", Message = "Password Changed successfully!" });
+            var apiResponse = new ApiResponse<Register>
+            {
+                Status = "Success",
+                Message = "Password Changed successfully!",
+                Data = null
+            };
+
+            return Ok(apiResponse);
         }
     }
 }

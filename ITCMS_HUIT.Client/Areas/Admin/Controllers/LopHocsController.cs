@@ -11,12 +11,13 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [Area("Admin")]
     public class LopHocsController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int pageNo = 1)
         {
             try
             {
                 var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>(ConstantValues.LopHoc.DanhSach);
-                return View(dsLopHoc);
+                var pagedList = dsLopHoc.ToPagedList(pageNo, 5);
+                return View(pagedList);
             }
             catch (Exception)
             {

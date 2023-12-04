@@ -8,6 +8,6 @@ namespace Services.MailKit
 {
     public interface IMailService
     {
-        void SendMail(string name, string from, string body);
+        void SendMail(string name, string from, int? body);
     }
 }

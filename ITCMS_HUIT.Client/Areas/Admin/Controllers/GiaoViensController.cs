@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using X.PagedList;
 
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
@@ -11,12 +12,13 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [Area("Admin")]
     public class GiaoViensController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int pageNo = 1)
         {
             try
             {
                 var dsGiaoVien = Utilities.SendDataRequest<List<GiaoVienDTO>>(ConstantValues.GiaoVien.DanhSach);
-                return View(dsGiaoVien);
+                var pagedList = dsGiaoVien.ToPagedList(pageNo, 5);
+                return View(pagedList);
             }
             catch (Exception)
             {
@@ -57,6 +59,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Details/{id?}")]
         public IActionResult Details(string? id)
         {
             try
@@ -72,6 +76,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
+
+                //return StatusCode((int)HttpStatusCode.Conflict);
 
                 return View(giaoVien);
             }
