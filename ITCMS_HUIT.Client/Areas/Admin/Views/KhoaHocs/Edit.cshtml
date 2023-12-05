@@ -5,88 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-@* <section class="pcoded-main-container">
-    <div class="pcoded-wrapper">
-        <div class="pcoded-content" style="margin-top: 60px;">
-            <div class="pcoded-inner-content">
-                <div class="main-body">
-                    <div class="page-wrapper">
-                        <!-- [ breadcrumb ] start -->
-                        <div class="page-header">
-                            <div class="page-block">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <div class="page-header-title">
-                                            <h3 class="m-b-10">Cập Nhật Khóa Học</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- [ breadcrumb ] end -->
-                        <!-- [ Main Content ] start -->
-                        <div class="row">
-                            <div class="col-md-4">
-                                <form asp-action="Edit">
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <div class="form-group">
-                                        <label asp-for="IdkhoaHoc" class="control-label"></label>
-                                        <input asp-for="IdkhoaHoc" class="form-control" />
-                                        <span asp-validation-for="IdkhoaHoc" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="IdchuongTrinh" class="control-label">Chương Trình</label>
-                                        <input asp-for="IdchuongTrinh" asp-items="ViewBag.IdChuongTrinh" class="form-control" />
-                                        <span asp-validation-for="IdchuongTrinh" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="TenKhoaHoc" class="control-label"></label>
-                                        <input asp-for="TenKhoaHoc" class="form-control" />
-                                        <span asp-validation-for="TenKhoaHoc" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="SoGio" class="control-label"></label>
-                                        <input asp-for="SoGio" class="form-control" />
-                                        <span asp-validation-for="SoGio" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="SoTuan" class="control-label"></label>
-                                        <input asp-for="SoTuan" class="form-control" />
-                                        <span asp-validation-for="SoTuan" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="HocPhi" class="control-label"></label>
-                                        <input asp-for="HocPhi" class="form-control" />
-                                        <span asp-validation-for="HocPhi" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="Mota" class="control-label"></label>
-                                        <input asp-for="Mota" class="form-control" />
-                                        <span asp-validation-for="Mota" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label asp-for="HinhAnh" class="control-label"></label>
-                                        <input asp-for="HinhAnh" class="form-control" />
-                                        <span asp-validation-for="HinhAnh" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" value="Save" class="btn btn-primary" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div>
-                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                        </div>
-                        <!-- [ Main Content ] end -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> *@
-
+<script src="~/ckeditor/ckeditor.js"></script>
 
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
@@ -110,7 +29,7 @@
                         <!-- [ Main Content ] start -->
                         <div class="row">
                             <div class="col-md-6">
-                                <form asp-action="Edit" class="card">
+                                <form asp-action="Edit" method="post" class="card">
                                     <div asp-validation-summary="ModelOnly" class="card-body text-danger"></div>
                                     <div class="card-body">
                                         <div class="form-group">
@@ -130,7 +49,6 @@
                                             <input asp-for="TenKhoaHoc" class="form-control" />
                                             <span asp-validation-for="TenKhoaHoc" class="text-danger"></span>
                                         </div>
-                                        <!-- Add similar styling for other form groups -->
                                         <div class="form-group">
                                             <label asp-for="SoGio" class="control-label">Số Giờ</label>
                                             <input asp-for="SoGio" class="form-control" />
@@ -148,29 +66,23 @@
                                         </div>
                                         <div class="form-group">
                                             <label asp-for="Mota" class="control-label">Mô tả</label>
-                                            <textarea asp-for="Mota" class="form-control" rows="4"></textarea>
+                                            <textarea asp-for="Mota" id="editor1" name="Mota" class="form-control" rows="4"></textarea>
                                             <span asp-validation-for="Mota" class="text-danger"></span>
                                         </div>
+
                                         <div class="form-group">
                                             <label asp-for="HinhAnh" class="control-label">Hình Ảnh</label>
                                             <input asp-for="HinhAnh" class="form-control" />
                                             <span asp-validation-for="HinhAnh" class="text-danger"></span>
                                         </div>
                                         <div class="mt-3">
-                                            <a asp-action="Edit" class="btn btn-primary">Cập Nhật</a> |
+                                            <button type="submit" class="btn btn-primary">Cập Nhật</button> |
                                             <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
                                         </div>
-                                        @* <div class="form-group">
-                                            <button type="submit" value="Edit" class="btn btn-primary">Save</button>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-secondary" value="Index">Back to List</button>
-                                        </div> *@
                                     </div>
                                 </form>
                             </div>
                         </div>
-
                         <!-- [ Main Content ] end -->
                     </div>
                 </div>
@@ -179,3 +91,7 @@
     </div>
 </section>
 
+<script>
+    CKEDITOR.replace('editor1', {
+    });
+</script>

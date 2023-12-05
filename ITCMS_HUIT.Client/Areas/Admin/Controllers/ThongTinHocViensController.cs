@@ -41,19 +41,11 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            try
-            {
-                //ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                //    (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc");
-                //ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                //   (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
-                return View();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
+            ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
+                   (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
+            ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
+                (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc");
+            return View();
         }
 
         [HttpPost]
@@ -67,10 +59,10 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.Them, model);
                     return RedirectToAction(nameof(Index));
                 }
-                //ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                //    (ConstantValues.LopHoc.DanhSach), model.IdlopHoc);
-                //ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                //   (ConstantValues.HocVien.DanhSach), model.IdhocVien);
+                ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
+                  (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
+                ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
+                    (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc");
                 return View(model);
             }
             catch (Exception)
@@ -107,22 +99,19 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         {
             try
             {
-                if (IdhocVien == null && IdlopHoc == null)
+                if (IdhocVien == null || IdlopHoc == null)
                 {
                     return NotFound();
                 }
-
                 var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
                 var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+
+
                 if (thongTinHocVien == null)
                 {
                     return NotFound();
                 }
 
-                //ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                //     (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc");
-                //ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                //   (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
                 return View(thongTinHocVien);
             }
             catch (Exception)
@@ -141,12 +130,16 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
+                var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
+                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+
+                model.IdhocVienNavigation = thongTinHocVien.IdhocVienNavigation;
 
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.CapNhat, model);
+                        Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.CapNhat, model);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -161,11 +154,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-
-                //ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                //     (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc", model.IdlopHoc);
-                //ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                //   (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien", model.IdhocVien);
+             
                 return View(model);
             }
             catch (Exception)

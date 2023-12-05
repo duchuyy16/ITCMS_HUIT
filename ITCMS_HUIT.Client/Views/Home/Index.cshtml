@@ -11,10 +11,6 @@
         height: 148.16px;
         object-fit: cover; /* Để hình ảnh bảo toàn tỷ lệ khung khi thay đổi kích thước */
     }
-
-    .course-details {
-        height: 180.2px;
-    }
 </style>
 
 
@@ -38,7 +34,6 @@
                             <h4>
                                 <a asp-action="ChiTietKhoaHoc" asp-controller="KhoaHoc" asp-route-id="@item.IdkhoaHoc" title="">@item.TenKhoaHoc</a>
                             </h4>
-                            <p>@item.Mota</p>
                         </div><!-- end details -->
                         <div class="course-footer clearfix">
                             <div class="pull-right">

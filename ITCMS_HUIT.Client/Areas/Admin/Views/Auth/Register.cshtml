@@ -10,34 +10,29 @@
 			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="card-body">
-						<img src="../assets/images/logo-dark.png" alt="" class="img-fluid mb-4">
-						<h4 class="mb-3 f-w-400">Sign up into your account</h4>
+						<img src="~/images/logo-dark.png" alt="" class="img-fluid mb-4">
+						<h4 class="mb-3 f-w-400">Đăng ký</h4>
 						<div class="input-group mb-2">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="feather icon-user"></i></span>
 							</div>
-							<input type="text" class="form-control" placeholder="Username">
+							<input type="text" name="Username" class="form-control" placeholder="Tên đăng nhập" autocomplete="off">
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="feather icon-mail"></i></span>
 							</div>
-							<input type="email" class="form-control" placeholder="Email address">
+							<input type="email" name="Email" class="form-control" placeholder="Địa chỉ email" autocomplete="off">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="feather icon-lock"></i></span>
 							</div>
-							<input type="password" class="form-control" placeholder="Password">
+							<input type="password" name="Password" class="form-control" placeholder="Mật khẩu" autocomplete="off">
 						</div>
-						<div class="form-group text-left mt-2">
-							<div class="checkbox checkbox-primary d-inline">
-								<input type="checkbox" name="checkbox-fill-2" id="checkbox-fill-2">
-								<label for="checkbox-fill-2" class="cr">Send me the <a href="#!"> Newsletter</a> weekly.</label>
-							</div>
-						</div>
-						<button class="btn btn-primary mb-4">Sign up</button>
-						<p class="mb-2">Already have an account? <a href="auth-signin.html" class="f-w-400">Log in</a></p>
+						
+						<button type="submit" class="btn btn-primary mb-4">Sign up</button>
+						<p class="mb-2">Bạn đã có tài khoản? <a asp-action="Login" asp-controller="Auth" class="f-w-400">Đăng nhập</a></p>
 					</div>
 				</div>
 				<div class="col-md-6 d-none d-md-block">

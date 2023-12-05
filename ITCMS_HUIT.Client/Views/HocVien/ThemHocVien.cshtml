@@ -1,0 +1,75 @@
+﻿@model ITCMS_HUIT.Client.Models.HocVienDTO
+@{
+    ViewData["Title"] = "ThemHocVien";
+    Layout = "~/Views/Shared/_LayoutChiTietKhoaHoc.cshtml";
+}
+
+<section class="section">
+    <div class="container">
+        <div class="boxed boxedp4">
+            <h3>Thông tin học viên đăng ký</h3>
+            <form method="post" asp-action="ThemHocVien" asp-controller="HocVien">
+                <div asp-validation-summary="ModelOnly" class="card-body text-danger"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="TenHocVien" class="control-label">Họ và tên:</label>
+                            <input asp-for="TenHocVien" class="form-control" placeholder="Nhập họ và tên" required>
+                            <span asp-validation-for="TenHocVien" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NgaySinh" class="control-label">Ngày sinh:</label>
+                            <input asp-for="NgaySinh" class="form-control">
+                            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email:</label>
+                            <input asp-for="Email" class="form-control" placeholder="Nhập địa chỉ email" required>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Sdt" class="control-label">Số điện thoại:</label>
+                            <input asp-for="Sdt" class="form-control" placeholder="Nhập số điện thoại" required>
+                            <span asp-validation-for="Sdt" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DiaChi" class="control-label">Địa chỉ:</label>
+                            <input asp-for="DiaChi" class="form-control" placeholder="Nhập địa chỉ" required>
+                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IddoiTuong" class="control-label">Đối Tượng</label>
+                            <select asp-for="IddoiTuong" class="form-control" asp-items="ViewBag.IdDoiTuong"></select>
+                            <span asp-validation-for="IddoiTuong" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="color: red;">
+                    <span><strong style="text-decoration: underline;">Lưu ý:</strong></span> <br />
+                    <label>- Các thông tin này sẽ được sử dụng để in Biên nhận học phí và cấp Chứng chỉ.</label> <br />
+                    <label>- Vui lòng điền đầy đủ và chính xác thông tin.</label>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success">Đăng ký <i class="fa fa-arrow-right"></i></button>                     
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = "@TempData["SuccessMessage"]";
+        if (successMessage !== "") {
+            alert(successMessage);
+        }
+    });
+</script>
+
+
+
+

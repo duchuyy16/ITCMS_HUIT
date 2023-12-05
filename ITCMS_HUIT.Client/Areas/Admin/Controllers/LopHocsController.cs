@@ -45,7 +45,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdLopHoc,TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien")] LopHocDTO model)
+        public IActionResult Create([Bind("TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien")] LopHocDTO model)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("IdLopHoc,TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien")] LopHocDTO model)
+        public IActionResult Edit(int id, [Bind("IdlopHoc,TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien")] LopHocDTO model)
         {
             try
             {

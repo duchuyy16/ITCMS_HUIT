@@ -19,6 +19,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+
+    <!-- Thêm SweetAlert2 CSS vào <head> của trang -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@12/dist/sweetalert2.min.css">
+
     <!-- Site Icons -->
     <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="~/images/apple-touch-icon.png">
@@ -312,6 +316,20 @@
             </div><!-- end container -->
         </div><!-- end copy -->
     </div><!-- end wrapper -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                Swal.fire({
+                    title: 'Thành công',
+                    text: '@TempData["SuccessMessage"]',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            }
+        </script>
+    }
+
     <!-- jQuery Files -->
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
@@ -320,6 +338,7 @@
     <script src="~/js/custom.js"></script>
     <!-- VIDEO BG PLUGINS -->
     <script src="~/js/videobg.js"></script>
-
+    <!-- Thêm SweetAlert2 JS vào cuối trang (trước thẻ </body>) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@12"></script>
 </body>
 </html>

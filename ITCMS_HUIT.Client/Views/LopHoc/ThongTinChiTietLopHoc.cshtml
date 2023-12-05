@@ -1,0 +1,69 @@
+﻿@model ITCMS_HUIT.Client.Models.LopHocDTO
+@{
+    ViewData["Title"] = "ThongTinChiTietLopHoc";
+    Layout = "~/Views/Shared/_LayoutChiTietKhoaHoc.cshtml";
+}
+<style>
+    .info-item label {
+        width: 160px;
+    }
+</style>
+
+<section class="section">
+    <div class="container">
+        <div class="boxed boxedp4">
+            <h3>Anh/Chị đang chọn đăng ký online khóa học với thông tin như sau:</h3>       
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="img-container">
+                        <img class="img-fluid" style="width:270px;height:150px;" src="~/images/@Model.IdkhoaHocNavigation!.HinhAnh" alt="Hình ảnh khóa học">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="info-container" style="margin-bottom: 10px;">
+                        <div class="info-item">
+                            <label>Môn Học:</label>
+                            <span>@Model.IdkhoaHocNavigation.TenKhoaHoc</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Lớp:</label>
+                            <span>@Model.TenLopHoc</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Lịch Học:</label>
+                            <span>@Model.ThoiGian</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Ngày bắt đầu:</label>
+                            <span>@Model.NgayBatDau.ToString("yyyy-MM-dd")</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Địa điểm:</label>
+                            <span>@Model.DiaDiem</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Học phí:</label>
+                            <span style="color:red;">@string.Format("{0:N0}", @Model.IdkhoaHocNavigation.HocPhi)đ</span>
+                        </div>
+                        <div>
+                            <label>Anh/Chị vui lòng nhấn nút Tiếp tục để điền thông tin học viên và nhận ưu đãi học phí (nếu có)</label>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row justify-content-sm-end">
+                <div class="col-sm-2">
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-danger"><i class="fa fa-times"></i> Hủy bỏ đăng ký</a>
+                </div>
+                <div class="col-sm-2">
+                    <a asp-action="ThemHocVien" asp-controller="HocVien" class="btn btn-success">Tiếp tục <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

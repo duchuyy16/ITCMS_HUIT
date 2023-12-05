@@ -39,11 +39,11 @@ namespace Services
                 IdlopHoc=s.IdlopHoc,
                 Diem = s.Diem,
                 NgayThongBao = s.NgayThongBao,
-                TrangThaiThongBao = s.TrangThaiThongBao,
+                TrangThaiThongBao = s.TrangThaiThongBao!,
                 SoLanVangMat = s.SoLanVangMat,
                 LyDoThongBao = s.LyDoThongBao,
                 HocPhi = s.HocPhi,
-                NgayGioGiaoDich = s.NgayGioGiaoDich,
+                NgayGioGiaoDich = s.NgayGioGiaoDich!,
                 TrangThaiThanhToan = s.TrangThaiThanhToan,
 
                 IdhocVienNavigation = s.IdhocVienNavigation.Adapt<HocVienModel>(),
@@ -103,7 +103,7 @@ namespace Services
 
         public bool Delete(ThongTinHocVienDTO model)
         {
-            var thongTinHocVien = _thongTin.GetById(model.IdlopHoc, model.IdlopHoc);
+            var thongTinHocVien = _thongTin.GetById(model.IdhocVien, model.IdlopHoc);
 
             var result = _thongTin.Delete(thongTinHocVien);
 
@@ -124,12 +124,12 @@ namespace Services
                 HocPhi = model.HocPhi,
                 NgayGioGiaoDich = model.NgayGioGiaoDich,
                 TrangThaiThanhToan = model.TrangThaiThanhToan,
-               
+
             };
 
             var result = _thongTin.UpdateTTHV(thongTinHocVien);
 
-            if (result!.SoLanVangMat > 3)
+            if (result!.SoLanVangMat > 3 && model.SoLanVangMat != result.SoLanVangMat)
             {
                 _mail?.SendMail(model.IdhocVienNavigation!.TenHocVien, model.IdhocVienNavigation.Email, result.SoLanVangMat);
                 result.TrangThaiThongBao = true;
@@ -149,8 +149,8 @@ namespace Services
         {
             var thongTinHocVien = new ThongTinHocVien
             {
-                IdlopHoc = model.IdlopHoc,
                 IdhocVien = model.IdhocVien,
+                IdlopHoc = model.IdlopHoc,
                 Diem = model.Diem,
                 NgayThongBao = model.NgayThongBao,
                 TrangThaiThongBao = model.TrangThaiThongBao,

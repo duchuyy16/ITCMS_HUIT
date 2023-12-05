@@ -13,7 +13,7 @@
 
 <section class="section">
     <div class="container">
-        <div class=" ">
+        <div class="boxed boxedp4">
             <div class="row">
                 <div class="col-md-6 shop-media">
                     <div class="row">
@@ -34,12 +34,12 @@
                 <div class="col-md-6">
                     <div class="shop-desc">
                         <h3>@Model.TenKhoaHoc</h3>
-                        <small>$ @string.Format("{0:N0}", @Model.HocPhi)đ</small>
-                        <p>@Model.Mota</p>
+                        <small style="color:red;">$ @string.Format("{0:N0}", @Model.HocPhi)đ</small>
+                        <p><i class="fa fa-clock-o" aria-hidden="true"></i>@Model.SoGio giờ & @Model.SoTuan tuần</p>
                         <div class="shop-meta">
                             <ul class="list-inline">
-                                <li><i class="fa fa-clock-o" aria-hidden="true"></i>@Model.SoGio giờ & @Model.SoTuan tuần</li> 
-                                <li>Categories: @Model.IdchuongTrinhNavigation!.TenChuongTrinh</li>
+                                @* <li><i class="fa fa-clock-o" aria-hidden="true"></i>@Model.SoGio giờ & @Model.SoTuan tuần</li>  *@
+                                <li>Danh mục: @Model.IdchuongTrinhNavigation!.TenChuongTrinh</li>
                             </ul>
                         </div><!-- end shop meta -->
                     </div><!-- end desc -->
@@ -59,7 +59,7 @@
 
                         <div class="tab-content">
                             <div id="home" class="tab-pane fade in active">
-                                <p>@Model.Mota</p>
+                                <p>@Html.Raw(Model.Mota)</p>
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 <h3>Additional information</h3>
@@ -139,7 +139,7 @@
                                 <td>@lopHoc.ThoiGian</td>
                                 <td>@lopHoc.NgayBatDau</td>
                                 <td>@lopHoc.DiaDiem</td>
-                                <td style="text-align: center;"> <a href="@Url.Action("ThemHocVien", "HocVien")" class="btn btn-primary">Đăng ký</a></td>
+                                <td style="text-align: center;"> <a asp-action="ThongTinChiTietLopHoc" asp-controller="LopHoc" asp-route-id="@lopHoc.IdlopHoc" class="btn btn-primary">Đăng ký</a></td>
                             </tr>
                         }                    
                     </table>
@@ -170,7 +170,6 @@
                                     <h4>
                                         <a asp-action="ChiTietKhoaHoc" asp-controller="KhoaHoc" asp-route-id="@item.IdkhoaHoc" title="">@item.TenKhoaHoc</a>
                                     </h4>
-                                    <p>@item.Mota</p>
                                     <p style="color:#01bacf;">$ @string.Format("{0:N0}", @item.HocPhi)đ</p>
                                 </div>
                                 <!-- end details -->

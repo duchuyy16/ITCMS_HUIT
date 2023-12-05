@@ -20,8 +20,8 @@ namespace ITCMS_HUIT.Models
         public int IddoiTuong { get; set; }
         public int IdtrangThai { get; set; }
 
-        public virtual DoiTuongDangKy IddoiTuongNavigation { get; set; } = null!;
-        public virtual TrangThaiHocVien IdtrangThaiNavigation { get; set; } = null!;
-        public virtual ICollection<ThongTinHocVien> ThongTinHocViens { get; set; }
+        public virtual DoiTuongDangKy? IddoiTuongNavigation { get; set; } = null!;
+        public virtual TrangThaiHocVien? IdtrangThaiNavigation { get; set; } = null!;
+        public virtual ICollection<ThongTinHocVien>? ThongTinHocViens { get; set; }
     }
 }

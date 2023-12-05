@@ -3,6 +3,7 @@ using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
+using Services.MailKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace Services
 {
     public class HocVienService
     {
+        private readonly IMailService _mail;
         private readonly IMapper _mapper;
         private readonly IHocVienRepo _hocVien;
-        public HocVienService(IRepo repo, IMapper mapper)
+        public HocVienService(IRepo repo, IMapper mapper, IMailService mail)
         {
+            _mail = mail;
             _mapper = mapper;
             _hocVien = repo.HocVienRepo;
         }
@@ -69,14 +72,16 @@ namespace Services
                 Email = model.Email,
                 Sdt = model.Sdt,
                 DiaChi = model.DiaChi,
-                NgayDangKy = model.NgayDangKy,
+                NgayDangKy = DateTime.Now,
                 IddoiTuong = model.IddoiTuong,
-                IdtrangThai = model.IdtrangThai,
+                IdtrangThai = 1,
             };
 
             var result = _hocVien.Add(hocVien);
 
             var hocVienDTO = _mapper.Map<HocVienDTO>(result);
+
+            _mail.NotifyStudentRegistration(hocVienDTO.TenHocVien, hocVienDTO.Email);
 
             return hocVienDTO;
         }

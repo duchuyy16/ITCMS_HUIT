@@ -42,12 +42,18 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdGiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
+        public IActionResult Create([Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    if (IsExist(model.IdgiaoVien!))
+                    {
+                        ModelState.AddModelError("IdgiaoVien", "Mã giáo viên đã tồn tại. Vui lòng nhập mã khác.");
+                        return View(model);
+                    }
+
                     Utilities.SendDataRequest<GiaoVienDTO>(ConstantValues.GiaoVien.Them, model);
                     return RedirectToAction(nameof(Index));
                 }
@@ -59,8 +65,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Details/{id?}")]
+        //[HttpGet]
+        //[Route("Details/{id?}")]
         public IActionResult Details(string? id)
         {
             try
@@ -113,7 +119,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("IdGiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
+        public IActionResult Edit(string id, [Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
         {
             try
             {

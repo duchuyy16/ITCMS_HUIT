@@ -54,7 +54,7 @@
         {
             public const string DanhSach = "api/HocVien/danh-sach-hoc-vien";
             public const string KiemTraTonTai = "api/HocVien/kiem-tra-ton-tai/{0}";
-            public const string ChiTietHocVien = "api/HocVien/hocvien/{0}";
+            public const string ChiTietHocVien = "api/HocVien/hoc-vien/{0}";
             public const string TimKiem = "api/HocVien/tim-kiem-hoc-vien/{0}";
             public const string Xoa = "api/HocVien/xoa-hoc-vien";
             public const string CapNhat = "api/HocVien/cap-nhat-hoc-vien";

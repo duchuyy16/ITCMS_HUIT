@@ -58,7 +58,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdkhoaHoc,TenKhoaHoc,SoGio,SoTuan,HocPhi,Mota,HinhAnh,IdchuongTrinh")] KhoaHocDTO model)
+        public IActionResult Create([Bind("TenKhoaHoc,SoGio,SoTuan,HocPhi,Mota,HinhAnh,IdchuongTrinh")] KhoaHocDTO model)
         {
             try
             {

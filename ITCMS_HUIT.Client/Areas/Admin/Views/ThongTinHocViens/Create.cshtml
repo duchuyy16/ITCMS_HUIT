@@ -31,13 +31,17 @@
                                     <div asp-validation-summary="ModelOnly" class="card-body text-danger"></div>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label asp-for="IdhocVien" class="control-label">Mã Học Viên</label>
-                                            <input asp-for="IdhocVien" class="form-control" />
+                                            <label asp-for="IdhocVien" class="control-label">Học Viên</label>
+                                            <select asp-for="IdhocVien" asp-items="ViewBag.IdHocVien" class="form-control">
+                                                <option value="">-- Chọn Học Viên --</option>
+                                            </select>
                                             <span asp-validation-for="IdhocVien" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="IdlopHoc" class="control-label">Mã Lớp Học</label>
-                                            <input asp-for="IdlopHoc" class="form-control" />
+                                            <label asp-for="IdlopHoc" class="control-label">Lớp Học</label>
+                                            <select asp-for="IdlopHoc" asp-items="ViewBag.IdLopHoc" class="form-control">
+                                                <option value="">-- Chọn Lớp Học --</option>
+                                            </select>
                                             <span asp-validation-for="IdlopHoc" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
@@ -50,10 +54,10 @@
                                             <input asp-for="NgayThongBao" class="form-control" />
                                             <span asp-validation-for="NgayThongBao" class="text-danger"></span>
                                         </div>
-                                        <div class="form-group form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" asp-for="TrangThaiThongBao" /> @Html.DisplayNameFor(model => model.TrangThaiThongBao)
-                                            </label>
+                                        <div class="form-group">
+                                            <label asp-for="TrangThaiThongBao" class="control-label">Trạng Thái Thông Báo</label>
+                                            <input asp-for="TrangThaiThongBao" class="form-control" />
+                                            <span asp-validation-for="TrangThaiThongBao" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
                                             <label asp-for="SoLanVangMat" class="control-label">Số Lần Vắng Mặt</label>
@@ -81,11 +85,10 @@
                                             <span asp-validation-for="TrangThaiThanhToan" class="text-danger"></span>
                                         </div>
                                         <div class="mt-3">
-                                            <a asp-action="Create" class="btn btn-primary">Thêm</a> |
+                                            <button type="submit" class="btn btn-primary">Thêm</button> |
                                             <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
