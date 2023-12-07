@@ -2,10 +2,16 @@
 {
     public class ConstantValues
     {
+        public class Account
+        {
+            public const string DanhSachNguoiDung = "api/Account/danh-sach-nguoi-dung";
+            public const string CapNhat = "api/Account/cap-nhat-quyen";
+        }
+
         public class Authenticate
         {
             public const string Login = "api/Authenticate/dangnhap";
-            public const string Register = "api/Authenticate/dangky-giaovien";
+            public const string Register = "api/Authenticate/dang-ky-giao-vien";
             public const string RegisterAdmin = "api/Authenticate/dangky-quantri";
             public const string Logout = "api/Authenticate/dangxuat";
             public const string ChangePassword = "api/Authenticate/thay-doi-mat-khau";

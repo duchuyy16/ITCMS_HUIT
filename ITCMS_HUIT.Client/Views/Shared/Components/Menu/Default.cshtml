@@ -17,12 +17,11 @@
                                     <ul>
                                         @foreach (KhoaHocModel khoaHoc in item.KhoaHocs!)
                                         {
-                                           @* <li><a asp-controller="KhoaHoc" asp-action="ChiTietKhoaHoc" asp-route-id="@khoaHoc.IdchuongTrinh">@khoaHoc.TenKhoaHoc</a></li>  *@
-
-                                            @Html.ActionLink(khoaHoc.TenKhoaHoc,"ChiTietKhoaHoc","KhoaHoc",
-                                            new {id=khoaHoc.IdkhoaHoc },null)
                                             //id phải khớp với tên tham số trong hành động ChiTietKhoaHoc
-                                            <br/>
+                                            @* <li><a asp-controller="KhoaHoc" asp-action="ChiTietKhoaHoc" asp-route-id="@khoaHoc.IdchuongTrinh">@khoaHoc.TenKhoaHoc</a></li>  *@
+                                            <li>
+                                                @Html.ActionLink(khoaHoc.TenKhoaHoc,"ChiTietKhoaHoc","KhoaHoc", new {id=khoaHoc.IdkhoaHoc },null) <br />
+                                            </li>
                                         }
                                     </ul>
                                 </div>
@@ -34,6 +33,6 @@
         </li>
         <li><a asp-action="Index" asp-controller="Contact">Liên hệ</a></li>
         <li class="iconitem"><a asp-action="TimKiemKhoaHocTheoTen" asp-controller="KhoaHoc" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
-        <li class="iconitem"><a class="shopicon" href="shop-cart.html"><i class="fa fa-shopping-basket"></i> &nbsp;(0)</a></li>
+        <li class="iconitem"><a class="shopicon"href="#"><i class="fa fa-shopping-basket"></i> &nbsp;(0)</a></li>
     </ul>
 </div>

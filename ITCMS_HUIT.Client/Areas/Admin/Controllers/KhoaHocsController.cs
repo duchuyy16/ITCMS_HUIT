@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
+using System;
 using X.PagedList;
 
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Route("Admin/khoahoc")]
+    [CheckToken("Teacher,Admin")]
     public class KhoaHocsController : Controller
     {
         public IActionResult Index(int? IdchuongTrinh, int pageNo = 1)
@@ -85,9 +87,12 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
-
+                
                 var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
                 var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+
+                khoaHoc.Mota = HttpUtility.HtmlDecode(khoaHoc.Mota)!;
+
                 if (khoaHoc == null)
                 {
                     return NotFound();
@@ -142,7 +147,10 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 {
                     try
                     {
-                        Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.CapNhat, model);
+                        model.Mota = HttpUtility.HtmlEncode(model.Mota)!;                      
+                        Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.CapNhat, model);       
+                        
+
                     }
                     catch (DbUpdateConcurrencyException)
                     {

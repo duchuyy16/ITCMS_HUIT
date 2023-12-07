@@ -24,7 +24,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<ChuongTrinhDaoTaoDTO>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Danh sách chương trình đào tạo",
                     Data = chuongTrinhList
                 };
@@ -33,7 +33,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 

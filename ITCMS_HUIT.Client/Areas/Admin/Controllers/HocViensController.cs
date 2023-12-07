@@ -9,6 +9,7 @@ using X.PagedList;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [CheckToken("Teacher,Admin")]
     public class HocViensController : Controller
     {
         public IActionResult Index(int pageNo = 1)
@@ -16,7 +17,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var dsHocVien = Utilities.SendDataRequest<List<HocVienDTO>>(ConstantValues.HocVien.DanhSach);
-                return View(dsHocVien);
+                var pagedList = dsHocVien.ToPagedList(pageNo, 5);
+                return View(pagedList);
             }
             catch (Exception)
             {

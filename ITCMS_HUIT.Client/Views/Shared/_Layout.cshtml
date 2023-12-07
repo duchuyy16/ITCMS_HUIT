@@ -19,9 +19,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-
-    <!-- Thêm SweetAlert2 CSS vào <head> của trang -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@12/dist/sweetalert2.min.css">
+    <!-- Thêm dòng này vào phần head của trang HTML của bạn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.css">
 
     <!-- Site Icons -->
     <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon" />
@@ -316,17 +315,18 @@
             </div><!-- end container -->
         </div><!-- end copy -->
     </div><!-- end wrapper -->
+
     @if (TempData["SuccessMessage"] != null)
     {
         <script type="text/javascript">
-            window.onload = function () {
+            document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
-                    title: 'Thành công',
-                    text: '@TempData["SuccessMessage"]',
+                    title: 'Đăng ký khóa học thành công',
+                    text: '@Html.Raw(TempData["SuccessMessage"])',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
-            }
+            });
         </script>
     }
 
@@ -338,7 +338,9 @@
     <script src="~/js/custom.js"></script>
     <!-- VIDEO BG PLUGINS -->
     <script src="~/js/videobg.js"></script>
-    <!-- Thêm SweetAlert2 JS vào cuối trang (trước thẻ </body>) -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@12"></script>
+    <!-- Thêm dòng này ở cuối trang (trước thẻ đóng body) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
+
+
 </body>
 </html>

@@ -24,7 +24,7 @@ namespace ITCMS_HUIT.API.Controllers
             _giaoVien = giaoVien;
         }
 
-        //[Authorize(Roles = UserRoles.Teacher)]
+        [Authorize(Roles = UserRoles.Teacher + "," + UserRoles.Admin)]
         [HttpPost("dashboard")]
         public IActionResult Count()
         {
@@ -45,7 +45,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<Count>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Dữ liệu đếm thành công",
                     Data = result
                 };
@@ -54,7 +54,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }       
     }

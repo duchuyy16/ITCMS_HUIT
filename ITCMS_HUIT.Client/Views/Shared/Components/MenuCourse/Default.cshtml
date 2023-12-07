@@ -50,8 +50,9 @@
                                                 <ul>
                                                     @foreach (KhoaHocModel khoaHoc in item.KhoaHocs!)
                                                     {
-                                                        @Html.ActionLink(khoaHoc.TenKhoaHoc,"ChiTietKhoaHoc","KhoaHoc",new {id=khoaHoc.IdkhoaHoc },null)
-                                                        <br />
+                                                        <li>
+                                                            @Html.ActionLink(khoaHoc.TenKhoaHoc,"ChiTietKhoaHoc","KhoaHoc", new {id=khoaHoc.IdkhoaHoc },null) <br />
+                                                        </li>
                                                     }
                                                 </ul>
                                             </div>

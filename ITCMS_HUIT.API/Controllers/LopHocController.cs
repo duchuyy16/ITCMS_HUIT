@@ -26,7 +26,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<bool>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = isExist ? "Lớp học tồn tại" : "Lớp học không tồn tại",
                     Data = isExist
                 };
@@ -35,7 +35,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -48,7 +48,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<LopHocDTO>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Danh sách lớp học",
                     Data = lopHocList
                 };
@@ -57,7 +57,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -70,7 +70,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<LopHocDTO>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Thông tin lớp học",
                     Data = lopHoc
                 };
@@ -79,7 +79,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -92,7 +92,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<LopHocDTO>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Kết quả tìm kiếm lớp học",
                     Data = searchResults
                 };
@@ -101,7 +101,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -114,7 +114,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<bool>
                 {
-                    Status = deletionResult ? "Success" : "Error",
+                    Status = deletionResult ? "Thành Công" : "Lỗi",
                     Message = deletionResult ? "Xóa lớp học thành công" : "Không thể xóa lớp học",
                     Data = deletionResult
                 };
@@ -123,7 +123,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -136,7 +136,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<bool>
                 {
-                    Status = updateResult ? "Success" : "Error",
+                    Status = updateResult ? "Thành công" : "Lỗi",
                     Message = updateResult ? "Cập nhật lớp học thành công" : "Không thể cập nhật lớp học",
                     Data = updateResult
                 };
@@ -145,7 +145,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -158,7 +158,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<LopHocDTO>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Thêm lớp học thành công",
                     Data = addedLopHoc
                 };
@@ -167,7 +167,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 

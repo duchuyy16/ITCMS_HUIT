@@ -51,15 +51,20 @@
                     </div>
                 </div>                
             </div>
+            <hr />
+            <div class="clearfix"> @* course-footer  *@
+                <div class="pull-left">
+                    <ul class="list-inline">
+                        <li><a asp-action="Index" asp-controller="Home" class="btn btn-danger"><i style="color:white;" class="fa fa-times"></i> Hủy bỏ đăng ký</a></li>
+                    </ul>
+                </div><!-- end left -->
 
-            <div class="row justify-content-sm-end">
-                <div class="col-sm-2">
-                    <a asp-action="Index" asp-controller="Home" class="btn btn-danger"><i class="fa fa-times"></i> Hủy bỏ đăng ký</a>
-                </div>
-                <div class="col-sm-2">
-                    <a asp-action="ThemHocVien" asp-controller="HocVien" class="btn btn-success">Tiếp tục <i class="fa fa-arrow-right"></i></a>
-                </div>
-            </div>
+                <div class="pull-right">
+                    <ul class="list-inline">
+                        <li><a asp-action="ThemHocVien" asp-controller="HocVien" class="btn btn-success">Tiếp tục <i style="color:white;" class="fa fa-arrow-right"></i></a></li>
+                    </ul>
+                </div><!-- end left -->
+            </div><!-- end footer -->
         </div>
     </div>
 </section>

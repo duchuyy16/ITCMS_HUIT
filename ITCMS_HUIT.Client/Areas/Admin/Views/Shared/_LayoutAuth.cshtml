@@ -25,6 +25,9 @@
 	<!-- animation css -->
 	<link rel="stylesheet" href="~/admin/assets/plugins/animation/css/animate.min.css">
 
+	<!-- Thêm dòng này vào phần head của trang HTML của bạn -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.css">
+
 	<!-- vendor css -->
 	<link rel="stylesheet" href="~/admin/assets/css/style.css">
 </head>
@@ -33,9 +36,27 @@
 		@RenderBody();
 	</div>
 
-<!-- Required Js -->
+	@if (TempData["Warning"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Truy cập bị từ chối',
+					text: '@Html.Raw(TempData["Warning"])',
+					icon: 'warning',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	<!-- Required Js -->
 	<script src="~/admin/assets/js/vendor-all.min.js"></script>
 	<script src="~/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- Thêm dòng này ở cuối trang (trước thẻ đóng body) -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
+
 	@RenderSection("HiddenPassword", required: false)
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

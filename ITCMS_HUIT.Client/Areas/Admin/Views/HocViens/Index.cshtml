@@ -4,7 +4,39 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+<style>
+    .pagination-container {
+        display: flex;
+        flex: 1;
+        margin: 12px;
+    }
 
+    .pagination {
+        display: flex;
+        flex: 1;
+        list-style: none;
+        padding: 0;
+        gap: .625rem;
+    }
+
+    .page-item, .page-link {
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .PagedList-pageCountAndLocation {
+        justify-content: space-between;
+        order: -1;
+        flex: 1;
+    }
+
+    .product-management-buttons {
+        margin: 12px;
+    }
+</style>
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content" style="margin-top: 60px;">
@@ -108,6 +140,18 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @Html.PagedListPager((IPagedList)Model,
+                                        pageNo => Url.Action("Index", "HocViens", new { pageNo, area = "Admin" }),
+                                        new PagedListRenderOptions
+                                        {
+                                        PageClasses = new string[] { "page-link" },
+                                        UlElementClasses = new string[] { "pagination" },
+                                        LiElementClasses = new string[] { "page-item" },
+                                        DisplayItemSliceAndTotal = true,
+                                        DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                                        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                                        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+                                        })
                                     </div>
                                 </div>
                             </div>

@@ -1,8 +1,7 @@
 ﻿namespace ITCMS_HUIT.Client.Models
 {
-    public class TokenModel
+    public class TokenModel : ApiResponse<string>
     {
-        public string? Token { get; set; }
-        public DateTime Expiration { get; set; }
+       
     }
 }

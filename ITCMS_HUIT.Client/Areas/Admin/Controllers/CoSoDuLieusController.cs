@@ -6,6 +6,7 @@ using X.PagedList;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [CheckToken("Admin")]
     public class CoSoDuLieusController : Controller
     {
         public IActionResult Index(int pageNo = 1)

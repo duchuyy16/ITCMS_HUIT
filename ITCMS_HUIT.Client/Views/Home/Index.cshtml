@@ -56,3 +56,14 @@
         </div>
     </div><!-- end container -->
 </section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = "@Html.Raw(TempData["SuccessMessage"])";
+        if (successMessage !== "") {
+            alert(successMessage);
+        }
+    });
+</script>
+
+

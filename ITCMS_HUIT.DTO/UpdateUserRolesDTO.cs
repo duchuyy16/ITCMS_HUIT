@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace ITCMS_HUIT.DTO
 {
-    public class GioHang
+    public class UpdateUserRolesDTO
     {
+        public string? UserId { get; set; }
     }
 }

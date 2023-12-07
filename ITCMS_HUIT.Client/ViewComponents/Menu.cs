@@ -11,6 +11,10 @@ namespace ITCMS_HUIT.Client.Components
         {
             var dsChuongTrinh = Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
                (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao);
+
+            var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>
+               (ConstantValues.LopHoc.DanhSach);
+
             return View(dsChuongTrinh);
         }
     }

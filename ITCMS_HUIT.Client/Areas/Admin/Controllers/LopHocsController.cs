@@ -9,6 +9,7 @@ using X.PagedList;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [CheckToken("Teacher,Admin")]
     public class LopHocsController : Controller
     {
         public IActionResult Index(int pageNo = 1)

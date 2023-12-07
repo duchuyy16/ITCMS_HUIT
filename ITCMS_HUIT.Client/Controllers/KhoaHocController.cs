@@ -1,6 +1,7 @@
 ﻿using ITCMS_HUIT.Client.Common;
 using ITCMS_HUIT.Client.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace ITCMS_HUIT.Client.Controllers
 {
@@ -25,6 +26,8 @@ namespace ITCMS_HUIT.Client.Controllers
         {
             var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
             var chiTietKhoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+
+            chiTietKhoaHoc.Mota = HttpUtility.HtmlDecode(chiTietKhoaHoc.Mota)!;
 
             var uRL = string.Format(ConstantValues.KhoaHoc.DanhSachKhoaHocTheoChuongTrinh, id);
             var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(uRL).Take(4);

@@ -9,6 +9,7 @@ using X.PagedList;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [CheckToken("Teacher,Admin")]
     public class ThongTinHocViensController : Controller
     {
         public IActionResult Index()

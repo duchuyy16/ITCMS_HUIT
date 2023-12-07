@@ -5,40 +5,42 @@
 }
 
 <div class="auth-wrapper">
-	<div class="auth-content container">
-		<div class="card">
-			<div class="row align-items-center">
-				<div class="col-md-6">
-					<div class="card-body">
-						<img src="~/images/logo-dark.png" alt="" class="img-fluid mb-4">
-						<h4 class="mb-3 f-w-400">Đăng ký</h4>
-						<div class="input-group mb-2">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="feather icon-user"></i></span>
-							</div>
-							<input type="text" name="Username" class="form-control" placeholder="Tên đăng nhập" autocomplete="off">
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="feather icon-mail"></i></span>
-							</div>
-							<input type="email" name="Email" class="form-control" placeholder="Địa chỉ email" autocomplete="off">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="feather icon-lock"></i></span>
-							</div>
-							<input type="password" name="Password" class="form-control" placeholder="Mật khẩu" autocomplete="off">
-						</div>
-						
-						<button type="submit" class="btn btn-primary mb-4">Sign up</button>
-						<p class="mb-2">Bạn đã có tài khoản? <a asp-action="Login" asp-controller="Auth" class="f-w-400">Đăng nhập</a></p>
-					</div>
-				</div>
-				<div class="col-md-6 d-none d-md-block">
-					<img src="~/admin/assets/images/auth-bg.jpg" alt="" class="img-fluid">
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="auth-content container">
+        <div class="card">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <img src="~/images/logo-dark.png" alt="" class="img-fluid mb-4">
+                        <h4 class="mb-3 f-w-400">Đăng ký</h4>
+                        <form method="post" asp-action="Register" asp-controller="Auth">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="feather icon-user"></i></span>
+                                </div>
+                                <input type="text" name="Username" class="form-control" placeholder="Tên đăng nhập" autocomplete="off">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="feather icon-mail"></i></span>
+                                </div>
+                                <input type="email" name="Email" class="form-control" placeholder="Địa chỉ email" autocomplete="off">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="feather icon-lock"></i></span>
+                                </div>
+                                <input type="password" name="Password" class="form-control" placeholder="Mật khẩu" autocomplete="off">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-4">Đăng ký</button>
+                        </form>
+                        <p class="mb-2">Bạn đã có tài khoản? <a asp-action="Login" asp-controller="Auth" class="f-w-400">Đăng nhập</a></p>
+                    </div>
+                </div>
+                <div class="col-md-6 d-none d-md-block">
+                    <img src="~/admin/assets/images/auth-bg.jpg" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

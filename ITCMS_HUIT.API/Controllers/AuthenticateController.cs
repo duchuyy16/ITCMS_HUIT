@@ -62,8 +62,7 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
 
-        [HttpPost]
-        [Route("dangnhap")]
+        [HttpPost("dangnhap")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
@@ -74,7 +73,7 @@ namespace ITCMS_HUIT.API.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
                 foreach (var userRole in userRoles)
@@ -84,22 +83,57 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var token = GetToken(authClaims);
 
-                return Ok(new
+                return Ok(new ApiResponse<string>
                 {
-                    Token = new JwtSecurityTokenHandler().WriteToken(token),
-                    Expiration = token.ValidTo
+                    Status = "Thành công",
+                    Message = "Đăng nhập thành công",
+                    Data = new JwtSecurityTokenHandler().WriteToken(token)
                 });
             }
-            return Unauthorized();
+
+            return Ok(new ApiResponse<string>
+            {
+                Status = "Lỗi",
+                Message = "Đăng nhập không thành công. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.",
+                Data = null
+            });
         }
 
+        //[HttpPost]
+        //[Route("cap-nhat-quyen/{userName}")]
+        //public async Task<IActionResult> AddRolesToUser(string userName)
+        //{
+        //    var userExists = await _userManager.FindByNameAsync(userName);
+        //    if (userExists == null)
+        //        return NotFound(new { Status = "Lỗi", Message = "Người dùng không tồn tại!" });
+
+        //    var isTeacher = await _userManager.IsInRoleAsync(userExists, UserRoles.Teacher);
+
+        //    if (isTeacher)
+        //    {
+        //        if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+        //            await _userManager.AddToRoleAsync(userExists, UserRoles.Admin);
+        //    }
+
+        //    var apiResponse = new ApiResponse<string>
+        //    {
+        //        Status = "Thành công",
+        //        Message = "Cập nhật thành công!",
+        //        Data = null
+        //    };
+
+        //    return Ok(apiResponse);
+        //}
+
+
+
         [HttpPost]
-        [Route("dangky-giaovien")]
+        [Route("dang-ky-giao-vien")]
         public async Task<IActionResult> RegisterTeacher([FromBody] Register model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Người dùng đã tồn tại!" });
 
             IdentityUser user = new()
             {
@@ -110,7 +144,7 @@ namespace ITCMS_HUIT.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Tạo người dùng không thành công! Vui lòng kiểm tra chi tiết người dùng và thử lại." });
 
             // Kiểm tra và tạo role Giáo viên nếu chưa tồn tại
             if (!await _roleManager.RoleExistsAsync(UserRoles.Teacher))
@@ -131,13 +165,13 @@ namespace ITCMS_HUIT.API.Controllers
 
             if (addTeacher == null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Teacher creation failed! Please check details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Tạo giáo viên không thành công! Vui lòng kiểm tra chi tiết và thử lại." });
             }
 
             var apiResponse = new ApiResponse<Register>
             {
-                Status = "Success",
-                Message = "Teacher created successfully!",
+                Status = "Thành công",
+                Message = "Người dùng đã được tạo thành công!",
                 Data = null
             };
 
@@ -151,7 +185,7 @@ namespace ITCMS_HUIT.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Người dùng đã tồn tại!" });
 
             IdentityUser user = new()
             {
@@ -162,7 +196,7 @@ namespace ITCMS_HUIT.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Tạo người dùng không thành công! Vui lòng kiểm tra chi tiết người dùng và thử lại." });
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -170,8 +204,8 @@ namespace ITCMS_HUIT.API.Controllers
 
             var apiResponse = new ApiResponse<Register>
             {
-                Status = "Success",
-                Message = "User created successfully!",
+                Status = "Thành công",
+                Message = "Người dùng đã được tạo thành công!",
                 Data = null
             };
 
@@ -184,10 +218,10 @@ namespace ITCMS_HUIT.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists == null)
-                return StatusCode(StatusCodes.Status404NotFound, new { Status = "Error", Message = "User does not exists!" });
+                return StatusCode(StatusCodes.Status404NotFound, new { Status = "Lỗi", Message = "Người dùng không tồn tại!" });
 
             if (string.Compare(model.NewPassword, model.ConfirmNewPassword) != 0)
-                return StatusCode(StatusCodes.Status400BadRequest, new { Status = "Error", Message = "The new password and confirm new password does not match!" });
+                return StatusCode(StatusCodes.Status400BadRequest, new { Status = "Lỗi", Message = "Mật khẩu mới và xác nhận mật khẩu mới không khớp!" });
 
             var result = await _userManager.ChangePasswordAsync(userExists, model.CurrentPassword, model.NewPassword);
             if (!result.Succeeded)
@@ -196,8 +230,8 @@ namespace ITCMS_HUIT.API.Controllers
 
             var apiResponse = new ApiResponse<Register>
             {
-                Status = "Success",
-                Message = "Password Changed successfully!",
+                Status = "Thành công",
+                Message = "Đã đổi mật khẩu thành công!",
                 Data = null
             };
 

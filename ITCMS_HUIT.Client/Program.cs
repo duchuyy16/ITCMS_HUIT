@@ -1,3 +1,4 @@
+using ITCMS_HUIT.Client.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +10,7 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddAuthentication(options =>
 {

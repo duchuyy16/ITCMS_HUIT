@@ -1,11 +1,12 @@
 ﻿using ITCMS_HUIT.Client.Common;
 using ITCMS_HUIT.Client.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
-	[Area("Admin")]
-	public class AuthController : Controller
+    [Area("Admin")]
+    public class AuthController : Controller
     {
         public IActionResult Login()
         {
@@ -15,27 +16,24 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            HttpContext.Session.Clear();
 
-            try
+            var token = Utilities.SendDataRequest<string>(ConstantValues.Authenticate.Login, model);
+
+            if (string.IsNullOrEmpty(token))
             {
-                var token = Utilities.SendDataRequest<TokenModel>(ConstantValues.Authenticate.Login, model);
-
-                if (string.IsNullOrEmpty(token?.Token))
-                {
-                    ModelState.AddModelError("", "Đăng nhập không hợp lệ. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.");
-                    return RedirectToAction("Login", "Auth");
-                }
-
-                HttpContext.Session.Set("Token", token.Token);
-
-                return RedirectToAction("Index", "Admin", new { area = "Admin" });
-            }
-            catch (Exception)
-            {
+                ModelState.AddModelError("", "Đăng nhập không hợp lệ. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.");
                 return RedirectToAction("Login", "Auth");
             }
+
+            // Lưu token vào session
+            HttpContext.Session.Set("Token", token);
+
+            return RedirectToAction("Index", "Admin", new { area = "Admin" });
+
         }
+
+
+
 
         public IActionResult Register()
         {
@@ -59,7 +57,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     return View(model);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return View(model);
             }

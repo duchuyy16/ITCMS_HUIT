@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [CheckToken("Teacher,Admin")]
     public class ChartsController : Controller
     {
         public IActionResult Index()

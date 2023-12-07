@@ -1,5 +1,6 @@
 ﻿using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace ITCMS_HUIT.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoles.Teacher + "," + UserRoles.Admin)]
     public class CoSoDuLieuController : ControllerBase
     {
         private readonly CoSoDuLieuService _coSoDuLieuService;
@@ -31,7 +33,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<string>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Backup thành công.",
                     Data = backupFilePath
                 };
@@ -40,7 +42,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -54,7 +56,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<bool>
                 {
-                    Status = restoreResult ? "Success" : "Error",
+                    Status = restoreResult ? "Thành công" : "Lỗi",
                     Message = restoreResult ? "Restore thành công!" : "Không thể khôi phục cơ sở dữ liệu.",
                     Data = restoreResult
                 };
@@ -63,7 +65,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -77,7 +79,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<string>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Danh sách các tệp tin backup",
                     Data = backupFiles
                 };
@@ -87,7 +89,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }     
     }

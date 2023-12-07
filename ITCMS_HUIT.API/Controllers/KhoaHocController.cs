@@ -25,7 +25,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<bool>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = isExist ? "Khóa học tồn tại" : "Khóa học không tồn tại",
                     Data = isExist
                 };
@@ -69,7 +69,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<KhoaHocDTO>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Kết quả tìm kiếm khóa học",
                     Data = searchResult
                 };
@@ -91,7 +91,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<List<KhoaHocDTO>>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Danh sách khóa học theo chương trình đào tạo",
                     Data = khoaHocList
                 };
@@ -113,7 +113,7 @@ namespace ITCMS_HUIT.API.Controllers
 
                 var apiResponse = new ApiResponse<KhoaHocDTO>
                 {
-                    Status = "Success",
+                    Status = "Thành công",
                     Message = "Thông tin chi tiết khóa học",
                     Data = khoaHoc
                 };
@@ -128,70 +128,70 @@ namespace ITCMS_HUIT.API.Controllers
 
 
         [HttpPost("xoa-khoa-hoc")]
-public IActionResult Delete(KhoaHocDTO model)
-{
-    try
-    {
-        bool deletionResult = _khoaHoc.Delete(model);
-
-        var apiResponse = new ApiResponse<bool>
+        public IActionResult Delete(KhoaHocDTO model)
         {
-            Status = "Success",
-            Message = deletionResult ? "Xóa khóa học thành công" : "Không thể xóa khóa học",
-            Data = deletionResult
-        };
+            try
+            {
+                bool deletionResult = _khoaHoc.Delete(model);
 
-        return Ok(apiResponse);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
-    }
-}
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Thành công",
+                    Message = deletionResult ? "Xóa khóa học thành công" : "Không thể xóa khóa học",
+                    Data = deletionResult
+                };
 
-[HttpPost("cap-nhat-khoa-hoc")]
-public IActionResult Update(KhoaHocDTO model)
-{
-    try
-    {
-        bool updateResult = _khoaHoc.Update(model);
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+            }
+        }
 
-        var apiResponse = new ApiResponse<bool>
+        [HttpPost("cap-nhat-khoa-hoc")]
+        public IActionResult Update(KhoaHocDTO model)
         {
-            Status = "Success",
-            Message = updateResult ? "Cập nhật khóa học thành công" : "Không thể cập nhật khóa học",
-            Data = updateResult
-        };
+            try
+            {
+                bool updateResult = _khoaHoc.Update(model);
 
-        return Ok(apiResponse);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
-    }
-}
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Thành công",
+                    Message = updateResult ? "Cập nhật khóa học thành công" : "Không thể cập nhật khóa học",
+                    Data = updateResult
+                };
 
-[HttpPost("them-khoa-hoc")]
-public IActionResult Add(KhoaHocDTO model)
-{
-    try
-    {
-        KhoaHocDTO addedKhoaHoc = _khoaHoc.Add(model);
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+            }
+        }
 
-        var apiResponse = new ApiResponse<KhoaHocDTO>
+        [HttpPost("them-khoa-hoc")]
+        public IActionResult Add(KhoaHocDTO model)
         {
-            Status = "Success",
-            Message = "Thêm khóa học thành công",
-            Data = addedKhoaHoc
-        };
+            try
+            {
+                KhoaHocDTO addedKhoaHoc = _khoaHoc.Add(model);
 
-        return Ok(apiResponse);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
-    }
-}
+                var apiResponse = new ApiResponse<KhoaHocDTO>
+                {
+                    Status = "Thành công",
+                    Message = "Thêm khóa học thành công",
+                    Data = addedKhoaHoc
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+            }
+        }
 
     }
 }
