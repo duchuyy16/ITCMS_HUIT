@@ -12,7 +12,7 @@ namespace ITCMS_HUIT.DTO
         public string TenHocVien { get; set; } = null!;
         public DateTime NgaySinh { get; set; } 
         public string Email { get; set; } = null!;
-        public int Sdt { get; set; }
+        public string? Sdt { get; set; }
         public string DiaChi { get; set; } = null!;
         public DateTime? NgayDangKy { get; set; }
         public int IddoiTuong { get; set; }
@@ -28,11 +28,10 @@ namespace ITCMS_HUIT.DTO
         public string TenHocVien { get; set; } = null!;
         public DateTime NgaySinh { get; set; }
         public string Email { get; set; } = null!;
-        public int Sdt { get; set; }
+        public string? Sdt { get; set; }
         public string DiaChi { get; set; } = null!;
         public DateTime? NgayDangKy { get; set; }
         public int IddoiTuong { get; set; }
         public int IdtrangThai { get; set; }
-
     }
 }

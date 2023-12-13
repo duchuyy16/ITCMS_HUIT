@@ -5,6 +5,7 @@
         public class Account
         {
             public const string DanhSachNguoiDung = "api/Account/danh-sach-nguoi-dung";
+            public const string ChiTietNguoiDung = "api/Account/nguoi-dung/{0}";
             public const string CapNhat = "api/Account/cap-nhat-quyen";
         }
 
@@ -64,7 +65,7 @@
             public const string TimKiem = "api/HocVien/tim-kiem-hoc-vien/{0}";
             public const string Xoa = "api/HocVien/xoa-hoc-vien";
             public const string CapNhat = "api/HocVien/cap-nhat-hoc-vien";
-            public const string Them = "api/HocVien/them-hoc-vien";
+            public const string Them = "api/HocVien/them-hoc-vien/{0}";
         }
 
         public class KhoaHoc
@@ -99,6 +100,7 @@
             public const string Xoa = "api/ThongTinHocVien/xoa-thong-tin-hoc-vien";
             public const string CapNhat = "api/ThongTinHocVien/cap-nhat-thong-tin-hoc-vien";
             public const string Them = "api/ThongTinHocVien/them-thong-tin-hoc-vien";
+            public const string Export = "api/ThongTinHocVien/xuat-file-excel";
         }
 
         public class TrangThaiHocVien

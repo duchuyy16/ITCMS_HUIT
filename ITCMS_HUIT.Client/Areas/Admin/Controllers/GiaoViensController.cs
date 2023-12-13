@@ -13,7 +13,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Teacher,Admin")]
     public class GiaoViensController : Controller
     {
-        public IActionResult Index(int pageNo = 1)
+        public ActionResult Index(int pageNo = 1)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         }
 
 
-        public IActionResult Create()
+        public ActionResult Create()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
+        public ActionResult Create([Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         //[HttpGet]
         //[Route("Details/{id?}")]
-        public IActionResult Details(string? id)
+        public ActionResult Details(string? id)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Edit(string? id)
+        public ActionResult Edit(string? id)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
+        public ActionResult Edit(string id, [Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Delete(string? id)
+        public ActionResult Delete(string? id)
         {
             try
             {
@@ -184,7 +184,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(string? id)
+        public ActionResult DeleteConfirmed(string? id)
         {
             try
             {

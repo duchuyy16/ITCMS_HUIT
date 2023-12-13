@@ -12,22 +12,34 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Teacher,Admin")]
     public class LopHocsController : Controller
     {
-        public IActionResult Index(int pageNo = 1)
+        public ActionResult Index(int pageNo = 1, int? idKhoaHoc = null)
         {
             try
             {
+                var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
+                dsKhoaHoc.Insert(0, new KhoaHocDTO { IdkhoaHoc = 0, TenKhoaHoc = "----------Chọn tên khóa học----------" });
+                ViewBag.IdKhoaHoc = new SelectList(dsKhoaHoc, "IdkhoaHoc", "TenKhoaHoc", idKhoaHoc);
+
+
                 var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>(ConstantValues.LopHoc.DanhSach);
+                if (idKhoaHoc.HasValue)
+                {
+                    dsLopHoc = dsLopHoc.Where(c => c.IdkhoaHoc == idKhoaHoc).ToList();
+                }
+
                 var pagedList = dsLopHoc.ToPagedList(pageNo, 5);
+
                 return View(pagedList);
             }
-            catch (Exception)
+            catch
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
 
-        public IActionResult Create()
+
+        public ActionResult Create()
         {
             try
             {
@@ -46,7 +58,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien")] LopHocDTO model)
+        public ActionResult Create([Bind("TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien,PhongHoc")] LopHocDTO model)
         {
             try
             {
@@ -67,7 +79,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Details(int? id)
+        public ActionResult Details(int? id)
         {
             try
             {
@@ -91,7 +103,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             try
             {
@@ -120,7 +132,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("IdlopHoc,TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien")] LopHocDTO model)
+        public ActionResult Edit(int id, [Bind("IdlopHoc,TenLopHoc,ThoiGian,NgayBatDau,NgayKetThuc,DiaDiem,IdkhoaHoc,IdgiaoVien,PhongHoc")] LopHocDTO model)
         {
             try
             {
@@ -161,7 +173,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             try
             {
@@ -188,7 +200,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
             try
             {

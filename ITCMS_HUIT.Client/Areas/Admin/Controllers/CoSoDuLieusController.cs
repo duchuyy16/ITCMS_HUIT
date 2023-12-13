@@ -9,7 +9,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Admin")]
     public class CoSoDuLieusController : Controller
     {
-        public IActionResult Index(int pageNo = 1)
+        public ActionResult Index(int pageNo = 1)
         {
             try
             {
@@ -17,28 +17,28 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 var pagedList = backupFiles.ToPagedList(pageNo, 5);
                 return View(pagedList);
             }
-            catch (Exception)
+            catch 
             {
                 ViewBag.ErrorMessage = "Lỗi truy xuất tập tin sao lưu. Vui lòng thử lại sau.";
                 return View();
             }
         }
 
-        public IActionResult Backup()
+        public ActionResult Backup()
         {
             try
             {
                 var backup = Utilities.SendDataRequest<List<string>>(ConstantValues.CoSoDuLieu.Backup);
                 return View(backup);
             }
-            catch (Exception)
+            catch
             {
                 ViewBag.ErrorMessage = "Lỗi khi thực hiện sao lưu. Vui lòng thử lại sau.";
                 return View();
             }
         }
 
-        public IActionResult Restore(string backupFileName)
+        public ActionResult Restore(string backupFileName)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 var restore = Utilities.SendDataRequest<bool>(url);
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch
             {
                 ViewBag.ErrorMessage = "Lỗi khôi phục bản sao lưu. Vui lòng thử lại sau.";
                 return View();

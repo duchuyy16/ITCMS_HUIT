@@ -191,7 +191,10 @@ namespace ITCMS_HUIT.Models
 
                 entity.Property(e => e.NgaySinh).HasColumnType("date");
 
-                entity.Property(e => e.Sdt).HasColumnName("SDT");
+                entity.Property(e => e.Sdt)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SDT");
 
                 entity.Property(e => e.TenHocVien).HasMaxLength(255);
 
@@ -252,6 +255,8 @@ namespace ITCMS_HUIT.Models
                 entity.Property(e => e.NgayBatDau).HasColumnType("date");
 
                 entity.Property(e => e.NgayKetThuc).HasColumnType("date");
+
+                entity.Property(e => e.PhongHoc).HasMaxLength(255);
 
                 entity.Property(e => e.TenLopHoc).HasMaxLength(255);
 

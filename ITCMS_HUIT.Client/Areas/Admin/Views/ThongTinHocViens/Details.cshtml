@@ -11,7 +11,6 @@
             <div class="pcoded-inner-content">
                 <div class="main-body">
                     <div class="page-wrapper">
-                        <!-- [ breadcrumb ] start -->
                         <div class="page-header">
                             <div class="page-block">
                                 <div class="row align-items-center">
@@ -23,33 +22,43 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- [ breadcrumb ] end -->
-                        <!-- [ Main Content ] start -->
+
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-body">
                                         <dl class="row">
-                                            <dt class="col-sm-4">Mã Học Viên:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdhocVien)</dd>
-                                            <dt class="col-sm-4">Mã Lớp Học:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdlopHoc)</dd>
-                                            <dt class="col-sm-4">Điểm:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Diem)</dd>
-                                            <dt class="col-sm-4">Ngày Thông Báo:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.NgayThongBao)</dd>
-                                            <dt class="col-sm-4">Trạng Thái Thanh Toán:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.TrangThaiThanhToan)</dd>
-                                            <dt class="col-sm-4">Số Lần Vắng Mặt:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.SoLanVangMat)</dd>
-                                            <dt class="col-sm-4">Lý Do Thông Báo:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.LyDoThongBao)</dd>
-                                            <dt class="col-sm-4">Học Phí:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.HocPhi)</dd>
-                                            <dt class="col-sm-4">Ngày Giờ Giao Dịch:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.NgayGioGiaoDich)</dd>
-                                            <dt class="col-sm-4">Trạng Thái Thanh Toán:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.TrangThaiThanhToan)</dd>
+                                            @{
+                                                DisplayInfo("Mã Học Viên", Model.IdhocVienNavigation?.IdhocVien!);
+                                                DisplayInfo("Tên Học Viên", Model.IdhocVienNavigation?.TenHocVien!);
+                                                DisplayInfo("Ngày Sinh", Model.IdhocVienNavigation?.NgaySinh!);
+                                                DisplayInfo("Email", Model.IdhocVienNavigation?.Email!);
+                                                DisplayInfo("Số Điện Thoại", Model.IdhocVienNavigation?.Sdt!);
+                                                DisplayInfo("Địa Chỉ", Model.IdhocVienNavigation?.DiaChi!);
+                                                DisplayInfo("Ngày Đăng Ký", Model.IdhocVienNavigation?.NgayDangKy!);
+                                                DisplayInfo("Đối Tượng", Model.IdhocVienNavigation?.IddoiTuong!);
+                                                DisplayInfo("Trạng Thái", Model.IdhocVienNavigation?.IdtrangThai!);
+
+                                                DisplayInfo("Mã Lớp Học", Model.IdlopHocNavigation?.IdlopHoc!);
+                                                DisplayInfo("Tên Lớp Học", Model.IdlopHocNavigation?.TenLopHoc!);
+                                                DisplayInfo("Thời Gian", Model.IdlopHocNavigation?.ThoiGian!);
+                                                DisplayInfo("Ngày Bắt Đầu", Model.IdlopHocNavigation?.NgayBatDau!);
+                                                DisplayInfo("Ngày Kết Thúc", Model.IdlopHocNavigation?.NgayKetThuc!);
+                                                DisplayInfo("Địa Điểm", Model.IdlopHocNavigation?.DiaDiem!);
+                                                DisplayInfo("Phòng Học", Model.IdlopHocNavigation?.PhongHoc!);
+                                                DisplayInfo("Khóa Học", Model.IdlopHocNavigation?.IdkhoaHoc!);
+                                                DisplayInfo("Giáo Viên", Model.IdlopHocNavigation?.IdgiaoVien!);
+                                                DisplayInfo("Điểm", Model.Diem!);
+                                                DisplayInfo("Ngày Thông Báo", Model.NgayThongBao!);
+                                                DisplayInfo("Trạng Thái Thanh Toán", Model.TrangThaiThanhToan!);
+
+                                                DisplayInfo("Số Lần Vắng Mặt", Model.SoLanVangMat!);
+                                                DisplayInfo("Lý Do Thông Báo", Model.LyDoThongBao!);
+                                                DisplayInfo("Học Phí", Model.HocPhi!);
+                                                DisplayInfo("Ngày Giờ Giao Dịch", Model.NgayGioGiaoDich!);
+                                                DisplayInfo("Trạng Thái Thanh Toán", Model.TrangThaiThanhToan!);
+                                            }
+                                     
                                         </dl>
                                     </div>
                                 </div>
@@ -60,7 +69,6 @@
                             <a asp-action="Edit" asp-route-IdhocVien="@Model.IdhocVien" asp-route-IdlopHoc="@Model.IdlopHoc" class="btn btn-primary">Sửa</a> |
                             <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
                         </div>
-                        <!-- [ Main Content ] end -->
                     </div>
                 </div>
             </div>
@@ -68,4 +76,10 @@
     </div>
 </section>
 
-
+@{
+    void DisplayInfo(string label, object value)
+    {
+        <dt class="col-sm-4">@label:</dt>
+        <dd class="col-sm-8">@value</dd>
+    }
+}

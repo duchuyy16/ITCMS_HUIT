@@ -1,5 +1,4 @@
-﻿@model IEnumerable<ITCMS_HUIT.Client.Models.GiaoVienDTO>
-
+﻿@model IEnumerable<ITCMS_HUIT.Client.Models.UserViewDTO>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -49,7 +48,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <div class="page-header-title">
-                                            <h3 class="m-b-10">Danh Sách Giáo Viên</h3>
+                                            <h3 class="m-b-10">Danh Sách Người Dùng</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -60,61 +59,28 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a>
-                                    </div>
                                     <div class="card-body table-border-style">
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.IdgiaoVien)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.TenGiaoVien)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.TrinhDo)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.ChungChi)
-                                                        </th>
-                                                       @*  <th>
-                                                            @Html.DisplayNameFor(model => model.HoSoCaNhan)
-                                                        </th> *@
-                                                        @* <th>
-                                                            @Html.DisplayNameFor(model => model.HinhAnh)
-                                                        </th> *@
+                                                        <th>ID</th>
+                                                        <th>User Name</th>
+                                                        <th>Email</th>
+                                                        <th>Roles</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (var item in Model)
+                                                    @foreach (var user in Model)
                                                     {
                                                         <tr>
+                                                            <td>@user.UserId</td>
+                                                            <td>@user.UserName</td>
+                                                            <td>@user.Email</td>
+                                                            <td>@string.Join(", ", user.Roles!)</td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.IdgiaoVien)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.TenGiaoVien)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.TrinhDo)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.ChungChi)
-                                                            </td>
-                                                            @* <td>
-                                                                @Html.DisplayFor(modelItem => item.HoSoCaNhan)
-                                                            </td> *@
-                                                           @*  <td>
-                                                                @Html.DisplayFor(modelItem => item.HinhAnh)
-                                                            </td> *@
-                                                            <td>
-                                                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.IdgiaoVien"><i class="fas fa-edit"></i></a> |
-                                                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdgiaoVien"><i class="fas fa-info-circle"></i></a> |
-                                                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdgiaoVien"><i class="fas fa-trash"></i></a>
+                                                                <a class="btn btn-primary" asp-action="Edit" asp-controller="Account" asp-route-userId="@user.UserId"><i class="fas fa-edit"></i></a>
                                                             </td>
                                                         </tr>
                                                     }
@@ -122,7 +88,7 @@
                                             </table>
                                         </div>
                                         @Html.PagedListPager((IPagedList)Model,
-                                        pageNo => Url.Action("Index", "GiaoViens", new { pageNo, area = "Admin" }),
+                                        pageNo => Url.Action("Index", "Account", new { pageNo, area = "Admin" }),
                                         new PagedListRenderOptions
                                         {
                                         PageClasses = new string[] { "page-link" },
@@ -133,7 +99,6 @@
                                         DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
                                         DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
                                         })
-
                                     </div>
                                 </div>
                             </div>
@@ -146,3 +111,11 @@
     </div>
 </section>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = "@Html.Raw(TempData["Update successful"])";
+        if (successMessage !== "") {
+            alert(successMessage);
+        }
+    });
+</script>

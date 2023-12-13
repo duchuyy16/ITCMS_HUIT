@@ -3,12 +3,14 @@ using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
+using MiniExcelLibs;
 using Services.MailKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+#nullable disable
 
 namespace Services
 {
@@ -17,11 +19,19 @@ namespace Services
         private readonly IMailService _mail;
         private readonly IMapper _mapper;
         private readonly IThongTinHocVienRepo _thongTin;
+        private readonly IDoiTuongDangKyRepo _doiTuongDangKy;
+        private readonly ITrangThaiHocVienRepo _trangThai;
+        private readonly IKhoaHocRepo _khoaHoc;
+        private readonly IGiaoVienRepo _giaoVien;
         public ThongTinHocVienService(IRepo thongTin, IMapper mapper, IMailService mail)
         {
             _mail = mail;
             _mapper = mapper;
             _thongTin = thongTin.ThongTinHocVienRepo;
+            _doiTuongDangKy = thongTin.DoiTuongDangKyRepo;
+            _trangThai = thongTin.TrangThaiHocVienRepo;
+            _khoaHoc = thongTin.KhoaHocRepo;
+            _giaoVien = thongTin.GiaoVienRepo;
         }
 
         public bool IsExist(int idHocVien, int idLopHoc)
@@ -35,8 +45,8 @@ namespace Services
 
             var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
             {
-                IdhocVien=s.IdhocVien,
-                IdlopHoc=s.IdlopHoc,
+                IdhocVien = s.IdhocVien,
+                IdlopHoc = s.IdlopHoc,
                 Diem = s.Diem,
                 NgayThongBao = s.NgayThongBao,
                 TrangThaiThongBao = s.TrangThaiThongBao!,
@@ -45,7 +55,6 @@ namespace Services
                 HocPhi = s.HocPhi,
                 NgayGioGiaoDich = s.NgayGioGiaoDich!,
                 TrangThaiThanhToan = s.TrangThaiThanhToan,
-
                 IdhocVienNavigation = s.IdhocVienNavigation.Adapt<HocVienModel>(),
                 IdlopHocNavigation = s.IdlopHocNavigation.Adapt<LopHocModel>(),
             }).ToList();
@@ -166,6 +175,65 @@ namespace Services
             var thongTinHocVienDTO = _mapper.Map<ThongTinHocVienDTO>(result);
 
             return thongTinHocVienDTO;
+        }
+
+        public MemoryStream Export()
+        {
+            var dsThongTin = GetAll();
+            var dsDoiTuong= _doiTuongDangKy.GetAll();
+            var dsTrangThai= _trangThai.GetAll();
+            var dsKhoaHoc= _khoaHoc.GetAll();
+            var dsGiaoVien=_giaoVien.GetAll();
+
+            var dsThongTinHocVienDTO = dsThongTin.Select(s => new 
+            {
+                MaHocVien = s.IdhocVien,
+                TenHocVien =s.IdhocVienNavigation.TenHocVien,
+                NgaySinh = s.IdhocVienNavigation.NgaySinh,
+                Email = s.IdhocVienNavigation.Email,
+                SDT = s.IdhocVienNavigation.Sdt,
+                DiaChi = s.IdhocVienNavigation.DiaChi,
+                NgayDangKy = s.IdhocVienNavigation.NgayDangKy,
+                DoiTuong = dsDoiTuong
+                    .Where(x => x.IddoiTuong == s.IdhocVienNavigation.IddoiTuong)
+                    .Select(x => x.DoiTuongDangKy1)
+                    .FirstOrDefault(),
+                TrangThai = dsTrangThai
+                    .Where(x => x.IdtrangThai == s.IdhocVienNavigation.IdtrangThai)
+                    .Select(x => x.TenTrangThai)
+                    .FirstOrDefault(),
+                LopHoc=s.IdlopHocNavigation.IdlopHoc,
+                TenLopHoc = s.IdlopHocNavigation.TenLopHoc,
+                ThoiGian = s.IdlopHocNavigation.ThoiGian,
+                NgayBatDau = s.IdlopHocNavigation.NgayBatDau,
+                NgayKetThuc = s.IdlopHocNavigation.NgayKetThuc,
+                DiaDiem = s.IdlopHocNavigation.DiaDiem,
+                PhongHoc=s.IdlopHocNavigation.PhongHoc,
+                KhoaHoc = dsKhoaHoc
+                    .Where(x => x.IdkhoaHoc == s.IdlopHocNavigation.IdkhoaHoc)
+                    .Select(x => x.TenKhoaHoc)
+                    .FirstOrDefault(),
+                GiaoVien = dsGiaoVien
+                    .Where(x => x.IdgiaoVien == s.IdlopHocNavigation.IdgiaoVien)
+                    .Select(x => x.TenGiaoVien)
+                    .FirstOrDefault(),
+                Diem = s.Diem,
+                NgayThongBao = s.NgayThongBao,
+                TrangThaiThongBao = s.TrangThaiThongBao!,
+                SoLanVangMat = s.SoLanVangMat,
+                LyDoThongBao = s.LyDoThongBao,
+                HocPhi = s.HocPhi,
+                NgayGioGiaoDich = s.NgayGioGiaoDich!,
+                TrangThaiThanhToan = s.TrangThaiThanhToan,
+
+                
+            }).ToList();
+
+            var memoryStream = new MemoryStream();
+            memoryStream.SaveAs(dsThongTinHocVienDTO);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            return memoryStream;
         }
     }
 }

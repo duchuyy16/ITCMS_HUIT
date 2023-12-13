@@ -31,37 +31,25 @@ namespace ITCMS_HUIT.Client.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Utilities.SendDataRequest<HocVienDTO>(ConstantValues.HocVien.Them, model);
+                    var idLopHoc = Request.RouteValues["idLopHoc"];
+                    var url = string.Format(ConstantValues.HocVien.Them, idLopHoc);
+                    var themHocVien = Utilities.SendDataRequest<HocVienDTO>(url,model);
+            
                     TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.";
                     return RedirectToAction("Index", "Home");
                 }
                 ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
                     (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy), model.IddoiTuong);
-             
-                return View(model);
+
+                return View("ThemHocVien", model);
             }
-            catch (Exception)
+            catch 
             {
                 return BadRequest();
             }
+            
         }
-
-        //public IActionResult ThemHocVien()
-        //{
-        //    ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
-        //            (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy), "IddoiTuong", "DoiTuongDangKy1");
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult ThemHocVien(HocVienDTO model)
-        //{
-        //    var url = string.Format(ConstantValues.HocVien.Them, model);
-        //    var themHocVien = Utilities.SendDataRequest<HocVienDTO>(url);
-
-        //    TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.";
-
-        //    return RedirectToAction("Index", "Home");
-        //}
+        
     }
+    
 }

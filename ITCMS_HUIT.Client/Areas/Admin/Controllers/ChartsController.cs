@@ -8,7 +8,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Teacher,Admin")]
     public class ChartsController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }

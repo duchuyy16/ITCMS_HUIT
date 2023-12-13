@@ -11,7 +11,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Teacher,Admin")]
     public class AdminController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index()
         {
             var dashboard = Utilities.SendDataRequest<ITCMS_HUIT.Client.Models.Dashboard>(ConstantValues.Count.Dashboard);
             ViewBag.LopHoc = dashboard.LopHoc;

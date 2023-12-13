@@ -37,6 +37,20 @@
     <link rel="stylesheet" href="~/css/animate.css">
     <link rel="stylesheet" href="~/css/style.css">
     
+    <style>
+        .datetime-display {
+            text-align: center;
+           /*  border: 3px solid burlywood; */
+        }
+
+        #time {
+            font-weight: 400;
+            display: block;
+            font-size: 30px;
+            margin: 0 0 5px;
+            letter-spacing: 5px;
+        }
+    </style>
     <!--[if lt IE 9]>
         <script src="js/vendor/html5shiv.min.js"></script>
         <script src="js/vendor/respond.min.js"></script>
@@ -117,6 +131,10 @@
 
                 </nav><!-- end navbar -->
             </div><!-- end container -->
+            <div class="datetime-display">
+                <span id="day-and-date"></span>
+                <span id="time"></span>
+            </div>
         </header>
 
         <section id="home" class="video-section js-height-full">
@@ -239,6 +257,7 @@
         </section>
 
         <footer class="section footer noover">
+            
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
@@ -341,6 +360,34 @@
     <!-- Thêm dòng này ở cuối trang (trước thẻ đóng body) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
 
+    <script type="text/javascript">
+        var date = new Date();
+        if (date.getTimezoneOffset() == 0)
+            time = date.getTime() + (7 * 60 * 60 * 1000);
+        else
+            time = date.getTime();
+        date.setTime(time);
 
+        var days = new Array('Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7');
+        day = date.getDay();
+        month = date.getMonth() + 1;
+        year = date.getFullYear();
+        document.getElementById('day-and-date').innerText = days[day] + ', ' + (date.getDate() < 10 ? '0' : '') + date.getDate() + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+
+        var timeElement = document.getElementById('time');
+        var updateTimeInterval = setInterval(function () {
+            updateClock();
+        }, 1000);
+
+        function updateClock() {
+            if (timeElement) {
+                var newDate = new Date();
+                var localeTimeString = newDate.toLocaleTimeString();
+                timeElement.innerHTML = localeTimeString;
+            } else {
+                clearInterval(updateTimeInterval);
+            }
+        }
+    </script>
 </body>
 </html>

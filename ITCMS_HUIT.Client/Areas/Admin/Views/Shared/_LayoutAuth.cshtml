@@ -50,6 +50,34 @@
 		</script>
 	}
 
+	@if (TempData["RegisterSuccessful"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Đăng ký thành công!',
+					text: '@Html.Raw(TempData["RegisterSuccessful"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["ChangedPasswordSuccessful"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Thay đổi mật khẩu thành công!',
+					text: '@Html.Raw(TempData["ChangedPasswordSuccessful"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
 	<!-- Required Js -->
 	<script src="~/admin/assets/js/vendor-all.min.js"></script>
 	<script src="~/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>

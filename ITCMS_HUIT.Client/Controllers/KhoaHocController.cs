@@ -2,6 +2,7 @@
 using ITCMS_HUIT.Client.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
+using X.PagedList;
 
 namespace ITCMS_HUIT.Client.Controllers
 {
@@ -37,10 +38,11 @@ namespace ITCMS_HUIT.Client.Controllers
             return View(chiTietKhoaHoc);
         }
 
-        public IActionResult DanhSachKhoaHoc()
+        public IActionResult DanhSachKhoaHoc(int pageNo=1)
         {
             var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
-            return View(dsKhoaHoc);
+            var pagedList = dsKhoaHoc.ToPagedList(pageNo, 5);
+            return View(pagedList);
         }
 
     }

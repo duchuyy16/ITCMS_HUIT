@@ -17,11 +17,15 @@ namespace Services
         private readonly IMailService _mail;
         private readonly IMapper _mapper;
         private readonly IHocVienRepo _hocVien;
+        private readonly ILopHocRepo _lopHoc;
+        private readonly IThongTinHocVienRepo _thongTin;
         public HocVienService(IRepo repo, IMapper mapper, IMailService mail)
         {
             _mail = mail;
             _mapper = mapper;
             _hocVien = repo.HocVienRepo;
+            _lopHoc = repo.LopHocRepo;
+            _thongTin = repo.ThongTinHocVienRepo;
         }
 
         public int Count()
@@ -42,7 +46,7 @@ namespace Services
                 TenHocVien = model.TenHocVien,
                 NgaySinh = model.NgaySinh,
                 Email = model.Email,
-                Sdt = model.Sdt,
+                Sdt = model.Sdt!,
                 DiaChi = model.DiaChi,
                 NgayDangKy = model.NgayDangKy,
                 IddoiTuong=model.IddoiTuong,
@@ -62,22 +66,25 @@ namespace Services
 
             return result;
         }
+        //var chiTietLopHoc = _lopHoc.GetById(idLopHoc).IdlopHoc;
 
-        public HocVienDTO Add(HocVienDTO model)
+        public HocVienDTO Add(HocVienDTO model, int idLopHoc)
         {
             var hocVien = new HocVien
             {
                 TenHocVien = model.TenHocVien,
                 NgaySinh = model.NgaySinh,
                 Email = model.Email,
-                Sdt = model.Sdt,
+                Sdt = model.Sdt!,
                 DiaChi = model.DiaChi,
                 NgayDangKy = DateTime.Now,
                 IddoiTuong = model.IddoiTuong,
-                IdtrangThai = 1,
+                IdtrangThai = 2,
             };
 
             var result = _hocVien.Add(hocVien);
+
+            var addTeacher = _thongTin.Add(new ThongTinHocVien { IdhocVien = result!.IdhocVien, IdlopHoc = idLopHoc });
 
             var hocVienDTO = _mapper.Map<HocVienDTO>(result);
 

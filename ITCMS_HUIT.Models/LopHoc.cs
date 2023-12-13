@@ -18,6 +18,7 @@ namespace ITCMS_HUIT.Models
         public string DiaDiem { get; set; } = null!;
         public int IdkhoaHoc { get; set; }
         public string? IdgiaoVien { get; set; }
+        public string? PhongHoc { get; set; }
 
         public virtual GiaoVien? IdgiaoVienNavigation { get; set; }
         public virtual KhoaHoc IdkhoaHocNavigation { get; set; } = null!;

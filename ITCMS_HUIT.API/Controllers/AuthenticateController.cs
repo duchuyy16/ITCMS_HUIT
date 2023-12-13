@@ -99,34 +99,6 @@ namespace ITCMS_HUIT.API.Controllers
             });
         }
 
-        //[HttpPost]
-        //[Route("cap-nhat-quyen/{userName}")]
-        //public async Task<IActionResult> AddRolesToUser(string userName)
-        //{
-        //    var userExists = await _userManager.FindByNameAsync(userName);
-        //    if (userExists == null)
-        //        return NotFound(new { Status = "Lỗi", Message = "Người dùng không tồn tại!" });
-
-        //    var isTeacher = await _userManager.IsInRoleAsync(userExists, UserRoles.Teacher);
-
-        //    if (isTeacher)
-        //    {
-        //        if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-        //            await _userManager.AddToRoleAsync(userExists, UserRoles.Admin);
-        //    }
-
-        //    var apiResponse = new ApiResponse<string>
-        //    {
-        //        Status = "Thành công",
-        //        Message = "Cập nhật thành công!",
-        //        Data = null
-        //    };
-
-        //    return Ok(apiResponse);
-        //}
-
-
-
         [HttpPost]
         [Route("dang-ky-giao-vien")]
         public async Task<IActionResult> RegisterTeacher([FromBody] Register model)
@@ -172,7 +144,7 @@ namespace ITCMS_HUIT.API.Controllers
             {
                 Status = "Thành công",
                 Message = "Người dùng đã được tạo thành công!",
-                Data = null
+                Data = model
             };
 
             return Ok(apiResponse);
@@ -206,7 +178,7 @@ namespace ITCMS_HUIT.API.Controllers
             {
                 Status = "Thành công",
                 Message = "Người dùng đã được tạo thành công!",
-                Data = null
+                Data = model   
             };
 
             return Ok(apiResponse);
@@ -228,12 +200,12 @@ namespace ITCMS_HUIT.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 { Status = "Error", Message = "Something went wrong" });
 
-            var apiResponse = new ApiResponse<Register>
+            var apiResponse = new ApiResponse<ChangePassword>
             {
                 Status = "Thành công",
                 Message = "Đã đổi mật khẩu thành công!",
-                Data = null
-            };
+                Data = model
+			};
 
             return Ok(apiResponse);
         }

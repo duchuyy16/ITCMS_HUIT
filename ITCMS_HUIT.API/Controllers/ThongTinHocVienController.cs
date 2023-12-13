@@ -3,6 +3,7 @@ using ITCMS_HUIT.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using System.IO;
 
 namespace ITCMS_HUIT.API.Controllers
 {
@@ -14,6 +15,25 @@ namespace ITCMS_HUIT.API.Controllers
         public ThongTinHocVienController(ThongTinHocVienService thongTin)
         {
             _thongTin = thongTin;
+        }
+
+        [HttpPost("xuat-file-excel")]
+        public IActionResult Export()
+        {
+            try
+            {            
+                MemoryStream file = _thongTin.Export();
+
+                return new FileStreamResult(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                {
+                    FileDownloadName = "DanhSachThongTinHocVien.xlsx"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+            }
         }
 
         [HttpPost("kiem-tra-ton-tai/{idHocVien}&{idLopHoc}")]

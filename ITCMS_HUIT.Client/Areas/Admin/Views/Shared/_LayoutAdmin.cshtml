@@ -1,4 +1,5 @@
-﻿
+﻿@using ITCMS_HUIT.Client.Common;
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +32,10 @@
 
 	<!-- vendor css -->
 	<link rel="stylesheet" href="~/admin/assets/css/style.css">
+
+	<!-- Thêm dòng này vào phần head của trang HTML của bạn -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.css">
+
 </head>
 
 <body class="">
@@ -70,18 +75,10 @@
 							<li class=""><a href="@Url.Action("Index", "KhoaHocs", new { area = "Admin" })" class="">Quản Lí Khóa Học</a></li>
 							<li class=""><a href="@Url.Action("Index", "GiaoViens", new { area = "Admin" })" class="">Quản Lí Giáo Viên</a></li>
 							<li class=""><a href="@Url.Action("Index", "LopHocs", new { area = "Admin" })" class="">Quản Lí Lớp Học</a></li>
-							<li class=""><a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin" })" class="">
-								Quản Lí Thông Tin Học Viên</a></li>
-							<li class="">
-								<a href="@Url.Action("Index", "HocViens", new { area = "Admin" })" class="">
-									Quản Lí Học Viên
-								</a>
-							</li>
-							<li class="">
-								<a href="@Url.Action("Index", "CoSoDuLieus", new { area = "Admin" })" class="">
-									Quản Lí Cơ Sở Dữ Liệu
-								</a>
-							</li>
+							<li class=""><a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin" })" class="">Quản Lí Thông Tin Học Viên</a></li>
+							<li class=""><a href="@Url.Action("Index", "HocViens", new { area = "Admin" })" class="">Quản Lí Học Viên</a></li>
+							<li class=""><a href="@Url.Action("Index", "CoSoDuLieus", new { area = "Admin" })" class="">Quản Lí Cơ Sở Dữ Liệu</a></li>
+							<li class=""><a href="@Url.Action("Index", "Account", new { area = "Admin" })" class="">Quản Lí Người Dùng</a></li>
 						</ul>
 					</li>				
 					<li class="nav-item pcoded-menu-caption">
@@ -115,25 +112,33 @@
 		<div class="collapse navbar-collapse">
 			<a href="#!" class="mob-toggler"></a>
 			<ul class="navbar-nav ml-auto">
-				<li>
-					<div class="dropdown drp-user">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon feather icon-settings"></i>
-						</a>
-						<div class="dropdown-menu dropdown-menu-right profile-notification">
-							<div class="pro-head">
-								<img src="~/admin/assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
-								<span>John Doe</span>
-								<a href="/Admin/Auth/Logout" class="dud-logout" title="Logout">
-									<i class="feather icon-log-out"></i>
-								</a>
+				@{
+					var sessionToken = ITCMS_HUIT.Client.Common.AppContext.Current!.Session.Get<string>("Token");
+					var userName = sessionToken!.GetUserNameFromJwt();
+				}
+				@if(!string.IsNullOrEmpty(userName))
+				{
+					<li>
+						<div class="dropdown drp-user">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon feather icon-settings"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right profile-notification">
+								<div class="pro-head">
+									<img src="~/admin/assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
+									Welcome, <span>@userName.ToUpper()</span>
+									<a href="/Admin/Auth/Logout" class="dud-logout" title="Logout">
+										<i class="feather icon-log-out"></i>
+									</a>
+								</div>
+								<ul class="pro-body">
+									<li><a href="/Admin/Auth/ChangedPassword" class="dropdown-item"><i class="feather icon-key"></i>Thay đổi mật khẩu</a></li>
+								</ul>
 							</div>
-							<ul class="pro-body">
-								<li><a href="/Admin/Auth/ChangedPassword" class="dropdown-item"><i class="feather icon-key"></i>Thay đổi mật khẩu</a></li>							
-							</ul>
 						</div>
-					</div>
-				</li>
+					</li>
+				}
+				
 			</ul>
 		</div>
 	</header>
@@ -150,5 +155,9 @@
 	<script src="~/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="~/admin/assets/js/pcoded.min.js"></script>
 	<script src="~/ckeditor/ckeditor.js"></script>
+	<!-- Thêm dòng này ở cuối trang (trước thẻ đóng body) -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
+
+
 </body>
 </html>

@@ -6,18 +6,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
+#nullable disable
+
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [CheckToken("Teacher,Admin")]
     public class ThongTinHocViensController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index(int pageNo=1)
         {
             try
             {
                 var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(ConstantValues.ThongTinHocVien.DanhSach);
-                return View(thongTinHocViens);
+                var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
+                return View(pagedList);
 
             }
             catch (Exception)
@@ -26,7 +29,24 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult TimKiemHocVienTheoId(int? IdhocVien)
+        public ActionResult ExportExcel()
+        {
+            try
+            {
+                MemoryStream file = Utilities.SendDataRequest<MemoryStream>(ConstantValues.ThongTinHocVien.Export);
+                return new FileStreamResult(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                {
+                    FileDownloadName = "DanhSachThongTinHocVien.xlsx"
+                };
+
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        public ActionResult TimKiemHocVienTheoId(int? IdhocVien)
         {
             if (IdhocVien!=null)
             {
@@ -40,7 +60,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Create()
+        public ActionResult Create()
         {
             ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
                    (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
@@ -51,7 +71,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThongBao")] ThongTinHocVienDTO model)
+        public ActionResult Create([Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThongBao")] ThongTinHocVienDTO model)
         {
             try
             {
@@ -72,7 +92,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Details(int? IdhocVien, int? IdlopHoc)
+        public ActionResult Details(int? IdhocVien, int? IdlopHoc)
         {
             try
             {
@@ -96,7 +116,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Edit(int? IdhocVien, int? IdlopHoc)
+        public ActionResult Edit(int? IdhocVien, int? IdlopHoc)
         {
             try
             {
@@ -123,7 +143,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int IdhocVien, int IdlopHoc, [Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThongBao")] ThongTinHocVienDTO model)
+        public ActionResult Edit(int IdhocVien, int IdlopHoc, [Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThongBao")] ThongTinHocVienDTO model)
         {
             try
             {
@@ -164,7 +184,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Delete(int? IdhocVien, int? IdlopHoc)
+        public ActionResult Delete(int? IdhocVien, int? IdlopHoc)
         {
             try
             {
@@ -191,7 +211,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int IdhocVien, int IdlopHoc)
+        public ActionResult DeleteConfirmed(int IdhocVien, int IdlopHoc)
         {
             try
             {

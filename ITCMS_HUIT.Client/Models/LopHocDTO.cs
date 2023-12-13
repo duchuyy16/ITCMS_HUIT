@@ -10,6 +10,7 @@
         public string DiaDiem { get; set; } = null!;
         public int IdkhoaHoc { get; set; }
         public string? IdgiaoVien { get; set; }
+        public string? PhongHoc { get; set; }
 
         public GiaoVienDTO? IdgiaoVienNavigation { get; set; } = null!;
         public KhoaHocModel? IdkhoaHocNavigation { get; set; } = null!;
@@ -25,5 +26,6 @@
         public string? DiaDiem { get; set; } = null!;
         public int? IdkhoaHoc { get; set; }
         public string? IdgiaoVien { get; set; }
+        public string? PhongHoc { get; set; }
     }
 }

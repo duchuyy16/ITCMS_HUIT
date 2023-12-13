@@ -148,12 +148,12 @@ namespace ITCMS_HUIT.API.Controllers
             }
         }
 
-        [HttpPost("them-hoc-vien")]
-        public IActionResult Add(HocVienDTO model)
+        [HttpPost("them-hoc-vien/{idLopHoc}")]
+        public IActionResult Add(HocVienDTO model, int idLopHoc)
         {
             try
             {
-                HocVienDTO addedHocVien = _hocVien.Add(model);
+                HocVienDTO addedHocVien = _hocVien.Add(model, idLopHoc);
 
                 var apiResponse = new ApiResponse<HocVienDTO>
                 {

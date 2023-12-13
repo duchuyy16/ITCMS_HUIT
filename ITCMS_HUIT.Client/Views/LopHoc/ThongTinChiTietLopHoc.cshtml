@@ -60,8 +60,9 @@
                 </div><!-- end left -->
 
                 <div class="pull-right">
-                    <ul class="list-inline">
-                        <li><a asp-action="ThemHocVien" asp-controller="HocVien" class="btn btn-success">Tiếp tục <i style="color:white;" class="fa fa-arrow-right"></i></a></li>
+                    <ul class="list-inline">             
+                        <li><a asp-action="ThemHocVien" asp-controller="HocVien" asp-route-idLopHoc="@Model.IdlopHoc" class="btn btn-success">
+                            Tiếp tục <i style="color:white;" class="fa fa-arrow-right"></i></a></li>
                     </ul>
                 </div><!-- end left -->
             </div><!-- end footer -->

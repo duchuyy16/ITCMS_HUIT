@@ -9,42 +9,6 @@ namespace ITCMS_HUIT.Client.Common
 {
     public class Utilities
     {
-        //public static T SendDataRequest<T>(string APIUrl, object? input = null)
-        //{
-        //    var accessToken = AppContext.Current!.Session.GetString("Token")!;
-
-        //    HttpClient client = new();
-        //    client.BaseAddress = new System.Uri("https://localhost:44352");
-        //    client.DefaultRequestHeaders.Accept.Clear();
-
-        //    if (accessToken!=null)      
-        //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        //    var jsonContent = JsonConvert.SerializeObject(input);
-        //    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-        //    HttpResponseMessage response = client.SendAsync(new HttpRequestMessage(HttpMethod.Post, APIUrl) { Content = content }).Result;
-        //    T result = default!;
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var jsonString = response.Content.ReadAsStringAsync().Result;
-        //        var responseData = JsonConvert.DeserializeObject<ApiResponse<T>>(jsonString);
-        //        if (responseData != null)
-        //        {
-        //            return responseData.Data!;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var statusCode = response.StatusCode;
-        //        var reasonPhrase = response.ReasonPhrase;
-        //        var errorContent = response.Content.ReadAsStringAsync().Result;
-        //    }
-        //    return result;
-        //}
-
         public static T SendDataRequest<T>(string APIUrl, object? input = null)
         {          
             HttpClient client = new();
@@ -58,7 +22,7 @@ namespace ITCMS_HUIT.Client.Common
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessionToken);
             }
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+         
             var jsonContent = JsonConvert.SerializeObject(input);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -67,6 +31,12 @@ namespace ITCMS_HUIT.Client.Common
 
             if (response.IsSuccessStatusCode)
             {
+                if(typeof(T) == typeof(MemoryStream))
+                {
+                    var file = response.Content.ReadAsStreamAsync().Result;
+                    return (T)(object)file;
+                }    
+
                 var jsonString = response.Content.ReadAsStringAsync().Result;
                 var responseData = JsonConvert.DeserializeObject<ApiResponse<T>>(jsonString);
 
