@@ -12,7 +12,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Teacher,Admin")]
     public class LopHocsController : Controller
     {
-        public ActionResult Index(int pageNo = 1, int? idKhoaHoc = null)
+        public ActionResult Index(string id,int pageNo = 1, int? idKhoaHoc = null)
         {
             try
             {
@@ -20,8 +20,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 dsKhoaHoc.Insert(0, new KhoaHocDTO { IdkhoaHoc = 0, TenKhoaHoc = "----------Chọn tên khóa học----------" });
                 ViewBag.IdKhoaHoc = new SelectList(dsKhoaHoc, "IdkhoaHoc", "TenKhoaHoc", idKhoaHoc);
 
-
-                var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>(ConstantValues.LopHoc.DanhSach);
+                var url = string.Format(ConstantValues.LopHoc.DanhSachLopHocTheoGiaoVien, id);
+                var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>(url);
                 if (idKhoaHoc.HasValue)
                 {
                     dsLopHoc = dsLopHoc.Where(c => c.IdkhoaHoc == idKhoaHoc).ToList();
@@ -37,9 +37,32 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
+		public ActionResult IndexAdmin(int pageNo = 1, int? idKhoaHoc = null)
+		{
+			try
+			{
+				var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
+				dsKhoaHoc.Insert(0, new KhoaHocDTO { IdkhoaHoc = 0, TenKhoaHoc = "----------Chọn tên khóa học----------" });
+				ViewBag.IdKhoaHoc = new SelectList(dsKhoaHoc, "IdkhoaHoc", "TenKhoaHoc", idKhoaHoc);
+
+				var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>(ConstantValues.LopHoc.DanhSach);
+				if (idKhoaHoc.HasValue)
+				{
+					dsLopHoc = dsLopHoc.Where(c => c.IdkhoaHoc == idKhoaHoc).ToList();
+				}
+
+				var pagedList = dsLopHoc.ToPagedList(pageNo, 5);
+
+				return View(pagedList);
+			}
+			catch
+			{
+				return NotFound();
+			}
+		}
 
 
-        public ActionResult Create()
+		public ActionResult Create()
         {
             try
             {
@@ -158,7 +181,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("IndexAdmin");
                 }
                 ViewData["IdKhoaHoc"] = new SelectList(Utilities.SendDataRequest<List<KhoaHocDTO>>
                    (ConstantValues.KhoaHoc.DanhSach), "IdkhoaHoc", "TenKhoaHoc", model.IdkhoaHoc);

@@ -61,7 +61,29 @@ namespace ITCMS_HUIT.API.Controllers
             }
         }
 
-        [HttpPost("lop-hoc/{id}")]
+		[HttpPost("danh-sach-lop-hoc-theo-giao-vien/{id}")]
+		public IActionResult GetAllByUserId(string id)
+		{
+			try
+			{
+                List<LopHocDTO> lopHocList = _lopHoc.GetAllByUserId(id);
+
+				var apiResponse = new ApiResponse<List<LopHocDTO>>
+				{
+					Status = "Thành công",
+					Message = "Danh sách lớp học",
+					Data = lopHocList
+				};
+
+				return Ok(apiResponse);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+			}
+		}
+
+		[HttpPost("lop-hoc/{id}")]
         public IActionResult GetById(int id)
         {
             try

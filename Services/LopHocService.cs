@@ -33,7 +33,29 @@ namespace Services
             return _lopHoc.IsExist(id);
         }
 
-        public List<LopHocDTO> GetAll()
+		public List<LopHocDTO> GetAllByUserId(string id)
+		{
+			var dsLopHoc = _lopHoc.GetAllByUserId(id);
+			var dsLopHocDTO = dsLopHoc.Select(s => new LopHocDTO
+			{
+				IdlopHoc = s.IdlopHoc,
+				TenLopHoc = s.TenLopHoc,
+				ThoiGian = s.ThoiGian,
+				NgayBatDau = s.NgayBatDau,
+				NgayKetThuc = s.NgayKetThuc,
+				DiaDiem = s.DiaDiem,
+				PhongHoc = s.PhongHoc,
+				IdgiaoVien = s.IdgiaoVien,
+				IdkhoaHoc = s.IdkhoaHoc,
+				IdgiaoVienNavigation = s.IdgiaoVienNavigation.Adapt<GiaoVienDTO>(),
+				IdkhoaHocNavigation = s.IdkhoaHocNavigation.Adapt<KhoaHocModel>(),
+
+			}).ToList();
+
+			return dsLopHocDTO;
+		}
+
+		public List<LopHocDTO> GetAll()
         {
             var dsLopHoc = _lopHoc.GetAll();
             var dsLopHocDTO = dsLopHoc.Select(s => new LopHocDTO

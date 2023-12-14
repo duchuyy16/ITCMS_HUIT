@@ -46,8 +46,7 @@ namespace ITCMS_HUIT.Client.Controllers
             catch 
             {
                 return BadRequest();
-            }
-            
+            }      
         }
         
     }

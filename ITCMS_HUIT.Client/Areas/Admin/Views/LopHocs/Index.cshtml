@@ -57,11 +57,12 @@
                         </div>
                         <!-- [ breadcrumb ] end -->
                         <!-- [ Main Content ] start -->
+                        @*   <a class="btn btn-success ml-2" asp-action="Create"><i class="fas fa-plus"></i></a> *@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                        <a class="btn btn-success ml-2" asp-action="Create"><i class="fas fa-plus"></i></a>
+  
                                         <div class="d-flex">
                                             <form asp-controller="LopHocs" asp-action="Index" method="get" class="form-inline flex-fill">
                                                 <div class="form-group">
@@ -139,25 +140,27 @@
                                                             </td>
                                                             <td>
                                                                 
-                                                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.IdlopHoc"><i class="fas fa-edit"></i></a> |
+                                                                @* <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.IdlopHoc"><i class="fas fa-edit"></i></a> |
                                                                 <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdlopHoc"><i class="fas fa-info-circle"></i></a> |
-                                                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdlopHoc"><i class="fas fa-trash"></i></a>
+                                                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdlopHoc"><i class="fas fa-trash"></i></a> *@
                                                             </td>
                                                         </tr>
                                                     }
                                                 </tbody>
                                             </table>
                                         </div>
-                                        @Html.PagedListPager((IPagedList)Model,
-                                        pageNo => Url.Action("Index","LopHocs", new { pageNo, area="Admin" }),
-                                        new PagedListRenderOptions{
-                                        PageClasses = new string[] { "page-link" },
-                                        UlElementClasses = new string[] { "pagination" },
-                                        LiElementClasses = new string[] { "page-item" },
-                                        DisplayItemSliceAndTotal = true,
-                                        DisplayEllipsesWhenNotShowingAllPageNumbers = true,
-                                        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
-                                        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+                                        @Html.PagedListPager(
+                                            (IPagedList)Model,
+                                            pageNo => Url.Action("Index","LopHocs", new { pageNo, area="Admin"}),
+                                        new PagedListRenderOptions
+                                        {
+                                            PageClasses = new string[] { "page-link" },
+                                            UlElementClasses = new string[] { "pagination" },
+                                            LiElementClasses = new string[] { "page-item" },
+                                            DisplayItemSliceAndTotal = true,
+                                            DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                                            DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
                                         }
                                         )
                                     </div>

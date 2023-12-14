@@ -66,7 +66,6 @@ namespace Services
 
             return result;
         }
-        //var chiTietLopHoc = _lopHoc.GetById(idLopHoc).IdlopHoc;
 
         public HocVienDTO Add(HocVienDTO model, int idLopHoc)
         {

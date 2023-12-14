@@ -5,44 +5,48 @@
 }
 
 <div class="auth-wrapper">
-	<div class="auth-content container">
-		<div class="card">
-			<div class="row align-items-center">
-				<div class="col-md-6">
-					<div class="card-body">
-						<img src="~/images/logo-dark.png" alt="" class="img-fluid mb-4">
-						<h4 class="mb-3 f-w-400">Đăng nhập</h4>
-						<form method="post" asp-action="Login" asp-controller="Auth">
-							<div class="input-group mb-2">
-								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="feather icon-mail"></i></span>
-								</div>
-								<input type="text" name="Username" id="username" class="form-control" placeholder="Tên đăng nhập" autocomplete="off">
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="feather icon-lock"></i></span>
-								</div>
-								<input type="password" name="Password" id="pw" class="form-control" placeholder="Mật khẩu" autocomplete="off">
-								<div class="input-group-append">
-									<span class="input-group-text">
-										<i id="open" class="fas fa-eye" style="cursor:pointer;"></i>
-										<i id="closed" class="fas fa-eye-slash" style="display:none; cursor:pointer;"></i>
-									</span>
-								</div>
-							</div>
-							<button type="submit" class="btn btn-primary mb-4">Đăng Nhập</button>
-						</form>
-						<p class="mb-0 text-muted">Bạn chưa có tài khoản? <a asp-action="Register" asp-controller="Auth" class="f-w-400">Đăng ký</a></p>
-					</div>
-				</div>
-				<div class="col-md-6 d-none d-md-block">
-					<img src="~/admin/assets/images/auth-bg.jpg" alt="" class="img-fluid">
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="auth-content container">
+        <div class="card">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <img src="~/images/logo-dark.png" alt="" class="img-fluid mb-4">
+                        <h4 class="mb-3 f-w-400">Đăng nhập</h4>
+                        <p class="mb-0 text-muted">@Html.ValidationSummary("", new { @class = "text-danger" })</p>
+                        <form method="post" asp-action="Login" asp-controller="Auth">
+                            <!-- Existing form code -->
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="feather icon-mail"></i></span>
+                                </div>
+                                <input type="text" name="Username" id="username" class="form-control" placeholder="Tên đăng nhập" autocomplete="off">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="feather icon-lock"></i></span>
+                                </div>
+                                <input type="password" name="Password" id="pw" class="form-control" placeholder="Mật khẩu" autocomplete="off">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i id="open" class="fas fa-eye" style="cursor:pointer;"></i>
+                                        <i id="closed" class="fas fa-eye-slash" style="display:none; cursor:pointer;"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-4">Đăng Nhập</button>
+                        </form>
+                        
+                        <p class="mb-0 text-muted">Bạn chưa có tài khoản? <a asp-action="Register" asp-controller="Auth" class="f-w-400">Đăng ký</a></p>
+                    </div>
+                </div>
+                <div class="col-md-6 d-none d-md-block">
+                    <img src="~/admin/assets/images/auth-bg.jpg" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 
 @section HiddenPassword{

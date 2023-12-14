@@ -61,8 +61,8 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">                                      
-                                        <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> 
-                                        <a class="btn btn-info" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
+                                        @* <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> *@ 
+                                        <a class="btn btn-success" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
                                     </div>
                                     <div class="card-body table-border-style">
                                         <div class="table-responsive">
@@ -129,7 +129,7 @@
                                                                 @Html.DisplayFor(modelItem => item.LyDoThongBao)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.HocPhi)
+                                                                @string.Format("{0:N0} VNĐ", item.HocPhi)
                                                             </td>
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.NgayGioGiaoDich)

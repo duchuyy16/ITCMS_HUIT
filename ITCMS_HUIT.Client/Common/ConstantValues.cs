@@ -83,7 +83,8 @@
         public class LopHoc
         {
             public const string DanhSach = "api/LopHoc/danh-sach-lop-hoc";
-            public const string KiemTraTonTai = "api/LopHoc/kiem-tra-ton-tai/{0}";
+			public const string DanhSachLopHocTheoGiaoVien = "api/LopHoc/danh-sach-lop-hoc-theo-giao-vien/{0}";
+			public const string KiemTraTonTai = "api/LopHoc/kiem-tra-ton-tai/{0}";
             public const string ChiTietLopHoc = "api/LopHoc/lop-hoc/{0}";
             public const string TimKiem = "api/LopHoc/tim-kiem-lop-hoc/{0}";
             public const string Xoa = "api/LopHoc/xoa-lop-hoc";

@@ -74,7 +74,23 @@
 						<ul class="pcoded-submenu">
 							<li class=""><a href="@Url.Action("Index", "KhoaHocs", new { area = "Admin" })" class="">Quản Lí Khóa Học</a></li>
 							<li class=""><a href="@Url.Action("Index", "GiaoViens", new { area = "Admin" })" class="">Quản Lí Giáo Viên</a></li>
-							<li class=""><a href="@Url.Action("Index", "LopHocs", new { area = "Admin" })" class="">Quản Lí Lớp Học</a></li>
+							@{
+								var sessionTokenIdGiaoVien = ITCMS_HUIT.Client.Common.AppContext.Current!.Session.Get<string>("Token");
+								var idGiaoVien = sessionTokenIdGiaoVien!.GetTeacherIdFromJwt();
+
+								var userRoles = sessionTokenIdGiaoVien!.GetRolesFromJwt();
+								var isAdmin = userRoles.Contains("Admin");
+							}
+							@if (!string.IsNullOrEmpty(idGiaoVien) && !isAdmin)
+							{
+								<li class=""><a href="@Url.Action("Index", "LopHocs", new { area = "Admin",id = idGiaoVien })" class="">Quản Lí Lớp Học</a></li>
+							}
+							else
+							{
+								<li class=""><a href="@Url.Action("IndexAdmin", "LopHocs", new { area = "Admin" })" class="">Quản Lí Lớp Học</a></li>
+							}
+
+
 							<li class=""><a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin" })" class="">Quản Lí Thông Tin Học Viên</a></li>
 							<li class=""><a href="@Url.Action("Index", "HocViens", new { area = "Admin" })" class="">Quản Lí Học Viên</a></li>
 							<li class=""><a href="@Url.Action("Index", "CoSoDuLieus", new { area = "Admin" })" class="">Quản Lí Cơ Sở Dữ Liệu</a></li>

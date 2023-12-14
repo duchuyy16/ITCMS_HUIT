@@ -16,21 +16,21 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-
             var token = Utilities.SendDataRequest<string>(ConstantValues.Authenticate.Login, model);
 
             if (string.IsNullOrEmpty(token))
             {
                 ModelState.AddModelError("", "Đăng nhập không hợp lệ. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.");
-                return RedirectToAction("Login", "Auth");
+                return View(); 
             }
 
             // Lưu token vào session
             HttpContext.Session.Set("Token", token);
 
             return RedirectToAction("Index", "Admin", new { area = "Admin" });
-
         }
+
+
 
         public ActionResult Register()
         {

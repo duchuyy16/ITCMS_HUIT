@@ -23,13 +23,13 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public List<LopHoc> GetAll()
         {
-            return _context.LopHocs.Include(i=>i.IdgiaoVienNavigation).Include(k=>k.IdkhoaHocNavigation).ToList();
+            return _context.LopHocs.Include(i => i.IdgiaoVienNavigation).Include(k => k.IdkhoaHocNavigation).ToList();
         }
 
-        public List<LopHoc> GetAllByUserId(int userId)
+        public List<LopHoc> GetAllByUserId(string id)
         {
-            throw new NotImplementedException();
-        }
+			return _context.LopHocs.Include(i => i.IdgiaoVienNavigation).Include(k => k.IdkhoaHocNavigation).Where(l => l.IdgiaoVien == id).ToList();
+		}
 
         public LopHoc GetById(int id)
         {

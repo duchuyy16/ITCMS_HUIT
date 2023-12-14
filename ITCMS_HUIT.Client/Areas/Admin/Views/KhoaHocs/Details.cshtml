@@ -42,7 +42,7 @@
                                             <dt class="col-sm-4">Số Tuần:</dt>
                                             <dd class="col-sm-8">@Html.DisplayFor(model => model.SoTuan)</dd>
                                             <dt class="col-sm-4">Học Phí:</dt>
-                                            <dd class="col-sm-8">@Html.DisplayFor(model => model.HocPhi)</dd>
+                                            <dd class="col-sm-8"> @Html.DisplayFor(model => model.HocPhi, "{0:N0} VNĐ")
                                             <dt class="col-sm-4">Mô Tả:</dt>
                                             <dd class="col-sm-8">@Html.Raw(Model.Mota)</dd>
                                             <dt class="col-sm-4">Hình Ảnh:</dt>
