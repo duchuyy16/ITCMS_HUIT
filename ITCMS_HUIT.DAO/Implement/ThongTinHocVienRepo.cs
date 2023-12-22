@@ -34,9 +34,9 @@ namespace ITCMS_HUIT.Repository.Implement
             return _context.ThongTinHocViens.Any(w => w.IdhocVien == idHocVien && w.IdlopHoc == idLopHoc);
         }
 
-        public List<ThongTinHocVien> Search(int idHocVien)
+        public List<ThongTinHocVien> Search(string tenHocVien)
         {
-            return _context.ThongTinHocViens.Include(i => i.IdhocVienNavigation).Include(l => l.IdlopHocNavigation).Where(w => w.IdhocVien==idHocVien).ToList();
+            return _context.ThongTinHocViens.Include(i => i.IdhocVienNavigation).Include(l => l.IdlopHocNavigation).Where(w => w.IdhocVienNavigation.TenHocVien== tenHocVien).ToList();
         }
     }
 }

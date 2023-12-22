@@ -60,46 +60,63 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header">                                      
-                                        @* <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> *@ 
+                                    @* <div class="card-header">                                      
+                                        <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> 
                                         <a class="btn btn-success" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
+                                    </div> *@
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="full-left">
+                                                <a class="btn btn-success" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
+                                            </div>
+                                           @*  <div class="full-right">
+                                                
+                                                <form class="form-inline">
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <label for="searchInput" class="sr-only">Tìm kiếm</label>
+                                                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm tên học viên">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+                                                </form>
+                                            </div> *@
+                                        </div>
                                     </div>
+
                                     <div class="card-body table-border-style">
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.IdhocVien)
+                                                        <th scope="col">
+                                                            ID Học viên
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.IdlopHoc)
+                                                        <th scope="col">
+                                                            ID Lớp học
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.Diem)
+                                                        <th scope="col">
+                                                            Điểm
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.NgayThongBao)
+                                                        <th scope="col">
+                                                            Ngày thông báo
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.TrangThaiThongBao)
+                                                        <th scope="col">
+                                                            Trạng thái thông báo
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.SoLanVangMat)
+                                                        <th scope="col">
+                                                            Số lần vắng mặt
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.LyDoThongBao)
+                                                        <th scope="col">
+                                                            Lý do thông báo
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.HocPhi)
+                                                        <th scope="col">
+                                                            Học phí
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.NgayGioGiaoDich)
+                                                        <th scope="col">
+                                                            Ngày giờ giao dịch
                                                         </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.TrangThaiThanhToan)
-                                                        </th>
-                                                        
+                                                        <th scope="col">
+                                                            Trạng thái thanh toán
+                                                        </th>                                    
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -108,10 +125,10 @@
                                                     {
                                                         <tr>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.IdhocVien)
+                                                                @Html.DisplayFor(modelItem => item.IdhocVienNavigation!.TenHocVien)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.IdlopHoc)
+                                                                @Html.DisplayFor(modelItem => item.IdlopHocNavigation!.TenLopHoc)
                                                             </td>
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.Diem)

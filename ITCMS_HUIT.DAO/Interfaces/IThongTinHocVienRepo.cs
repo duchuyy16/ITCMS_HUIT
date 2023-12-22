@@ -11,7 +11,7 @@ namespace ITCMS_HUIT.Repository.Interfaces
     public interface IThongTinHocVienRepo: IBaseRepository<ThongTinHocVien>
     {
         List<ThongTinHocVien> GetAll();
-        List<ThongTinHocVien> Search(int idHocVien);
+        List<ThongTinHocVien> Search(string tenHocVien);
         ThongTinHocVien GetById(int idHocVien, int idLopHoc);
         bool IsExist(int idHocVien,int idLopHoc);
     }

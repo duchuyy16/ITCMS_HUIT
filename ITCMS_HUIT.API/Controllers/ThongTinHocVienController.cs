@@ -36,6 +36,28 @@ namespace ITCMS_HUIT.API.Controllers
             }
         }
 
+        [HttpPost("nhap-file-excel")]
+        public IActionResult Import(Stream stream)
+        {
+            try
+            {
+                _thongTin.Import(stream);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Thành công",
+                    Message = "Import thành công",
+                    Data = true
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+            }
+        }
+
         [HttpPost("kiem-tra-ton-tai/{idHocVien}&{idLopHoc}")]
         public IActionResult IsExist(int idHocVien, int idLopHoc)
         {
@@ -103,18 +125,18 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
 
-        [HttpPost("tim-kiem-thong-tin-hoc-vien/{idHocVien}")]
-        public IActionResult Search(int idHocVien)
+        [HttpPost("tim-kiem-thong-tin-hoc-vien/{tenHocVien}")]
+        public IActionResult Search(string tenHocVien)
         {
             try
             {
-                List<ThongTinHocVienDTO> searchResults = _thongTin.Search(idHocVien);
+                List<ThongTinHocVienDTO> result = _thongTin.Search(tenHocVien);
 
                 var apiResponse = new ApiResponse<List<ThongTinHocVienDTO>>
                 {
                     Status = "Thành công",
                     Message = "Kết quả tìm kiếm thông tin học viên",
-                    Data = searchResults
+                    Data = result
                 };
 
                 return Ok(apiResponse);

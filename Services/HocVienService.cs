@@ -64,6 +64,8 @@ namespace Services
 
             var result = _hocVien.Delete(hocVien);
 
+            var deleteTTHV = _thongTin.Delete(new ThongTinHocVien { IdhocVien= hocVien.IdhocVien});
+
             return result;
         }
 
@@ -83,7 +85,7 @@ namespace Services
 
             var result = _hocVien.Add(hocVien);
 
-            var addTeacher = _thongTin.Add(new ThongTinHocVien { IdhocVien = result!.IdhocVien, IdlopHoc = idLopHoc });
+            var addTTHV = _thongTin.Add(new ThongTinHocVien { IdhocVien = result!.IdhocVien, IdlopHoc = idLopHoc });
 
             var hocVienDTO = _mapper.Map<HocVienDTO>(result);
 

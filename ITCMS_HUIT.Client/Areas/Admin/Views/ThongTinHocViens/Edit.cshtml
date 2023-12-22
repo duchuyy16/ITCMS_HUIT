@@ -91,7 +91,10 @@
                                             </div>
                                         </div>
                                         <div class="mt-3">
-                                            <button type="submit" class="btn btn-primary">Cập Nhật</button> |
+                                            <input type="hidden" asp-for="IdhocVien" />
+                                            <input type="hidden" asp-for="IdlopHoc" />
+                                            <input type="submit" value="Edit" class="btn btn-danger" onclick="return confirm('
+                                                    Bạn có chắc chắn muốn cập nhật thông tin học viên này không?');" /> |
                                             <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
                                         </div>
                                     </div>

@@ -71,7 +71,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThongBao")] ThongTinHocVienDTO model)
+        public ActionResult Create([Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThanhToan")] ThongTinHocVienDTO model)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int IdhocVien, int IdlopHoc, [Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThongBao")] ThongTinHocVienDTO model)
+        public ActionResult Edit(int IdhocVien, int IdlopHoc, [Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThanhToan")] ThongTinHocVienDTO model)
         {
             try
             {

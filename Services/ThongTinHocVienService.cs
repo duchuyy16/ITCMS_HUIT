@@ -62,9 +62,9 @@ namespace Services
             return dsThongTinHocVienDTO;
         }
 
-        public List<ThongTinHocVienDTO> Search(int idHocVien)
+        public List<ThongTinHocVienDTO> Search(string tenHocVien)
         {
-            var dsThongTinHocVien = _thongTin.Search(idHocVien);
+            var dsThongTinHocVien = _thongTin.Search(tenHocVien);
 
             var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
             {
@@ -235,5 +235,24 @@ namespace Services
 
             return memoryStream;
         }
+
+        public void Import(Stream excelFileStream)
+        {
+            var dsThongTinHocVien = new List<ThongTinHocVien>();
+
+            var rows = MiniExcel.Query(excelFileStream).ToList();
+
+            foreach (var row in rows)
+            {
+                var thongTinHocVien = new ThongTinHocVien
+                {
+                    IdhocVien = row[0],
+                    IdlopHoc = row[1],
+                    Diem = decimal.Parse(row[2]),
+                };
+                dsThongTinHocVien.Add(thongTinHocVien);
+            }
+        }
+
     }
 }

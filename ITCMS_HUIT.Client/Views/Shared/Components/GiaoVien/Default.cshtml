@@ -3,8 +3,8 @@
     .image-teacher {
         width: 182.5px;
         height: 182.5px;
-        border-radius: 50%; /* Điều này sẽ làm cho hình ảnh trở thành hình tròn */
-        overflow: hidden; /* Đảm bảo hình ảnh không bị tràn ra khỏi vùng chứa */
+        border-radius: 50%;
+        overflow: hidden;
     }
 </style>
 
@@ -14,7 +14,7 @@
             @foreach (GiaoVienDTO item in Model)
             {
                 <div class="col-md-3">
-                    <div class="box m30">
+                    <div class="box m30" style="width:262.5px;height:388.72px;">
                         <img class="image-teacher" src="~/images/teachers/@item.HinhAnh" alt="Teacher Image 1">
                         <h4>@item.TenGiaoVien</h4>
                         <p>@item.TrinhDo</p>
