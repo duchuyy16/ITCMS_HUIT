@@ -3,6 +3,7 @@ using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using MiniExcelLibs;
 using Services.MailKit;
 using System;
@@ -10,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-#nullable disable
+#nullable enable
 
 namespace Services
 {
@@ -23,6 +24,7 @@ namespace Services
         private readonly ITrangThaiHocVienRepo _trangThai;
         private readonly IKhoaHocRepo _khoaHoc;
         private readonly IGiaoVienRepo _giaoVien;
+
         public ThongTinHocVienService(IRepo thongTin, IMapper mapper, IMailService mail)
         {
             _mail = mail;
@@ -32,6 +34,7 @@ namespace Services
             _trangThai = thongTin.TrangThaiHocVienRepo;
             _khoaHoc = thongTin.KhoaHocRepo;
             _giaoVien = thongTin.GiaoVienRepo;
+
         }
 
         public bool IsExist(int idHocVien, int idLopHoc)
@@ -177,46 +180,79 @@ namespace Services
             return thongTinHocVienDTO;
         }
 
+        //public MemoryStream Export()
+        //{
+        //    var dsThongTin = GetAll();
+        //    var dsDoiTuong= _doiTuongDangKy.GetAll();
+        //    var dsTrangThai= _trangThai.GetAll();
+        //    var dsKhoaHoc= _khoaHoc.GetAll();
+        //    var dsGiaoVien=_giaoVien.GetAll();
+
+        //    var dsThongTinHocVienDTO = dsThongTin.Select(s => new 
+        //    {
+        //        MaHocVien = s.IdhocVien,
+        //        TenHocVien =s.IdhocVienNavigation.TenHocVien,
+        //        NgaySinh = s.IdhocVienNavigation.NgaySinh,
+        //        Email = s.IdhocVienNavigation.Email,
+        //        SDT = s.IdhocVienNavigation.Sdt,
+        //        DiaChi = s.IdhocVienNavigation.DiaChi,
+        //        NgayDangKy = s.IdhocVienNavigation.NgayDangKy,
+        //        DoiTuong = dsDoiTuong
+        //            .Where(x => x.IddoiTuong == s.IdhocVienNavigation.IddoiTuong)
+        //            .Select(x => x.DoiTuongDangKy1)
+        //            .FirstOrDefault(),
+        //        TrangThai = dsTrangThai
+        //            .Where(x => x.IdtrangThai == s.IdhocVienNavigation.IdtrangThai)
+        //            .Select(x => x.TenTrangThai)
+        //            .FirstOrDefault(),
+        //        LopHoc=s.IdlopHocNavigation.IdlopHoc,
+        //        TenLopHoc = s.IdlopHocNavigation.TenLopHoc,
+        //        ThoiGian = s.IdlopHocNavigation.ThoiGian,
+        //        NgayBatDau = s.IdlopHocNavigation.NgayBatDau,
+        //        NgayKetThuc = s.IdlopHocNavigation.NgayKetThuc,
+        //        DiaDiem = s.IdlopHocNavigation.DiaDiem,
+        //        PhongHoc=s.IdlopHocNavigation.PhongHoc,
+        //        KhoaHoc = dsKhoaHoc
+        //            .Where(x => x.IdkhoaHoc == s.IdlopHocNavigation.IdkhoaHoc)
+        //            .Select(x => x.TenKhoaHoc)
+        //            .FirstOrDefault(),
+        //        GiaoVien = dsGiaoVien
+        //            .Where(x => x.IdgiaoVien == s.IdlopHocNavigation.IdgiaoVien)
+        //            .Select(x => x.TenGiaoVien)
+        //            .FirstOrDefault(),
+        //        Diem = s.Diem,
+        //        NgayThongBao = s.NgayThongBao,
+        //        TrangThaiThongBao = s.TrangThaiThongBao!,
+        //        SoLanVangMat = s.SoLanVangMat,
+        //        LyDoThongBao = s.LyDoThongBao,
+        //        HocPhi = s.HocPhi,
+        //        NgayGioGiaoDich = s.NgayGioGiaoDich!,
+        //        TrangThaiThanhToan = s.TrangThaiThanhToan,
+
+
+        //    }).ToList();
+
+        //    var memoryStream = new MemoryStream();
+        //    memoryStream.SaveAs(dsThongTinHocVienDTO);
+        //    memoryStream.Seek(0, SeekOrigin.Begin);
+
+        //    return memoryStream;
+        //}
+
         public MemoryStream Export()
         {
             var dsThongTin = GetAll();
-            var dsDoiTuong= _doiTuongDangKy.GetAll();
-            var dsTrangThai= _trangThai.GetAll();
-            var dsKhoaHoc= _khoaHoc.GetAll();
-            var dsGiaoVien=_giaoVien.GetAll();
+            var dsDoiTuong = _doiTuongDangKy.GetAll();
+            var dsTrangThai = _trangThai.GetAll();
+            var dsKhoaHoc = _khoaHoc.GetAll();
+            var dsGiaoVien = _giaoVien.GetAll();
 
-            var dsThongTinHocVienDTO = dsThongTin.Select(s => new 
+            var dsThongTinHocVienDTO = dsThongTin.Select(s => new
             {
                 MaHocVien = s.IdhocVien,
-                TenHocVien =s.IdhocVienNavigation.TenHocVien,
-                NgaySinh = s.IdhocVienNavigation.NgaySinh,
-                Email = s.IdhocVienNavigation.Email,
-                SDT = s.IdhocVienNavigation.Sdt,
-                DiaChi = s.IdhocVienNavigation.DiaChi,
-                NgayDangKy = s.IdhocVienNavigation.NgayDangKy,
-                DoiTuong = dsDoiTuong
-                    .Where(x => x.IddoiTuong == s.IdhocVienNavigation.IddoiTuong)
-                    .Select(x => x.DoiTuongDangKy1)
-                    .FirstOrDefault(),
-                TrangThai = dsTrangThai
-                    .Where(x => x.IdtrangThai == s.IdhocVienNavigation.IdtrangThai)
-                    .Select(x => x.TenTrangThai)
-                    .FirstOrDefault(),
-                LopHoc=s.IdlopHocNavigation.IdlopHoc,
+                TenHocVien = s.IdhocVienNavigation!.TenHocVien,
+                LopHoc = s.IdlopHocNavigation!.IdlopHoc,
                 TenLopHoc = s.IdlopHocNavigation.TenLopHoc,
-                ThoiGian = s.IdlopHocNavigation.ThoiGian,
-                NgayBatDau = s.IdlopHocNavigation.NgayBatDau,
-                NgayKetThuc = s.IdlopHocNavigation.NgayKetThuc,
-                DiaDiem = s.IdlopHocNavigation.DiaDiem,
-                PhongHoc=s.IdlopHocNavigation.PhongHoc,
-                KhoaHoc = dsKhoaHoc
-                    .Where(x => x.IdkhoaHoc == s.IdlopHocNavigation.IdkhoaHoc)
-                    .Select(x => x.TenKhoaHoc)
-                    .FirstOrDefault(),
-                GiaoVien = dsGiaoVien
-                    .Where(x => x.IdgiaoVien == s.IdlopHocNavigation.IdgiaoVien)
-                    .Select(x => x.TenGiaoVien)
-                    .FirstOrDefault(),
                 Diem = s.Diem,
                 NgayThongBao = s.NgayThongBao,
                 TrangThaiThongBao = s.TrangThaiThongBao!,
@@ -226,7 +262,7 @@ namespace Services
                 NgayGioGiaoDich = s.NgayGioGiaoDich!,
                 TrangThaiThanhToan = s.TrangThaiThanhToan,
 
-                
+
             }).ToList();
 
             var memoryStream = new MemoryStream();
@@ -236,23 +272,116 @@ namespace Services
             return memoryStream;
         }
 
-        public void Import(Stream excelFileStream)
+        public bool Import(string? fileName)
         {
-            var dsThongTinHocVien = new List<ThongTinHocVien>();
+            //string FilePath = Path.Combine(fileName);
+            //if (!File.Exists(FilePath)) 
+            //    return false;
 
-            var rows = MiniExcel.Query(excelFileStream).ToList();
+            var rows = MiniExcel.Query(fileName).ToList();
 
             foreach (var row in rows)
             {
-                var thongTinHocVien = new ThongTinHocVien
-                {
-                    IdhocVien = row[0],
-                    IdlopHoc = row[1],
-                    Diem = decimal.Parse(row[2]),
-                };
-                dsThongTinHocVien.Add(thongTinHocVien);
-            }
-        }
+                var thongTinHocVien = new ThongTinHocVien();
 
+                if (int.TryParse(row[0].ToString(), out int idHocVien))
+                {
+                    thongTinHocVien.IdhocVien = idHocVien;
+                }
+                else
+                {
+                    thongTinHocVien.IdhocVien = 0;
+                }
+
+                thongTinHocVien.IdhocVienNavigation.TenHocVien = row[1].ToString();
+
+                // Parsing IdlopHoc
+                if (int.TryParse(row[2].ToString(), out int idLopHoc))
+                {
+                    thongTinHocVien.IdlopHoc = idLopHoc;
+                }
+                else
+                {
+                    thongTinHocVien.IdlopHoc = 0;
+                }
+
+                thongTinHocVien.IdlopHocNavigation.TenLopHoc = row[3].ToString(); // Correct index
+
+                // Parsing Diem
+                if (decimal.TryParse(row[4].ToString(), out decimal diem))
+                {
+                    thongTinHocVien.Diem = diem;
+                }
+                else
+                {
+                    thongTinHocVien.Diem = 0.0m;
+                }
+
+                // Parsing NgayThongBao
+                if (DateTime.TryParse(row[5].ToString(), out DateTime ngayThongBao))
+                {
+                    thongTinHocVien.NgayThongBao = ngayThongBao;
+                }
+                else
+                {
+                    thongTinHocVien.NgayThongBao = default(DateTime);
+                }
+
+                // Parsing TrangThaiThongBao
+                if (bool.TryParse(row[6].ToString(), out bool trangThaiThongBao))
+                {
+                    thongTinHocVien.TrangThaiThongBao = trangThaiThongBao;
+                }
+                else
+                {
+                    thongTinHocVien.TrangThaiThongBao = false;
+                }
+
+                // Parsing SoLanVangMat
+                if (int.TryParse(row[7].ToString(), out int soLanVangMat))
+                {
+                    thongTinHocVien.SoLanVangMat = soLanVangMat;
+                }
+                else
+                {
+                    thongTinHocVien.SoLanVangMat = 0;
+                }
+
+                thongTinHocVien.LyDoThongBao = row[8].ToString();
+
+                // Parsing HocPhi
+                if (decimal.TryParse(row[9].ToString(), out decimal hocPhi))
+                {
+                    thongTinHocVien.HocPhi = hocPhi;
+                }
+                else
+                {
+                    thongTinHocVien.HocPhi = 0.0m;
+                }
+
+                // Parsing NgayGioGiaoDich
+                if (DateTime.TryParse(row[10].ToString(), out DateTime ngayGioGiaoDich))
+                {
+                    thongTinHocVien.NgayGioGiaoDich = ngayGioGiaoDich;
+                }
+                else
+                {
+                    thongTinHocVien.NgayGioGiaoDich = default(DateTime);
+                }
+
+                // Parsing TrangThaiThanhToan
+                if (bool.TryParse(row[11].ToString(), out bool trangThaiThanhToan))
+                {
+                    thongTinHocVien.TrangThaiThanhToan = trangThaiThanhToan;
+                }
+                else
+                {
+                    thongTinHocVien.TrangThaiThanhToan = false;
+                }
+
+                var update = _thongTin.Update(thongTinHocVien);
+            }
+            return true;
+        }
     }
 }

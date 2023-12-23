@@ -29,7 +29,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var backup = Utilities.SendDataRequest<List<string>>(ConstantValues.CoSoDuLieu.Backup);
-                return View(backup);
+                return RedirectToAction("Index");
             }
             catch
             {

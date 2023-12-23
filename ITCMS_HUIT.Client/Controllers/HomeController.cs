@@ -27,7 +27,7 @@ namespace ITCMS_HUIT.Client.Controllers
 
         public IActionResult Index()
         {
-            var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach).Take(10);
+            var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach).Take(8);
             return View(dsKhoaHoc);
         }
     }
