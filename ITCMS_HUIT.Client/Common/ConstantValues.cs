@@ -102,6 +102,7 @@
             public const string CapNhat = "api/ThongTinHocVien/cap-nhat-thong-tin-hoc-vien";
             public const string Them = "api/ThongTinHocVien/them-thong-tin-hoc-vien";
             public const string Export = "api/ThongTinHocVien/xuat-file-excel";
+            public const string Import = "api/ThongTinHocVien/nhap-file-excel/{0}";
         }
 
         public class TrangThaiHocVien

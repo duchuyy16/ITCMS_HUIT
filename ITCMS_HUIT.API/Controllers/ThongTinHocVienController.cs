@@ -21,14 +21,29 @@ namespace ITCMS_HUIT.API.Controllers
         public IActionResult Export()
         {
             try
-            {            
+            {
                 MemoryStream file = _thongTin.Export();
+
+                string fileName = "DanhSachThongTinHocVien.xlsx";
+                string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
+
+                int fileCount = 1;
+                while (System.IO.File.Exists(filePath))
+                {
+                    fileName = $"DanhSachThongTinHocVien_{fileCount}.xlsx";
+                    filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
+                    fileCount++;
+                }
+
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
 
                 return new FileStreamResult(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
-                    FileDownloadName = "DanhSachThongTinHocVien.xlsx"
+                    FileDownloadName = fileName
                 };
-
             }
             catch (Exception ex)
             {
@@ -36,18 +51,18 @@ namespace ITCMS_HUIT.API.Controllers
             }
         }
 
-        [HttpPost("nhap-file-excel")]
-        public IActionResult Import(string? filename)
+        [HttpPost("nhap-file-excel/{fileName}")]
+        public IActionResult Import(string fileName)
         {
             try
             {
-                _thongTin.Import(filename);
+                bool result = _thongTin.Import(fileName);
 
                 var apiResponse = new ApiResponse<bool>
                 {
                     Status = "Thành công",
                     Message = "Import thành công",
-                    Data = true
+                    Data = result
                 };
 
                 return Ok(apiResponse);
@@ -57,35 +72,6 @@ namespace ITCMS_HUIT.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
             }
         }
-
-        //[HttpPost("nhap-file-excel")]
-        //public IActionResult Import([FromForm] IFormFile excelFile)
-        //{
-        //    try
-        //    {
-        //        if (excelFile == null || excelFile.Length == 0)
-        //        {
-        //            return BadRequest("File not selected or empty.");
-        //        }
-
-        //        _thongTin.Import(excelFile);
-
-        //        var apiResponse = new ApiResponse<bool>
-        //        {
-        //            Status = "Thành công",
-        //            Message = "Import thành công",
-        //            Data = true
-        //        };
-
-        //        return Ok(apiResponse);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
-        //    }
-        //}
-
-
 
         [HttpPost("kiem-tra-ton-tai/{idHocVien}&{idLopHoc}")]
         public IActionResult IsExist(int idHocVien, int idLopHoc)

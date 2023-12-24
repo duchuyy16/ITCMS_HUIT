@@ -163,6 +163,33 @@
 	<div>
 		@RenderBody();
 	</div>
+	@if (TempData["ImportSuccessMessage"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Import thành công!',
+					text: '@Html.Raw(TempData["ImportSuccessMessage"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["ImportErrorMessage"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Import thất bại!',
+					text: '@Html.Raw(TempData["ImportErrorMessage"])',
+					icon: 'error',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
 
 	<!-- [ Body ] end -->
 

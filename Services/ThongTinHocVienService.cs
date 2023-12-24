@@ -4,6 +4,7 @@ using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MiniExcelLibs;
 using Services.MailKit;
 using System;
@@ -11,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-#nullable enable
+#nullable disable
 
 namespace Services
 {
@@ -272,19 +273,21 @@ namespace Services
             return memoryStream;
         }
 
-        public bool Import(string? fileName)
+        public bool Import(string fileName)
         {
-            //string FilePath = Path.Combine(fileName);
-            //if (!File.Exists(FilePath)) 
-            //    return false;
+            string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
 
-            var rows = MiniExcel.Query(fileName).ToList();
+            if (!File.Exists(filePath))
+                return false;
 
-            foreach (var row in rows)
+            var rows = MiniExcel.Query(filePath).ToList();
+
+            for (int i = 1; i < rows.Count; i++)
             {
                 var thongTinHocVien = new ThongTinHocVien();
+                var dictionaryRow = (IDictionary<string, object>)rows[i];
 
-                if (int.TryParse(row[0].ToString(), out int idHocVien))
+                if (dictionaryRow.ContainsKey("A") && int.TryParse(dictionaryRow["A"].ToString(), out int idHocVien))
                 {
                     thongTinHocVien.IdhocVien = idHocVien;
                 }
@@ -293,10 +296,9 @@ namespace Services
                     thongTinHocVien.IdhocVien = 0;
                 }
 
-                thongTinHocVien.IdhocVienNavigation.TenHocVien = row[1].ToString();
+                thongTinHocVien.IdhocVienNavigation.TenHocVien = dictionaryRow.ContainsKey("B") ? dictionaryRow["B"].ToString() : "";
 
-                // Parsing IdlopHoc
-                if (int.TryParse(row[2].ToString(), out int idLopHoc))
+                if (dictionaryRow.ContainsKey("C") && int.TryParse(dictionaryRow["C"].ToString(), out int idLopHoc))
                 {
                     thongTinHocVien.IdlopHoc = idLopHoc;
                 }
@@ -305,30 +307,29 @@ namespace Services
                     thongTinHocVien.IdlopHoc = 0;
                 }
 
-                thongTinHocVien.IdlopHocNavigation.TenLopHoc = row[3].ToString(); // Correct index
+                thongTinHocVien.IdlopHocNavigation.TenLopHoc = dictionaryRow.ContainsKey("D") ? dictionaryRow["D"].ToString() : "";
 
-                // Parsing Diem
-                if (decimal.TryParse(row[4].ToString(), out decimal diem))
+                if (dictionaryRow.ContainsKey("E") && dictionaryRow["E"] !=null)
                 {
-                    thongTinHocVien.Diem = diem;
+                    if (decimal.TryParse(dictionaryRow["E"].ToString(), out decimal diem))
+                        thongTinHocVien.Diem = diem;   
                 }
                 else
                 {
-                    thongTinHocVien.Diem = 0.0m;
+                    thongTinHocVien.Diem = null;
                 }
 
-                // Parsing NgayThongBao
-                if (DateTime.TryParse(row[5].ToString(), out DateTime ngayThongBao))
+                if (dictionaryRow.ContainsKey("F") && dictionaryRow["E"] != null)
                 {
-                    thongTinHocVien.NgayThongBao = ngayThongBao;
+                    if(DateTime.TryParse(dictionaryRow["F"].ToString(), out DateTime ngayThongBao))
+                        thongTinHocVien.NgayThongBao = ngayThongBao;
                 }
                 else
                 {
-                    thongTinHocVien.NgayThongBao = default(DateTime);
+                    thongTinHocVien.NgayThongBao = null;
                 }
 
-                // Parsing TrangThaiThongBao
-                if (bool.TryParse(row[6].ToString(), out bool trangThaiThongBao))
+                if (dictionaryRow.ContainsKey("G") && bool.TryParse(dictionaryRow["G"].ToString(), out bool trangThaiThongBao))
                 {
                     thongTinHocVien.TrangThaiThongBao = trangThaiThongBao;
                 }
@@ -337,40 +338,43 @@ namespace Services
                     thongTinHocVien.TrangThaiThongBao = false;
                 }
 
-                // Parsing SoLanVangMat
-                if (int.TryParse(row[7].ToString(), out int soLanVangMat))
+                if (dictionaryRow.ContainsKey("H") && dictionaryRow["H"] != null)
                 {
-                    thongTinHocVien.SoLanVangMat = soLanVangMat;
+                    if(int.TryParse(dictionaryRow["H"].ToString(), out int soLanVangMat))
+                        thongTinHocVien.SoLanVangMat = soLanVangMat;
                 }
                 else
                 {
                     thongTinHocVien.SoLanVangMat = 0;
                 }
 
-                thongTinHocVien.LyDoThongBao = row[8].ToString();
+                if (dictionaryRow["I"] != null)
+                    thongTinHocVien.LyDoThongBao = dictionaryRow.ContainsKey("I") ? dictionaryRow["I"].ToString() : "";
+                else
+                    thongTinHocVien.LyDoThongBao = null;
 
-                // Parsing HocPhi
-                if (decimal.TryParse(row[9].ToString(), out decimal hocPhi))
+
+                if (dictionaryRow.ContainsKey("J") && dictionaryRow["J"] != null)
                 {
+                    if(decimal.TryParse(dictionaryRow["J"].ToString(), out decimal hocPhi))
                     thongTinHocVien.HocPhi = hocPhi;
                 }
                 else
                 {
-                    thongTinHocVien.HocPhi = 0.0m;
+                    thongTinHocVien.HocPhi = 0;
                 }
 
-                // Parsing NgayGioGiaoDich
-                if (DateTime.TryParse(row[10].ToString(), out DateTime ngayGioGiaoDich))
+                if (dictionaryRow.ContainsKey("K") && dictionaryRow["K"] != null)
                 {
+                    if(DateTime.TryParse(dictionaryRow["K"].ToString(), out DateTime ngayGioGiaoDich))
                     thongTinHocVien.NgayGioGiaoDich = ngayGioGiaoDich;
                 }
                 else
                 {
-                    thongTinHocVien.NgayGioGiaoDich = default(DateTime);
+                    thongTinHocVien.NgayGioGiaoDich = null;
                 }
 
-                // Parsing TrangThaiThanhToan
-                if (bool.TryParse(row[11].ToString(), out bool trangThaiThanhToan))
+                if (dictionaryRow.ContainsKey("L") && bool.TryParse(dictionaryRow["L"].ToString(), out bool trangThaiThanhToan))
                 {
                     thongTinHocVien.TrangThaiThanhToan = trangThaiThanhToan;
                 }
@@ -383,5 +387,6 @@ namespace Services
             }
             return true;
         }
+
     }
 }

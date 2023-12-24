@@ -16,7 +16,17 @@ namespace ITCMS_HUIT.Models
         public DateTime? NgayGioGiaoDich { get; set; }
         public bool? TrangThaiThanhToan { get; set; }
 
-        public virtual HocVien IdhocVienNavigation { get; set; } = null!;
-        public virtual LopHoc IdlopHocNavigation { get; set; } = null!;
+        private HocVien _idhocVienNavigation = null!;
+        public virtual HocVien IdhocVienNavigation
+        {
+            get => _idhocVienNavigation ??= new HocVien();
+            set => _idhocVienNavigation = value ?? throw new ArgumentNullException(nameof(value));
+        }
+        private LopHoc _idlopHocNavigation = null!;
+        public virtual LopHoc IdlopHocNavigation
+        {
+            get => _idlopHocNavigation ??= new LopHoc();
+            set => _idlopHocNavigation = value ?? throw new ArgumentNullException(nameof(value));
+        }
     }
 }

@@ -59,17 +59,17 @@
                         <!-- [ Main Content ] start -->
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="card">
-                                    @* <div class="card-header">                                      
-                                        <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> 
-                                        <a class="btn btn-success" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
-                                    </div> *@
-                                    <div class="card-header">
+                                <div class="card">                            
+                                    @* <div class="card-header">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="full-left">
                                                 <a class="btn btn-success" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
                                             </div>
-                                           @*  <div class="full-right">
+                                            <form asp-controller="CoSoDuLieus" asp-action="Restore" method="post">
+                                                <input type="hidden" name="fileName" value="fileName" />
+                                                <button type="submit" class="btn btn-success">Phục hồi</button>
+                                            </form>
+                                            <div class="full-right">
                                                 
                                                 <form class="form-inline">
                                                     <div class="form-group mx-sm-3 mb-2">
@@ -78,7 +78,28 @@
                                                     </div>
                                                     <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
                                                 </form>
-                                            </div> *@
+                                            </div>
+                                        </div>
+                                    </div> *@
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="full-left">
+                                                <a class="btn btn-success" asp-action="ExportExcel"><i class="fas fa-file-excel"></i> Export Excel</a>
+                                            </div>
+                                            <div class="full-right">
+                                                <div class="full-right">
+                                                    <form asp-controller="ThongTinHocViens" asp-action="Import" method="post" class="d-flex">
+                                                        <div class="input-group">
+                                                            <input type="file" id="fileInput" class="form-control" onchange="setFileName()" />
+                                                            <input type="hidden" id="fileNameInput" name="fileName" value="" />
+                                                            <div class="input-group-append">
+                                                                <button type="submit" class="btn btn-info">Import Excel</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
 
@@ -190,3 +211,17 @@
     </div>
 </section>
 
+<script>
+    function setFileName() {
+        var files = document.getElementById("fileInput").files;
+
+        // Kiểm tra xem có ít nhất một file đã chọn hay không
+        if (files.length > 0) {
+            // Lấy tên của file đầu tiên
+            var fileName = files[0].name;
+
+            // Đặt giá trị vào input hidden
+            document.getElementById("fileNameInput").value = fileName;
+        }
+    }
+</script>

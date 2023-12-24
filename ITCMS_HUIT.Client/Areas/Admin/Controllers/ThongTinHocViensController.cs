@@ -28,21 +28,61 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 return BadRequest();
             }
         }
-
         public ActionResult ExportExcel()
         {
             try
             {
                 MemoryStream file = Utilities.SendDataRequest<MemoryStream>(ConstantValues.ThongTinHocVien.Export);
+
+                string fileName = "DanhSachThongTinHocVien.xlsx";
+                string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
+
+                int fileCount = 1;
+                while (System.IO.File.Exists(filePath))
+                {
+                    fileName = $"DanhSachThongTinHocVien_{fileCount}.xlsx";
+                    filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
+                    fileCount++;
+                }
+
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
                 return new FileStreamResult(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
-                    FileDownloadName = "DanhSachThongTinHocVien.xlsx"
+                    FileDownloadName = fileName
                 };
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public ActionResult Import(string fileName)
+        {
+            try
+            {
+                var url = string.Format(ConstantValues.ThongTinHocVien.Import, fileName);
+                var import = Utilities.SendDataRequest<bool>(url);
+
+                if (import)
+                {
+                    TempData["ImportSuccessMessage"] = "Import thành công!";
+                }
+                else
+                {
+                    TempData["ImportErrorMessage"] = "Import thất bại. Vui lòng thử lại sau.";
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                TempData["ImportErrorMessage"] = "Lỗi khôi phục bản sao lưu. Vui lòng thử lại sau.";
+                return View();
             }
         }
 
