@@ -2,6 +2,7 @@
 using ITCMS_HUIT.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MiniExcelLibs;
 using Services;
 using System.IO;
 
@@ -22,33 +23,32 @@ namespace ITCMS_HUIT.API.Controllers
         {
             try
             {
-                MemoryStream file = _thongTin.Export();
-
-                string fileName = "DanhSachThongTinHocVien.xlsx";
-                string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
-
-                int fileCount = 1;
-                while (System.IO.File.Exists(filePath))
+                try
                 {
-                    fileName = $"DanhSachThongTinHocVien_{fileCount}.xlsx";
-                    filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
-                    fileCount++;
+                    MemoryStream memoryStream = _thongTin.Export();
+
+                    string fileName = "DanhSachThongTinHocVien.xlsx";
+
+                    return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = fileName
+                    };
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message);
+                    return BadRequest(); // hoặc một phản hồi lỗi khác
                 }
 
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-
-                return new FileStreamResult(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                {
-                    FileDownloadName = fileName
-                };
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                // Xử lý exception nếu cần thiết
+                Console.WriteLine(ex.Message);
+                return BadRequest(); // hoặc một phản hồi lỗi khác
             }
+
         }
 
         [HttpPost("nhap-file-excel/{fileName}")]

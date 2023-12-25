@@ -163,6 +163,62 @@
 	<div>
 		@RenderBody();
 	</div>
+	@if (TempData["BackupSuccessMessage"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Sao lưu thành công!',
+					text: '@Html.Raw(TempData["BackupSuccessMessage"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+	
+	@if (TempData["BackupErrorMessage"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Sao lưu thành công!',
+					text: '@Html.Raw(TempData["BackupErrorMessage"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["RestoreSuccessMessage"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Sao lưu thành công!',
+					text: '@Html.Raw(TempData["RestoreSuccessMessage"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["RestoreErrorMessage"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Sao lưu thành công!',
+					text: '@Html.Raw(TempData["RestoreErrorMessage"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
 	@if (TempData["ImportSuccessMessage"] != null)
 	{
 		<script type="text/javascript">

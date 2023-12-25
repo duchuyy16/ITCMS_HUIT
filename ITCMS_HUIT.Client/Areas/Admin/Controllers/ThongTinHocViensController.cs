@@ -32,28 +32,15 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         {
             try
             {
-                MemoryStream file = Utilities.SendDataRequest<MemoryStream>(ConstantValues.ThongTinHocVien.Export);
+                ValueTuple<MemoryStream,string> file = Utilities.SendDataRequestExcel(ConstantValues.ThongTinHocVien.Export);
+                ValueTuple<MemoryStream, string> fileName = Utilities.SendDataRequestExcel(ConstantValues.ThongTinHocVien.Export);
 
-                string fileName = "DanhSachThongTinHocVien.xlsx";
-                string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
-
-                int fileCount = 1;
-                while (System.IO.File.Exists(filePath))
+                return new FileStreamResult(file.Item1, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
-                    fileName = $"DanhSachThongTinHocVien_{fileCount}.xlsx";
-                    filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
-                    fileCount++;
-                }
-
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-
-                return new FileStreamResult(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                {
-                    FileDownloadName = fileName
+                    
+                    FileDownloadName = file.Item2,
                 };
+
             }
             catch (Exception ex)
             {
@@ -86,13 +73,14 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult TimKiemHocVienTheoId(int? IdhocVien)
+        public ActionResult TimKiemHocVienTheoTenHocVien(string tenHocVien, int pageNo=1)
         {
-            if (IdhocVien!=null)
+            if (tenHocVien != null)
             {
-                var url = string.Format(ConstantValues.ThongTinHocVien.TimKiem, IdhocVien);
+                var url = string.Format(ConstantValues.ThongTinHocVien.TimKiem, tenHocVien);
                 var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url);
-                return View(thongTinHocViens);
+                var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
+                return View(pagedList);
             }
             else
             {

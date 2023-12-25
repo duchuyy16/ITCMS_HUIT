@@ -62,9 +62,11 @@ namespace Services
         {
             var hocVien = _hocVien.GetById(model.IdhocVien);
 
-            var result = _hocVien.Delete(hocVien);
+            var thongTinHocVien = _thongTin.GetByIdHocVien(model.IdhocVien);
 
-            var deleteTTHV = _thongTin.Delete(new ThongTinHocVien { IdhocVien= hocVien.IdhocVien});
+            var deleteTTHV = _thongTin.Delete(thongTinHocVien);
+
+            var result = _hocVien.Delete(hocVien);
 
             return result;
         }

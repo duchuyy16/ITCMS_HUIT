@@ -34,6 +34,7 @@ namespace ITCMS_HUIT.Client.Common
                 if(typeof(T) == typeof(MemoryStream))
                 {
                     var file = response.Content.ReadAsStreamAsync().Result;
+                    var fileName = response.Content.Headers.ContentDisposition!.FileName;
                     return (T)(object)file;
                 }    
 
@@ -54,7 +55,34 @@ namespace ITCMS_HUIT.Client.Common
             return result;
         }
 
+        public static ValueTuple<MemoryStream,string> SendDataRequestExcel(string APIUrl, object? input = null)
+        {
+            HttpClient client = new();
+            client.BaseAddress = new Uri("https://localhost:44352");
+            client.DefaultRequestHeaders.Accept.Clear();
 
+            var sessionToken = AppContext.Current!.Session.Get<string>("Token");
+
+            if (sessionToken != null)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessionToken);
+            }
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var jsonContent = JsonConvert.SerializeObject(input);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = client.SendAsync(new HttpRequestMessage(HttpMethod.Post, APIUrl) { Content = content }).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                    var file = response.Content.ReadAsStreamAsync().Result;
+                    var fileName = response.Content.Headers.ContentDisposition!.FileName;
+                    return new ValueTuple<MemoryStream,string>((file as MemoryStream)!,fileName!);                
+            }
+
+            return new ValueTuple<MemoryStream, string>();
+        }
 
         //static MultipartFormDataContent ConvertObjectToFormData(object data)
         //{

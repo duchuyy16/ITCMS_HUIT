@@ -70,7 +70,7 @@ namespace Services
         {
             var dsThongTinHocVien = _thongTin.Search(tenHocVien);
 
-            var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
+            var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s=> new ThongTinHocVienDTO
             {
                 IdhocVien = s.IdhocVien,
                 IdlopHoc = s.IdlopHoc,
