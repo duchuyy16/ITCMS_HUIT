@@ -272,13 +272,16 @@ namespace Services
 
             return memoryStream;
         }
+        //string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
 
+        //if (!File.Exists(filePath))
+        //    return false;
         public bool Import(string fileName)
         {
-            string filePath = Path.Combine(@"D:\KLTN\FileExcel", fileName);
+            string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
 
-            if (!File.Exists(filePath))
-                return false;
+            // Kết hợp đường dẫn với tên file để có filePath hoàn chỉnh
+            string filePath = Path.Combine(downloadsPath, fileName);
 
             var rows = MiniExcel.Query(filePath).ToList();
 
