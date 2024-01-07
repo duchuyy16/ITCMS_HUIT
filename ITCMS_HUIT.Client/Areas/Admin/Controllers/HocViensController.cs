@@ -9,14 +9,14 @@ using X.PagedList;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [CheckToken("Teacher,Admin")]
+    [CheckToken("Admin")]
     public class HocViensController : Controller
     {
         public ActionResult Index(int pageNo = 1)
         {
             try
             {
-                var dsHocVien = Utilities.SendDataRequest<List<HocVienDTO>>(ConstantValues.HocVien.DanhSach);
+                var dsHocVien = Utilities.SendDataRequest<List<HocVienDTO>>(ConstantValues.HocVien.DanhSach).Data;
                 var pagedList = dsHocVien.ToPagedList(pageNo, 5);
                 return View(pagedList);
             }
@@ -32,9 +32,9 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
-                    (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy), "IddoiTuong", "DoiTuongDangKy1");
+                    (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy).Data, "IddoiTuong", "DoiTuongDangKy1");
                 ViewData["IdTrangThai"] = new SelectList(Utilities.SendDataRequest<List<TrangThaiHocVienDTO>>
-                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien), "IdtrangThai", "TenTrangThai");
+                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien).Data, "IdtrangThai", "TenTrangThai");
                 return View();
             }
             catch (Exception)
@@ -56,9 +56,9 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
-                    (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy), model.IddoiTuong);
+                    (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy).Data, model.IddoiTuong);
                 ViewData["IdTrangThai"] = new SelectList(Utilities.SendDataRequest<List<TrangThaiHocVienDTO>>
-                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien), model.IdtrangThai);
+                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien).Data, model.IdtrangThai);
                 return View(model);
             }
             catch (Exception)
@@ -77,7 +77,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.HocVien.ChiTietHocVien, id);
-                var hocVien = Utilities.SendDataRequest<HocVienDTO>(url);
+                var hocVien = Utilities.SendDataRequest<HocVienDTO>(url).Data;
                 if (hocVien == null)
                 {
                     return NotFound();
@@ -101,16 +101,16 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.HocVien.ChiTietHocVien, id);
-                var HocVien = Utilities.SendDataRequest<HocVienDTO>(url);
+                var HocVien = Utilities.SendDataRequest<HocVienDTO>(url).Data;
                 if (HocVien == null)
                 {
                     return NotFound();
                 }
 
                 ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
-                  (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy), "IddoiTuong", "DoiTuongDangKy1");
+                  (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy).Data, "IddoiTuong", "DoiTuongDangKy1");
                 ViewData["IdTrangThai"] = new SelectList(Utilities.SendDataRequest<List<TrangThaiHocVienDTO>>
-                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien), "IdtrangThai", "TenTrangThai");
+                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien).Data, "IdtrangThai", "TenTrangThai");
 
                 return View(HocVien);
             }
@@ -152,9 +152,9 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
-                  (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy), "IddoiTuong", "DoiTuongDangKy1",model.IddoiTuong);
+                  (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy).Data, "IddoiTuong", "DoiTuongDangKy1",model.IddoiTuong);
                 ViewData["IdTrangThai"] = new SelectList(Utilities.SendDataRequest<List<TrangThaiHocVienDTO>>
-                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien), "IdtrangThai", "TenTrangThai",model.IdtrangThai);
+                   (ConstantValues.TrangThaiHocVien.DanhSachTrangThaiHocVien).Data, "IdtrangThai", "TenTrangThai",model.IdtrangThai);
                 return View(model);
             }
             catch (Exception)
@@ -173,7 +173,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.HocVien.ChiTietHocVien, id);
-                var HocVien = Utilities.SendDataRequest<HocVienDTO>(url);
+                var HocVien = Utilities.SendDataRequest<HocVienDTO>(url).Data;
                 if (HocVien == null)
                 {
                     return NotFound();
@@ -195,7 +195,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var url = string.Format(ConstantValues.HocVien.ChiTietHocVien, id);
-                var HocVien = Utilities.SendDataRequest<HocVienDTO>(url);
+                var HocVien = Utilities.SendDataRequest<HocVienDTO>(url).Data;
                 Utilities.SendDataRequest<bool>(ConstantValues.HocVien.Xoa, HocVien);
                 return RedirectToAction(nameof(Index));
             }
@@ -209,7 +209,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         private bool IsExist(int id)
         {
             var url = string.Format(ConstantValues.HocVien.KiemTraTonTai, id);
-            var HocVien = Utilities.SendDataRequest<bool>(url);
+            var HocVien = Utilities.SendDataRequest<bool>(url).Data;
             if (HocVien != true) return false;
             else return true;
         }

@@ -9,7 +9,7 @@ namespace ITCMS_HUIT.Client.Controllers
         public IActionResult ThongTinChiTietLopHoc(int id)
         {
             var url = string.Format(ConstantValues.LopHoc.ChiTietLopHoc, id);
-            var chiTietLopHoc = Utilities.SendDataRequest<LopHocDTO>(url);
+            var chiTietLopHoc = Utilities.SendDataRequest<LopHocDTO>(url).Data;
 
             return View(chiTietLopHoc);
         }

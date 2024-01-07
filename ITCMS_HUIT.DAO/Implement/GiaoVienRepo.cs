@@ -44,5 +44,10 @@ namespace ITCMS_HUIT.Repository.Implement
         {
             return _context.GiaoViens.Count();
         }
-    }
+
+		public List<GiaoVien> Search(string tenGiaoVien)
+		{
+			return _context.GiaoViens.Where(x=>x.TenGiaoVien.Contains(tenGiaoVien)).ToList();
+		}
+	}
 }

@@ -34,7 +34,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Error", Message = ex.Message });
             }
         }
 
@@ -56,7 +56,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<KhoaHocDTO>> { Status = "Error", Message = ex.Message });
             }
         }
 
@@ -78,7 +78,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<KhoaHocDTO>> { Status = "Error", Message = ex.Message });
             }
         }
 
@@ -100,7 +100,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<KhoaHocDTO>> { Status = "Error", Message = ex.Message });
             }
         }
 
@@ -122,7 +122,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<KhoaHocDTO> { Status = "Error", Message = ex.Message });
             }
         }
 
@@ -145,7 +145,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -167,7 +167,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -189,7 +189,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<KhoaHocDTO> { Status = "Lỗi", Message = ex.Message });
             }
         }
 

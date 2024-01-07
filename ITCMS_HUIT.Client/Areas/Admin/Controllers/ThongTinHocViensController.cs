@@ -14,11 +14,12 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
     [CheckToken("Teacher,Admin")]
     public class ThongTinHocViensController : Controller
     {
-        public ActionResult Index(int pageNo=1)
+        public ActionResult Index(string id,int pageNo=1)
         {
             try
             {
-                var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(ConstantValues.ThongTinHocVien.DanhSach);
+                var url = string.Format(ConstantValues.ThongTinHocVien.DanhSachHocVienTheoGiaoVien, id);
+                var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url).Data;
                 var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
                 return View(pagedList);
 
@@ -28,6 +29,22 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 return BadRequest();
             }
         }
+
+        public ActionResult IndexAdmin(int pageNo = 1)
+        {
+            try
+            {
+                var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(ConstantValues.ThongTinHocVien.DanhSach).Data;
+                var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
+                return View(pagedList);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         public ActionResult ExportExcel()
         {
             try
@@ -55,7 +72,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 var url = string.Format(ConstantValues.ThongTinHocVien.Import, fileName);
                 var import = Utilities.SendDataRequest<bool>(url);
 
-                if (import)
+                if (import.Data)
                 {
                     TempData["ImportSuccessMessage"] = "Import thành công!";
                 }
@@ -78,22 +95,22 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             if (tenHocVien != null)
             {
                 var url = string.Format(ConstantValues.ThongTinHocVien.TimKiem, tenHocVien);
-                var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url);
+                var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url).Data;
                 var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
                 return View(pagedList);
             }
             else
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
         }
 
         public ActionResult Create()
         {
             ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                   (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
+                   (ConstantValues.HocVien.DanhSach).Data, "IdhocVien", "TenHocVien");
             ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc");
+                (ConstantValues.LopHoc.DanhSach).Data, "IdlopHoc", "TenLopHoc");
             return View();
         }
 
@@ -109,9 +126,9 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                  (ConstantValues.HocVien.DanhSach), "IdhocVien", "TenHocVien");
+                  (ConstantValues.HocVien.DanhSach).Data, "IdhocVien", "TenHocVien");
                 ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                    (ConstantValues.LopHoc.DanhSach), "IdlopHoc", "TenLopHoc");
+                    (ConstantValues.LopHoc.DanhSach).Data, "IdlopHoc", "TenLopHoc");
                 return View(model);
             }
             catch (Exception)
@@ -130,7 +147,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
                 if (thongTinHocVien == null)
                 {
                     return NotFound();
@@ -153,7 +170,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     return NotFound();
                 }
                 var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
 
 
                 if (thongTinHocVien == null)
@@ -180,7 +197,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     return NotFound();
                 }
                 var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
 
                 model.IdhocVienNavigation = thongTinHocVien.IdhocVienNavigation;
 
@@ -222,7 +239,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var khoaHoc = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+                var khoaHoc = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
                 if (khoaHoc == null)
                 {
                     return NotFound();
@@ -244,7 +261,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url);
+                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
                 Utilities.SendDataRequest<bool>(ConstantValues.ThongTinHocVien.Xoa, thongTinHocVien);
                 return RedirectToAction(nameof(Index));
             }
@@ -258,7 +275,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         private bool IsExist(int IdhocVien, int IdlopHoc)
         {
             var url = string.Format(ConstantValues.ThongTinHocVien.KiemTraTonTai, IdhocVien, IdlopHoc);
-            var thongTinHocVien = Utilities.SendDataRequest<bool>(url);
+            var thongTinHocVien = Utilities.SendDataRequest<bool>(url).Data;
             if (thongTinHocVien != true) return false;
             else return true;
         }

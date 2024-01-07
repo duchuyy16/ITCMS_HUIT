@@ -119,7 +119,6 @@ namespace Services
             }
             else
             {
-                // Xử lý khi thư mục không tồn tại
                 Console.WriteLine($"Thư mục backup '{backupDirectory}' không tồn tại.");
             }
 

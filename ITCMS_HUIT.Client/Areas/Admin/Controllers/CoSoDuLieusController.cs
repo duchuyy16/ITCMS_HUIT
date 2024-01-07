@@ -13,7 +13,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         {
             try
             {
-                var backupFiles = Utilities.SendDataRequest<List<string>>(ConstantValues.CoSoDuLieu.BackupFiles);
+                var backupFiles = Utilities.SendDataRequest<List<string>>(ConstantValues.CoSoDuLieu.BackupFiles).Data;
                 var pagedList = backupFiles.ToPagedList(pageNo, 5);
                 return View(pagedList);
             }
@@ -51,7 +51,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {      
                 var url = string.Format(ConstantValues.CoSoDuLieu.Restore, backupFileName);
-                var restore = Utilities.SendDataRequest<bool>(url);
+                var restore = Utilities.SendDataRequest<bool>(url).Data;
 				if (restore)
 				{
 					TempData["RestoreSuccessMessage"] = "Phục hồi thành công!";

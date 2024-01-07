@@ -16,7 +16,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            var token = Utilities.SendDataRequest<string>(ConstantValues.Authenticate.Login, model);
+            var token = Utilities.SendDataRequest<string>(ConstantValues.Authenticate.Login, model).Data;
 
             if (string.IsNullOrEmpty(token))
             {
@@ -42,20 +42,30 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         {
             try
             {
-                if (model.Username == null || model.Email == null || model.Password == null)
-                    return NotFound();
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("","Đăng ký không hợp lệ");
+                    return View(model);
+                }
 
                 var result = Utilities.SendDataRequest<RegisterModel>(ConstantValues.Authenticate.Register, model);
 
                 if (result != null)
                 {
-                    TempData["RegisterSuccessful"] = "Bạn có thể đăng nhập ngay bây giờ.";
-                    return RedirectToAction("Login", "Auth");
+                    if(result.Status=="Thành công")
+                    {
+                        TempData["RegisterSuccessful"] = result.Message;
+                        return RedirectToAction("Login", "Auth");
+                    }
+                    ModelState.AddModelError("", result.Message!);
+                    return View(model);
                 }
                 else
                 {
+                    ModelState.AddModelError("", "Đăng ký thất bại.");
                     return View(model);
                 }
+                
             }
             catch (Exception)
             {
@@ -74,17 +84,20 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 		{
 			try
 			{
-				// Gửi yêu cầu thay đổi mật khẩu đến API
 				var response = Utilities.SendDataRequest<ChangePassword>(ConstantValues.Authenticate.ChangePassword, model);
 
 				if (response != null)
 				{
-					TempData["ChangedPasswordSuccess"] = "Đã thay đổi mật khẩu thành công!";
-					return RedirectToAction("Index", "Admin");
+                    if (response.Status == "Thành công")
+                    {
+                        TempData["ChangedPasswordSuccessful"] = response.Message;
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    ModelState.AddModelError("", response.Message!);
+                    return View(model);      
 				}
 				else
 				{
-					// Xử lý khi API trả về không thành công
 					ModelState.AddModelError("", "Thay đổi mật khẩu không thành công. Vui lòng kiểm tra thông tin và thử lại.");
 					return View(model);
 				}

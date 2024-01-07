@@ -89,7 +89,7 @@ namespace ITCMS_HUIT.API.Controllers
             {
                 var user = await _userManager.FindByIdAsync(model.UserId);
                 if (user == null)               
-                    return NotFound(new { Status = "Lỗi", Message = "Người dùng không tồn tại." });
+                    return NotFound(new ApiResponse<UserViewDTO> { Status = "Lỗi", Message = "Người dùng không tồn tại." });
                 
                 var existingRoles = await _userManager.GetRolesAsync(user);
 
@@ -98,7 +98,7 @@ namespace ITCMS_HUIT.API.Controllers
                 var newRoles = model.Roles!.Except(existingRoles).Where(role=> roles.Contains(role)).ToList();
 
                 if (!newRoles.Any())
-                    return BadRequest(new { Status = "Lỗi", Message = "Danh sách quyền mới không hợp lệ." });
+                    return BadRequest(new ApiResponse<UserViewDTO> { Status = "Lỗi", Message = "Danh sách quyền mới không hợp lệ." });
                                     
                await _userManager.AddToRolesAsync(user, newRoles);
                 
@@ -114,7 +114,7 @@ namespace ITCMS_HUIT.API.Controllers
             {
                 Console.WriteLine($"Lỗi: {ex.Message}");
 
-                return StatusCode(500, new { Status = "Lỗi", Message = "Đã xảy ra lỗi trong quá trình xử lý yêu cầu." });
+                return StatusCode(500, new ApiResponse<UserViewDTO> { Status = "Lỗi", Message = "Đã xảy ra lỗi trong quá trình xử lý yêu cầu." });
             }
         }
     }

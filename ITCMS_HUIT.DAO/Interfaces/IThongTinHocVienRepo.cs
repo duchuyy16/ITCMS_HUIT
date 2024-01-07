@@ -12,6 +12,7 @@ namespace ITCMS_HUIT.Repository.Interfaces
     {
         List<ThongTinHocVien> GetAll();
         List<ThongTinHocVien> Search(string tenHocVien);
+        List<ThongTinHocVien> GetAllByUserId(string id);
         ThongTinHocVien GetById(int idHocVien, int idLopHoc);
         ThongTinHocVien GetByIdHocVien(int idHocVien);
         bool IsExist(int idHocVien,int idLopHoc);

@@ -31,7 +31,24 @@ namespace Services
             return _giaoVien.IsExist(id);
         }
 
-        public List<GiaoVienDTO> GetAll() 
+		public List<GiaoVienDTO> Search(string tenGiaoVien)
+		{
+			var dsGiaoVien = _giaoVien.Search(tenGiaoVien);
+
+			var dsGiaoVienDTO = dsGiaoVien.Select(x => new GiaoVienDTO
+			{
+				IdgiaoVien = x.IdgiaoVien,
+				TenGiaoVien = x.TenGiaoVien,
+				TrinhDo = x.TrinhDo,
+				ChungChi = x.ChungChi,
+				HoSoCaNhan = x.HoSoCaNhan,
+				HinhAnh = x.HinhAnh!,
+			}).ToList();
+
+			return dsGiaoVienDTO;
+		}
+
+		public List<GiaoVienDTO> GetAll() 
         {
             var dsGiaoVien = _giaoVien.GetAll();
 

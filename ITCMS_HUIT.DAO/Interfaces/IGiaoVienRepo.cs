@@ -11,7 +11,8 @@ namespace ITCMS_HUIT.Repository.Interfaces
     public interface IGiaoVienRepo : IBaseRepository<GiaoVien>
     {
         List<GiaoVien> GetAll();
-        GiaoVien GetById(string id);
+		List<GiaoVien> Search(string tenGiaoVien);
+		GiaoVien GetById(string id);
         bool IsExist(string id);
         int Count();
     }

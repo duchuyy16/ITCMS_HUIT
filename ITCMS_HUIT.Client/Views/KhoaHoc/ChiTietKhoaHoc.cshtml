@@ -9,6 +9,11 @@
     .image-course {
         height: 130.71px; /* Kích thước cố định của hình ảnh */
     }
+
+    .course-details{
+        width:242.5px;
+        height:119.6px;
+    }
 </style>
 
 <section class="section">
@@ -137,7 +142,7 @@
                             <tr class="text">
                                 <td>@lopHoc.TenLopHoc</td>
                                 <td>@lopHoc.ThoiGian</td>
-                                <td>@lopHoc.NgayBatDau</td>
+                                <td>@(lopHoc.NgayBatDau.HasValue ? lopHoc.NgayBatDau.Value.ToShortDateString() : "")</td>
                                 <td>@lopHoc.DiaDiem</td>
                                 <td style="text-align: center;"> <a asp-action="ThongTinChiTietLopHoc" asp-controller="LopHoc" asp-route-id="@lopHoc.IdlopHoc" class="btn btn-primary">Đăng ký</a></td>
                             </tr>

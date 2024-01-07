@@ -17,14 +17,14 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         public List<KhoaHocTheoChuongTrinhDTO> GetCourseCountsByProgram()
         {
             var courseCounts = Utilities.SendDataRequest<List<KhoaHocTheoChuongTrinhDTO>>(ConstantValues.Chart.GetCourseCountsByProgram);
-            return courseCounts;
+            return courseCounts.Data!;
         }
 
         [HttpGet]
         public List<ThongKeDoiTuongDangKyDTO> ThongKeDoiTuongDangKy()
         {
             var doiTuongStats = Utilities.SendDataRequest<List<ThongKeDoiTuongDangKyDTO>>(ConstantValues.Chart.ThongKeDoiTuongDangKy);
-            return doiTuongStats;
+            return doiTuongStats.Data!;
         }
     }
 }

@@ -10,10 +10,10 @@ namespace ITCMS_HUIT.Client.Components
         public IViewComponentResult Invoke()
         {
             var dsChuongTrinh = Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-               (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao);
+               (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data;
 
             var dsLopHoc = Utilities.SendDataRequest<List<LopHocDTO>>
-               (ConstantValues.LopHoc.DanhSach);
+               (ConstantValues.LopHoc.DanhSach).Data;
 
             return View(dsChuongTrinh);
         }

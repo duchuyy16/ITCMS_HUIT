@@ -54,7 +54,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Count> { Status = "Lỗi", Message = ex.Message });
             }
         }       
     }

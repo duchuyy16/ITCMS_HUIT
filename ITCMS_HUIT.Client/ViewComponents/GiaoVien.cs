@@ -10,7 +10,7 @@ namespace ITCMS_HUIT.Client.ViewComponents
         public IViewComponentResult Invoke()
         {
             var dsGiaoVien = Utilities.SendDataRequest<List<GiaoVienDTO>>
-               (ConstantValues.GiaoVien.DanhSach).Take(8);
+               (ConstantValues.GiaoVien.DanhSach).Data!.Take(8);
             return View(dsGiaoVien);
         }
     }

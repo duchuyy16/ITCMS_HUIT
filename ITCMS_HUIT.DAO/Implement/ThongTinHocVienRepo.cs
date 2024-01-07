@@ -19,7 +19,12 @@ namespace ITCMS_HUIT.Repository.Implement
 
         public List<ThongTinHocVien> GetAll()
         {
-            return _context.ThongTinHocViens.Include(i=>i.IdhocVienNavigation).Include(l=>l.IdlopHocNavigation).ToList();
+            return _context.ThongTinHocViens.Include(i=>i.IdhocVienNavigation).Include(l=>l.IdlopHocNavigation).OrderBy(o=>o.IdlopHoc).ToList();
+        }
+
+        public List<ThongTinHocVien> GetAllByUserId(string id)
+        {
+            return _context.ThongTinHocViens.Include(i => i.IdhocVienNavigation).Include(k => k.IdlopHocNavigation).Where(l => l.IdlopHocNavigation.IdgiaoVien == id).ToList();
         }
 
         public ThongTinHocVien GetById(int idHocVien, int idLopHoc)

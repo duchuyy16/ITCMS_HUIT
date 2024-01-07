@@ -19,20 +19,20 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var dsChuongTrinhDaoTao = Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao);
-                dsChuongTrinhDaoTao.Insert(0, new ChuongTrinhDaoTaoDTO { IdchuongTrinh = 0, TenChuongTrinh = "----------Chọn tên chương trình----------" });
+                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data;
+                dsChuongTrinhDaoTao!.Insert(0, new ChuongTrinhDaoTaoDTO { IdchuongTrinh = 0, TenChuongTrinh = "----------Chọn tên chương trình----------" });
                 ViewBag.IdChuongTrinh = new SelectList(dsChuongTrinhDaoTao, "IdchuongTrinh", "TenChuongTrinh", IdchuongTrinh);
 
                 if (IdchuongTrinh == null)
                 {
-                    var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
+                    var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach).Data;
                     var pagedList = dsKhoaHoc.ToPagedList(pageNo, 5);
                     return View(pagedList);
                 }
                 else
                 {
-                    var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach);
-                    var pagedList = dsKhoaHoc.Where(c=>c.IdchuongTrinh==IdchuongTrinh).ToPagedList(pageNo, 5);
+                    var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(ConstantValues.KhoaHoc.DanhSach).Data;
+                    var pagedList = dsKhoaHoc!.Where(c=>c.IdchuongTrinh==IdchuongTrinh).ToPagedList(pageNo, 5);
                     return View(pagedList);
                 }    
             }
@@ -48,7 +48,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao), "IdchuongTrinh", "TenChuongTrinh");
+                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh");
                 return View();
             }
             catch (Exception)
@@ -70,7 +70,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao),model.IdchuongTrinh);
+                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data,model.IdchuongTrinh);
                 return View(model);
             }
             catch (Exception)
@@ -89,9 +89,9 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
                 
                 var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
 
-                khoaHoc.Mota = HttpUtility.HtmlDecode(khoaHoc.Mota)!;
+                khoaHoc!.Mota = HttpUtility.HtmlDecode(khoaHoc.Mota)!;
 
                 if (khoaHoc == null)
                 {
@@ -116,14 +116,14 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
                 if (khoaHoc == null)
                 {
                     return NotFound();
                 }
 
                 ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao), "IdchuongTrinh", "TenChuongTrinh");
+                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh");
                 return View(khoaHoc);
             }
             catch (Exception)
@@ -167,7 +167,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao), "IdchuongTrinh", "TenChuongTrinh", model.IdchuongTrinh);
+                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh", model.IdchuongTrinh);
                 return View(model);
             }
             catch (Exception)
@@ -186,7 +186,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
                 if (khoaHoc == null)
                 {
                     return NotFound();
@@ -208,7 +208,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url);
+                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
                 Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.Xoa, khoaHoc);
                 return RedirectToAction(nameof(Index));
             }
@@ -222,7 +222,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         private bool IsExist(int id)
         {
             var url = string.Format(ConstantValues.KhoaHoc.KiemTraTonTai, id);
-            var khoaHoc = Utilities.SendDataRequest<bool>(url);
+            var khoaHoc = Utilities.SendDataRequest<bool>(url).Data;
             if (khoaHoc != true) return false;
             else return true;
         }

@@ -51,7 +51,7 @@
             public const string DanhSach = "api/GiaoVien/danh-sach-giao-vien";
             public const string KiemTraTonTai = "api/GiaoVien/kiem-tra-ton-tai/{0}";
             public const string ChiTietGiaoVien = "api/GiaoVien/giao-vien/{0}";
-            //public const string TimKiem = "api/GiaoVien/timkiemhociven/{keyword}";
+            public const string TimKiem = "api/GiaoVien/tim-kiem-giao-vien/{0}";
             public const string Xoa = "api/GiaoVien/xoa-giao-vien";
             public const string CapNhat = "api/GiaoVien/cap-nhat-giao-vien";
             public const string Them = "api/GiaoVien/them-giao-vien";
@@ -95,6 +95,7 @@
         public class ThongTinHocVien
         {
             public const string DanhSach = "api/ThongTinHocVien/danh-sach-thong-tin-hoc-vien";
+            public const string DanhSachHocVienTheoGiaoVien = "api/ThongTinHocVien/danh-sach-hoc-vien-theo-giao-vien/{0}";
             public const string KiemTraTonTai = "api/ThongTinHocVien/kiem-tra-ton-tai/{0}&{1}";
             public const string ThongTinChiTiet = "api/ThongTinHocVien/thong-tin-hoc-vien/{0}&{1}";
             public const string TimKiem = "api/ThongTinHocVien/tim-kiem-thong-tin-hoc-vien/{0}";
@@ -102,7 +103,7 @@
             public const string CapNhat = "api/ThongTinHocVien/cap-nhat-thong-tin-hoc-vien";
             public const string Them = "api/ThongTinHocVien/them-thong-tin-hoc-vien";
             public const string Export = "api/ThongTinHocVien/xuat-file-excel";
-            public const string Import = "api/ThongTinHocVien/nhap-file-excel/{0}";
+            public const string Import = "api/ThongTinHocVien/nhap-file-excel/{0}"; 
         }
 
         public class TrangThaiHocVien

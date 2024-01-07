@@ -84,15 +84,15 @@
 							@if (!string.IsNullOrEmpty(idGiaoVien) && !isAdmin)
 							{
 								<li class=""><a href="@Url.Action("Index", "LopHocs", new { area = "Admin",id = idGiaoVien })" class="">Quản Lí Lớp Học</a></li>
+								<li class=""><a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin",id = idGiaoVien })" class="">Thông Tin Chi Tiết Học Viên</a></li>
 							}
 							else
 							{
+								<li class=""><a href="@Url.Action("IndexAdmin", "ThongTinHocViens", new { area = "Admin" })" class="">Thông Tin Chi Tiết Học Viên</a></li>
 								<li class=""><a href="@Url.Action("IndexAdmin", "LopHocs", new { area = "Admin" })" class="">Quản Lí Lớp Học</a></li>
 							}
-
-
-							<li class=""><a href="@Url.Action("Index", "ThongTinHocViens", new { area = "Admin" })" class="">Quản Lí Thông Tin Học Viên</a></li>
-							<li class=""><a href="@Url.Action("Index", "HocViens", new { area = "Admin" })" class="">Quản Lí Học Viên</a></li>
+						
+							<li class=""><a href="@Url.Action("Index", "HocViens", new { area = "Admin" })" class="">Danh Sách Học Viên Đăng Ký</a></li>
 							<li class=""><a href="@Url.Action("Index", "CoSoDuLieus", new { area = "Admin" })" class="">Quản Lí Cơ Sở Dữ Liệu</a></li>
 							<li class=""><a href="@Url.Action("Index", "Account", new { area = "Admin" })" class="">Quản Lí Người Dùng</a></li>
 						</ul>
@@ -196,7 +196,7 @@
 		<script type="text/javascript">
 			document.addEventListener('DOMContentLoaded', function () {
 				Swal.fire({
-					title: 'Sao lưu thành công!',
+					title: 'Phục hồi thành công!',
 					text: '@Html.Raw(TempData["RestoreSuccessMessage"])',
 					icon: 'success',
 					confirmButtonText: 'OK'
@@ -210,7 +210,7 @@
 		<script type="text/javascript">
 			document.addEventListener('DOMContentLoaded', function () {
 				Swal.fire({
-					title: 'Sao lưu thành công!',
+					title: 'Phục hồi thành công!',
 					text: '@Html.Raw(TempData["RestoreErrorMessage"])',
 					icon: 'success',
 					confirmButtonText: 'OK'

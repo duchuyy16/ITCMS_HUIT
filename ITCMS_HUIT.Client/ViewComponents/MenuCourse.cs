@@ -10,7 +10,7 @@ namespace ITCMS_HUIT.Client.ViewComponents
         public IViewComponentResult Invoke()
         {
             var dsChuongTrinh = Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-               (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao);
+               (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data;
             return View(dsChuongTrinh);
         }
     }

@@ -42,7 +42,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<string>> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -65,7 +65,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -89,7 +89,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<string>> { Status = "Lỗi", Message = ex.Message });
             }
         }     
     }

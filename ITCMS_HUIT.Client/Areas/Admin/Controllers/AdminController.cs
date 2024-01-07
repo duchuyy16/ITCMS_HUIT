@@ -14,10 +14,10 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var dashboard = Utilities.SendDataRequest<ITCMS_HUIT.Client.Models.Dashboard>(ConstantValues.Count.Dashboard);
-            ViewBag.LopHoc = dashboard.LopHoc;
-            ViewBag.HocVien = dashboard.HocVien;
-            ViewBag.ChuongTrinhDaoTao = dashboard.ChuongTrinhDaoTao;
-            ViewBag.GiaoVien = dashboard.GiaoVien;           
+            ViewBag.LopHoc = dashboard.Data!.LopHoc;
+            ViewBag.HocVien = dashboard.Data.HocVien;
+            ViewBag.ChuongTrinhDaoTao = dashboard.Data.ChuongTrinhDaoTao;
+            ViewBag.GiaoVien = dashboard.Data.GiaoVien;           
             return View();
         }
     }

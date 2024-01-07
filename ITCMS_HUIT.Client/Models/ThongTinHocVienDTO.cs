@@ -1,9 +1,12 @@
-﻿namespace ITCMS_HUIT.Client.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ITCMS_HUIT.Client.Models
 {
     public class ThongTinHocVienDTO
     {
         public int IdhocVien { get; set; }
         public int IdlopHoc { get; set; }
+        [Range(0, 10.0, ErrorMessage = "Giá trị của Diem phải nằm trong khoảng từ 0 đến 10.")]
         public decimal? Diem { get; set; }
         public DateTime? NgayThongBao { get; set; }
         public bool? TrangThaiThongBao { get; set; }
@@ -21,7 +24,8 @@
     {
         public int IdhocVien { get; set; }
         public int IdlopHoc { get; set; }
-        public decimal? Diem { get; set; }
+		[Range(0, 10.0, ErrorMessage = "Giá trị của Diem phải nằm trong khoảng từ 0 đến 10.")]
+		public decimal? Diem { get; set; }
         public DateTime? NgayThongBao { get; set; }
         public bool TrangThaiThongBao { get; set; }
         public int? SoLanVangMat { get; set; }

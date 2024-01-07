@@ -67,8 +67,8 @@
                                                     <i class="fas fa-file-excel"></i> Export Excel
                                                 </a>
                                                 <div class="full-left">
-                     
-                                                    <form asp-controller="ThongTinHocViens" asp-action="Import" method="post" class="d-flex flex-column" >
+
+                                                    <form asp-controller="ThongTinHocViens" asp-action="Import" method="post" class="d-flex flex-column">
                                                         <div class="input-group">
                                                             <button type="submit" class="btn btn-info"><i class="fas fa-file-excel"></i> Import Excel</button> <div class="input-group-append">
                                                                 <input type="file" id="fileInput" class="form-control" onchange="setFileName()" />
@@ -77,7 +77,7 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="full-right">
                                                 <form asp-controller="ThongTinHocViens" asp-action="TimKiemHocVienTheoTenHocVien" method="post" class="d-flex" style="margin-right:-15px;">
@@ -125,7 +125,7 @@
                                                         </th>
                                                         <th scope="col">
                                                             Trạng thái thanh toán
-                                                        </th>                                    
+                                                        </th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -163,9 +163,9 @@
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.TrangThaiThanhToan)
                                                             </td>
-                                                            
+
                                                             <td>
-                                                                
+
                                                                 <a class="btn btn-primary" asp-action="Edit" asp-route-IdlopHoc="@item.IdlopHoc" asp-route-IdhocVien="@item.IdhocVien"><i class="fas fa-edit"></i></a> |
                                                                 <a class="btn btn-info" asp-action="Details" asp-route-IdlopHoc="@item.IdlopHoc" asp-route-IdhocVien="@item.IdhocVien"><i class="fas fa-info-circle"></i></a> |
                                                                 <a class="btn btn-danger" asp-action="Delete" asp-route-IdlopHoc="@item.IdlopHoc" asp-route-IdhocVien="@item.IdhocVien"><i class="fas fa-trash"></i></a>
@@ -176,7 +176,7 @@
                                             </table>
                                         </div>
                                         @Html.PagedListPager((IPagedList)Model,
-                                        pageNo => Url.Action("Index","ThongTinHocViens", new { pageNo, area="Admin" }),
+                                        pageNo => Url.Action("IndexAdmin","ThongTinHocViens", new { pageNo, area="Admin" }),
                                         new PagedListRenderOptions{
                                         PageClasses = new string[] { "page-link" },
                                         UlElementClasses = new string[] { "pagination" },

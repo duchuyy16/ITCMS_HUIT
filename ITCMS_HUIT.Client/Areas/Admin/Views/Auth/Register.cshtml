@@ -12,6 +12,7 @@
                     <div class="card-body">
                         <img src="~/images/logo-dark.png" alt="" class="img-fluid mb-4">
                         <h4 class="mb-3 f-w-400">Đăng ký</h4>
+                        <p class="mb-0 text-muted">@Html.ValidationSummary("", new { @class = "text-danger" })</p>
                         <form method="post" asp-action="Register" asp-controller="Auth">
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">

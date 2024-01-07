@@ -17,7 +17,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var dsNguoiDung = Utilities.SendDataRequest<List<UserViewDTO>>(ConstantValues.Account.DanhSachNguoiDung);
-                var pagedList = dsNguoiDung.ToPagedList(pageNo, 5);
+                var pagedList = dsNguoiDung.Data.ToPagedList(pageNo, 5);
                 return View(pagedList);
             }
             catch

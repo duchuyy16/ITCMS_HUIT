@@ -106,7 +106,21 @@ namespace ITCMS_HUIT.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Người dùng đã tồn tại!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Lỗi",
+                    Message = "Người dùng đã tồn tại!",
+                    Data = null
+                });
+
+            var emailExists=await _userManager.FindByEmailAsync(model.Email);
+            if (emailExists != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Trùng email",
+                    Message = "Email đã tồn tại!",
+                    Data = null
+                });
 
             IdentityUser user = new()
             {
@@ -117,7 +131,13 @@ namespace ITCMS_HUIT.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Tạo người dùng không thành công! Vui lòng kiểm tra chi tiết người dùng và thử lại." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Lỗi",
+                    Message = "Tạo người dùng không thành công! Vui lòng kiểm tra chi tiết người dùng và thử lại.",
+                    Data = null
+                });
+
 
             // Kiểm tra và tạo role Giáo viên nếu chưa tồn tại
             if (!await _roleManager.RoleExistsAsync(UserRoles.Teacher))
@@ -138,7 +158,12 @@ namespace ITCMS_HUIT.API.Controllers
 
             if (addTeacher == null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Tạo giáo viên không thành công! Vui lòng kiểm tra chi tiết và thử lại." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Lỗi",
+                    Message = "Tạo giáo viên không thành công.",
+                    Data = null
+                });
             }
 
             var apiResponse = new ApiResponse<Register>
@@ -151,14 +176,26 @@ namespace ITCMS_HUIT.API.Controllers
             return Ok(apiResponse);
         }
 
-
         [HttpPost]
         [Route("dangky-quantri")]
         public async Task<IActionResult> RegisterAdmin([FromBody] Register model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Người dùng đã tồn tại!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Lỗi",
+                    Message = "Người dùng đã tồn tại!",
+                    Data = null
+                });
+            var emailExists = await _userManager.FindByEmailAsync(model.Email);
+            if (emailExists != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Lỗi",
+                    Message = "Email đã tồn tại!",
+                    Data = null
+                });
 
             IdentityUser user = new()
             {
@@ -169,7 +206,12 @@ namespace ITCMS_HUIT.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = "Tạo người dùng không thành công! Vui lòng kiểm tra chi tiết người dùng và thử lại." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<Register>
+                {
+                    Status = "Lỗi",
+                    Message = "Tạo người dùng không thành công! Vui lòng kiểm tra chi tiết người dùng và thử lại.",
+                    Data = null
+                });
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -191,15 +233,15 @@ namespace ITCMS_HUIT.API.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists == null)
-                return StatusCode(StatusCodes.Status404NotFound, new { Status = "Lỗi", Message = "Người dùng không tồn tại!" });
+                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<ChangePassword> { Status = "Lỗi", Message = "Người dùng không tồn tại!" });
 
             if (string.Compare(model.NewPassword, model.ConfirmNewPassword) != 0)
-                return StatusCode(StatusCodes.Status400BadRequest, new { Status = "Lỗi", Message = "Mật khẩu mới và xác nhận mật khẩu mới không khớp!" });
+                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<ChangePassword> { Status = "Lỗi", Message = "Mật khẩu mới và xác nhận mật khẩu mới không khớp!" });
 
             var result = await _userManager.ChangePasswordAsync(userExists, model.CurrentPassword, model.NewPassword);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                { Status = "Error", Message = "Something went wrong" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<ChangePassword>
+                { Status = "Error", Message = "Mật khẩu cũ không đúng" });
 
             var apiResponse = new ApiResponse<ChangePassword>
             {

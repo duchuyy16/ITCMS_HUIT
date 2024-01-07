@@ -17,7 +17,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         {
             try
             {
-                var dsGiaoVien = Utilities.SendDataRequest<List<GiaoVienDTO>>(ConstantValues.GiaoVien.DanhSach);
+                var dsGiaoVien = Utilities.SendDataRequest<List<GiaoVienDTO>>(ConstantValues.GiaoVien.DanhSach).Data;
                 var pagedList = dsGiaoVien.ToPagedList(pageNo, 5);
                 return View(pagedList);
             }
@@ -26,45 +26,58 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 return BadRequest();
             }
         }
-
-
-        public ActionResult Create()
-        {
-            try
-            {
-                return View();
+		public ActionResult TimKiemGiaoVien(string tenGiaoVien, int pageNo = 1)
+		{
+			if (tenGiaoVien != null)
+			{
+				var url = string.Format(ConstantValues.GiaoVien.TimKiem, tenGiaoVien);
+				var giaoVien = Utilities.SendDataRequest<List<GiaoVienDTO>>(url).Data;
+				var pagedList = giaoVien.ToPagedList(pageNo, 5);
+				return View(pagedList);
+			}
+			else
+			{
+                return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+		}
 
-        }
+		//public ActionResult Create()
+  //      {
+  //          try
+  //          {
+  //              return View();
+  //          }
+  //          catch (Exception)
+  //          {
+  //              return BadRequest();
+  //          }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (IsExist(model.IdgiaoVien!))
-                    {
-                        ModelState.AddModelError("IdgiaoVien", "Mã giáo viên đã tồn tại. Vui lòng nhập mã khác.");
-                        return View(model);
-                    }
+  //      }
 
-                    Utilities.SendDataRequest<GiaoVienDTO>(ConstantValues.GiaoVien.Them, model);
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+  //      [HttpPost]
+  //      [ValidateAntiForgeryToken]
+  //      public ActionResult Create([Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
+  //      {
+  //          try
+  //          {
+  //              if (ModelState.IsValid)
+  //              {
+  //                  if (IsExist(model.IdgiaoVien!))
+  //                  {
+  //                      ModelState.AddModelError("IdgiaoVien", "Mã giáo viên đã tồn tại. Vui lòng nhập mã khác.");
+  //                      return View(model);
+  //                  }
+
+  //                  Utilities.SendDataRequest<GiaoVienDTO>(ConstantValues.GiaoVien.Them, model);
+  //                  return RedirectToAction(nameof(Index));
+  //              }
+  //              return View(model);
+  //          }
+  //          catch (Exception)
+  //          {
+  //              return BadRequest();
+  //          }
+  //      }
 
         //[HttpGet]
         //[Route("Details/{id?}")]
@@ -78,7 +91,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.GiaoVien.ChiTietGiaoVien, id);
-                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url);
+                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
                 if (giaoVien == null)
                 {
                     return NotFound();
@@ -104,7 +117,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.GiaoVien.ChiTietGiaoVien, id);
-                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url);
+                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
                 if (giaoVien == null)
                 {
                     return NotFound();
@@ -167,7 +180,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 }
 
                 var url = string.Format(ConstantValues.GiaoVien.ChiTietGiaoVien, id);
-                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url);
+                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
                 if (giaoVien == null)
                 {
                     return NotFound();
@@ -177,9 +190,9 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                TempData["Message"] = "Xóa không thành công. Đã xảy ra lỗi.";
+                return RedirectToAction(nameof(Index));
             }
-
         }
 
         [HttpPost, ActionName("Delete")]
@@ -189,21 +202,24 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             try
             {
                 var url = string.Format(ConstantValues.GiaoVien.ChiTietGiaoVien, id);
-                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url);
+                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
                 Utilities.SendDataRequest<bool>(ConstantValues.GiaoVien.Xoa, giaoVien);
+
+                TempData["Message"] = "Xóa thành công.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)
             {
-                return BadRequest();
+                TempData["Message"] = "Xóa không thành công. Đã xảy ra lỗi.";
+                return RedirectToAction(nameof(Index));
             }
-
         }
+
 
         private bool IsExist(string id)
         {
             var url = string.Format(ConstantValues.GiaoVien.KiemTraTonTai, id);
-            var giaoVien = Utilities.SendDataRequest<bool>(url);
+            var giaoVien = Utilities.SendDataRequest<bool>(url).Data;
             if (giaoVien != true) return false;
             else return true;
         }

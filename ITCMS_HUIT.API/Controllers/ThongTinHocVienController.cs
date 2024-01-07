@@ -69,7 +69,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -91,7 +91,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -113,7 +113,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<ThongTinHocVienDTO>> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -135,7 +135,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<ThongTinHocVienDTO> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -158,7 +158,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<ThongTinHocVienDTO>> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -180,7 +180,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -202,7 +202,7 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<ThongTinHocVienDTO> { Status = "Lỗi", Message = ex.Message });
             }
         }
 
@@ -224,9 +224,29 @@ namespace ITCMS_HUIT.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Lỗi", Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<ThongTinHocVienDTO> { Status = "Lỗi", Message = ex.Message });
             }
         }
+        [HttpPost("danh-sach-hoc-vien-theo-giao-vien/{id}")]
+        public IActionResult GetAllByUserId(string id)
+        {
+            try
+            {
+                List<ThongTinHocVienDTO> hocViens = _thongTin.GetAllByUserId(id);
 
+                var apiResponse = new ApiResponse<List<ThongTinHocVienDTO>>
+                {
+                    Status = "Thành công",
+                    Message = "Danh sách học viên",
+                    Data = hocViens
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<List<ThongTinHocVienDTO>> { Status = "Lỗi", Message = ex.Message });
+            }
+        }
     }
 }

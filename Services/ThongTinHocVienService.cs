@@ -43,6 +43,28 @@ namespace Services
             return _thongTin.IsExist(idHocVien, idLopHoc);
         }
 
+        public List<ThongTinHocVienDTO> GetAllByUserId(string id)
+        {
+            var dsThongTinHocVien = _thongTin.GetAllByUserId(id);
+            var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
+            {
+                IdhocVien = s.IdhocVien,
+                IdlopHoc = s.IdlopHoc,
+                Diem = s.Diem,
+                NgayThongBao = s.NgayThongBao,
+                TrangThaiThongBao = s.TrangThaiThongBao!,
+                SoLanVangMat = s.SoLanVangMat,
+                LyDoThongBao = s.LyDoThongBao,
+                HocPhi = s.HocPhi,
+                NgayGioGiaoDich = s.NgayGioGiaoDich!,
+                TrangThaiThanhToan = s.TrangThaiThanhToan,
+                IdhocVienNavigation = s.IdhocVienNavigation.Adapt<HocVienModel>(),
+                IdlopHocNavigation = s.IdlopHocNavigation.Adapt<LopHocModel>(),
+            }).ToList();
+
+            return dsThongTinHocVienDTO;
+        }
+
         public List<ThongTinHocVienDTO> GetAll()
         {
             var dsThongTinHocVien = _thongTin.GetAll();
@@ -322,7 +344,7 @@ namespace Services
                     thongTinHocVien.Diem = null;
                 }
 
-                if (dictionaryRow.ContainsKey("F") && dictionaryRow["E"] != null)
+                if (dictionaryRow.ContainsKey("F") && dictionaryRow["F"] != null)
                 {
                     if(DateTime.TryParse(dictionaryRow["F"].ToString(), out DateTime ngayThongBao))
                         thongTinHocVien.NgayThongBao = ngayThongBao;
