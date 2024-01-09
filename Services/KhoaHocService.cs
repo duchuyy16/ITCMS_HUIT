@@ -3,6 +3,9 @@ using ITCMS_HUIT.DTO;
 using ITCMS_HUIT.Models;
 using ITCMS_HUIT.Repository.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +18,12 @@ namespace Services
     {
         private readonly IMapper _mapper;
         private readonly IKhoaHocRepo _khoaHoc;
-        public KhoaHocService(IRepo repo, IMapper mapper)
+        private readonly IHostingEnvironment _webHostEnvironment;
+        public KhoaHocService(IRepo repo, IMapper mapper, IHostingEnvironment webHostEnvironment)
         {
             _mapper = mapper;
             _khoaHoc = repo.KhoaHocRepo;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public bool IsExist(int id)
@@ -26,7 +31,7 @@ namespace Services
             return _khoaHoc.IsExist(id);
         }
 
-        public bool Update(KhoaHocDTO model)
+        public bool Update([FromForm] KhoaHocDTO model, IFormFile? imageFile)
         {
             var khoaHoc = new KhoaHoc
             {
@@ -40,9 +45,28 @@ namespace Services
                 HinhAnh=model.HinhAnh,
             };
 
+            if(imageFile != null) 
+                UploadFiles(imageFile, khoaHoc);
+
             var result = _khoaHoc.Update(khoaHoc);
             
             return result;
+        }
+
+        [NonAction]
+        public void UploadFiles(IFormFile file, KhoaHoc model)
+        {
+            if (file != null)
+            {
+                string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "UploadFiles");
+                Directory.CreateDirectory(directoryPath);
+                string filePath = Path.Combine(directoryPath, file.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                model.HinhAnh = file.FileName;
+            }    
         }
 
         public bool Delete(KhoaHocDTO model)
@@ -54,7 +78,7 @@ namespace Services
             return result;
         }
 
-        public KhoaHocDTO Add(KhoaHocDTO model)
+        public KhoaHocDTO Add([FromForm]KhoaHocDTO model,IFormFile? imageFile)
         {
             var khoaHoc = new KhoaHoc
             {
@@ -66,6 +90,11 @@ namespace Services
                 Mota = model.Mota,
                 HinhAnh = model.HinhAnh,
             };
+
+            if (imageFile != null)
+            {
+                UploadFiles(imageFile, khoaHoc);
+            }
 
             var result = _khoaHoc.Add(khoaHoc);
 

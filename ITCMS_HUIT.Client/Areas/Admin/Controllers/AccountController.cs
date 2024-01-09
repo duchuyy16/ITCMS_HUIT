@@ -26,68 +26,69 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Edit(string? userId)
-        {
-            try
-            {
-                if (userId == null)               
-                    return NotFound();
-                
-                var url = string.Format(ConstantValues.Account.ChiTietNguoiDung, userId);
-                var user = Utilities.SendDataRequest<UserViewDTO>(url);
+		public ActionResult Edit(string? userId)
+		{
+			try
+			{
+				if (userId == null)
+					return NotFound();
 
-                if (user == null)              
-                    return NotFound();
-                
-                return View(user);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+				var url = string.Format(ConstantValues.Account.ChiTietNguoiDung, userId);
+				var user = Utilities.SendDataRequest<UserViewDTO>(url);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(string? userId, [Bind("UserId,UserName,Email,Roles")] UserViewDTO model)
-        {
-            try
-            {
-                if (userId != model.UserId)
-                    return NotFound();
+				if (user == null)
+					return NotFound();
 
-                // tạo 1 bản sao new List<string>(model.Roles) : new List<string>(); copy danh sách model.Roles 
-                List<string> originalRoles = model.Roles != null ? new List<string>(model.Roles) : new List<string>();
+				return View(user);
+			}
+			catch
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi truy cập trang chỉnh sửa.";
+				return BadRequest();
+			}
+		}
 
-                string newRole = Request.Form["newRole"];
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(string? userId, [Bind("UserId,UserName,Email,Roles")] UserViewDTO model)
+		{
+			try
+			{
+				if (userId != model.UserId)
+					return NotFound();
 
-                if (!string.IsNullOrEmpty(newRole))
-                    model.Roles!.AddRange(newRole.Split(',').Select(role => role.Trim()).ToList());                
-                
+				List<string> originalRoles = model.Roles != null ? new List<string>(model.Roles) : new List<string>();
 
-                if (ModelState.IsValid)
-                {
-                    var success = Utilities.SendDataRequest<List<string>>(ConstantValues.Account.CapNhat, model);
-                    if(success!=null)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        model.Roles = originalRoles;
-                        ModelState.AddModelError("Lỗi", "Danh sách người dùng mới không hợp lệ!");
-                    }
+				string newRole = Request.Form["newRole"];
 
-                    
-                }
+				if (!string.IsNullOrEmpty(newRole))
+					model.Roles!.AddRange(newRole.Split(',').Select(role => role.Trim()).ToList());
 
-                return View(model);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+				if (ModelState.IsValid)
+				{
+					var success = Utilities.SendDataRequest<List<string>>(ConstantValues.Account.CapNhat, model);
+					if (success != null)
+					{
+						TempData["UpdatedSuccessfully"] = "Cập nhật thành công!";
+						return RedirectToAction(nameof(Index));
+					}
+					else
+					{
+						model.Roles = originalRoles;
+						ModelState.AddModelError("Lỗi_" + Guid.NewGuid(), "Danh sách người dùng mới không hợp lệ!");
+						TempData["UpdatedUnsuccessfully"] = "Cập nhật không thành công. Đã xảy ra lỗi.";
+					}
+				}
 
-    }
+				return View(model);
+			}
+			catch
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi thực hiện cập nhật người dùng.";
+				return BadRequest();
+			}
+		}
+
+
+	}
 }

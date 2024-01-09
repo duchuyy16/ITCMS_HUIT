@@ -84,37 +84,84 @@ namespace ITCMS_HUIT.Client.Common
             return new ValueTuple<MemoryStream, string>();
         }
 
-        //static MultipartFormDataContent ConvertObjectToFormData(object data)
-        //{
-        //    var formData = new MultipartFormDataContent();
+        static MultipartFormDataContent ConvertObjectToFormData(object data)
+        {
+            var formData = new MultipartFormDataContent();
 
-        //    var properties = data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var properties = data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        //    foreach (var property in properties)
-        //    {
-        //        var value = property.GetValue(data);
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(data);
 
-        //        if (value is byte[] fileData)
-        //        {
-        //            var fileContent = new ByteArrayContent(fileData);
-        //            fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-        //            formData.Add(fileContent, property.Name, "file.txt");
-        //        }
-        //        else
-        //        {
-        //            var stringValue = value != null ? value.ToString() : string.Empty;
-        //            var stringContent = new StringContent(stringValue!, Encoding.UTF8);
-        //            formData.Add(stringContent, property.Name);
-        //        }
-        //    }
+                if (value is byte[] fileData)
+                {
+                    var fileContent = new ByteArrayContent(fileData);
+                    fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+                    formData.Add(fileContent, property.Name, "file.txt");
+                }
+                else
+                {
+                    var stringValue = value != null ? value.ToString() : string.Empty;
+                    var stringContent = new StringContent(stringValue!, Encoding.UTF8);
+                    formData.Add(stringContent, property.Name);
+                }
+            }
 
-        //    return formData;
-        //}
+            return formData;
+        }
+
+        public static ApiResponse<T> FromData<T>(string APIUrl, object? input = null, IFormFile? imageFile = null)
+        {
+            HttpClient client = new();
+            client.BaseAddress = new Uri("https://localhost:44352");
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            var sessionToken = AppContext.Current!.Session.Get<string>("Token");
+
+            if (sessionToken != null)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessionToken);
+            }
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            MultipartFormDataContent formData = ConvertObjectToFormData(input!);
+
+            if (imageFile != null)
+            {
+                byte[] fileBytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    imageFile.CopyTo(memoryStream);
+                    fileBytes = memoryStream.ToArray();
+                }
+
+                ByteArrayContent fileContent = new ByteArrayContent(fileBytes);
+                formData.Add(fileContent, "imageFile", imageFile.FileName);
+            }
+
+            var jsonContent = JsonConvert.SerializeObject(input);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = client.PostAsync(APIUrl, formData).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = response.Content.ReadAsStringAsync().Result;
+                var responseData = JsonConvert.DeserializeObject<ApiResponse<T>>(jsonString);
+                return responseData!;
+            }
+            else
+            {
+                var jsonString = response.Content.ReadAsStringAsync().Result;
+                var responseData = JsonConvert.DeserializeObject<ApiResponse<T>>(jsonString);
+                return responseData!;
+            }
+        }
 
         //public static T FromData<T>(string APIUrl, object? input = null, IFormFile? imageFile = null)
         //{
         //    HttpClient client = new();
-        //    client.BaseAddress = new System.Uri("https://localhost:44350");
+        //    client.BaseAddress = new System.Uri("https://localhost:44352");
         //    client.DefaultRequestHeaders.Accept.Clear();
 
         //    MultipartFormDataContent formData = ConvertObjectToFormData(input!);
@@ -143,12 +190,6 @@ namespace ITCMS_HUIT.Client.Common
         //        {
         //            return returnData;
         //        }
-        //    }
-        //    else
-        //    {
-        //        var statusCode = response.StatusCode;
-        //        var reasonPhrase = response.ReasonPhrase;
-        //        var content = response.Content.ReadAsStringAsync().Result;
         //    }
         //    return result;
         //}

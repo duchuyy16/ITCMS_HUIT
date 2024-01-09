@@ -15,6 +15,28 @@ namespace ITCMS_HUIT.API.Controllers
             _giaoVien = giaoVien;
         }
 
+        [HttpPost("cap-nhat-giao-vien")]
+        public IActionResult Update([FromForm] GiaoVienDTO model, IFormFile? imageFile)
+        {
+            try
+            {
+                bool updateResult = _giaoVien.Update(model, imageFile!);
+
+                var apiResponse = new ApiResponse<bool>
+                {
+                    Status = "Thành công",
+                    Message = updateResult ? "Cập nhật giáo viên thành công" : "Không thể cập nhật giáo viên",
+                    Data = updateResult
+                };
+
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
+            }
+        }
+
         [HttpPost("danh-sach-giao-vien")]
         public IActionResult GetAll()
         {
@@ -116,28 +138,6 @@ namespace ITCMS_HUIT.API.Controllers
                     Status = "Thành công",
                     Message = deletionResult ? "Xóa giáo viên thành công" : "Không thể xóa giáo viên",
                     Data = deletionResult
-                };
-
-                return Ok(apiResponse);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<bool> { Status = "Lỗi", Message = ex.Message });
-            }
-        }
-
-        [HttpPost("cap-nhat-giao-vien")]
-        public IActionResult Update(GiaoVienDTO model)
-        {
-            try
-            {
-                bool updateResult = _giaoVien.Update(model);
-
-                var apiResponse = new ApiResponse<bool>
-                {
-                    Status = "Thành công",
-                    Message = updateResult ? "Cập nhật giáo viên thành công" : "Không thể cập nhật giáo viên",
-                    Data = updateResult
                 };
 
                 return Ok(apiResponse);

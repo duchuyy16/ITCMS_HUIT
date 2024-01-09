@@ -150,11 +150,11 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("cap-nhat-khoa-hoc")]
-        public IActionResult Update(KhoaHocDTO model)
+        public IActionResult Update([FromForm]KhoaHocDTO model, IFormFile? imageFile)
         {
             try
             {
-                bool updateResult = _khoaHoc.Update(model);
+                bool updateResult = _khoaHoc.Update(model,imageFile!);
 
                 var apiResponse = new ApiResponse<bool>
                 {
@@ -172,11 +172,11 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("them-khoa-hoc")]
-        public IActionResult Add(KhoaHocDTO model)
+        public IActionResult Add([FromForm] KhoaHocDTO model, IFormFile? imageFile)
         {
             try
             {
-                KhoaHocDTO addedKhoaHoc = _khoaHoc.Add(model);
+                KhoaHocDTO addedKhoaHoc = _khoaHoc.Add(model,imageFile!);
 
                 var apiResponse = new ApiResponse<KhoaHocDTO>
                 {

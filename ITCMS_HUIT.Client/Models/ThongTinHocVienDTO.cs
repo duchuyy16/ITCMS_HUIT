@@ -10,6 +10,7 @@ namespace ITCMS_HUIT.Client.Models
         public decimal? Diem { get; set; }
         public DateTime? NgayThongBao { get; set; }
         public bool? TrangThaiThongBao { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Số lần vắng mặt không thể nhỏ hơn 0")]
         public int? SoLanVangMat { get; set; }
         public string? LyDoThongBao { get; set; }
         public decimal? HocPhi { get; set; }
@@ -28,6 +29,7 @@ namespace ITCMS_HUIT.Client.Models
 		public decimal? Diem { get; set; }
         public DateTime? NgayThongBao { get; set; }
         public bool TrangThaiThongBao { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Số lần vắng mặt không thể nhỏ hơn 0")]
         public int? SoLanVangMat { get; set; }
         public string? LyDoThongBao { get; set; }
         public decimal? HocPhi { get; set; }

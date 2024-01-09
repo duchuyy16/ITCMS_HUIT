@@ -43,43 +43,48 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         }
 
 
-        public ActionResult Create()
-        {
-            try
-            {
-                ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh");
-                return View();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+		public ActionResult Create()
+		{
+			try
+			{
+				ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>(
+					ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh");
+				return View();
+			}
+			catch (Exception)
+			{
+				TempData["AddedUnsuccessfully"] = "Có lỗi xảy ra khi thêm thông tin khóa học.";
+				return BadRequest();
+			}
+		}
 
-        }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create([Bind("TenKhoaHoc,SoGio,SoTuan,HocPhi,Mota,HinhAnh,IdchuongTrinh")] KhoaHocDTO model, IFormFile? imageFile)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					Utilities.FromData<KhoaHocDTO>(ConstantValues.KhoaHoc.Them, model, imageFile!);
+					TempData["AddedSuccessfully"] = "Khóa học đã được thêm thành công.";
+					return RedirectToAction(nameof(Index));
+				}
+				ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>(
+					ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, model.IdchuongTrinh);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("TenKhoaHoc,SoGio,SoTuan,HocPhi,Mota,HinhAnh,IdchuongTrinh")] KhoaHocDTO model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Utilities.SendDataRequest<KhoaHocDTO>(ConstantValues.KhoaHoc.Them, model);
-                    return RedirectToAction(nameof(Index));
-                }
-                ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data,model.IdchuongTrinh);
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+				TempData["AddedUnsuccessfully"] = "Có lỗi xảy ra khi thêm thông tin khóa học.";
+				return View(model);
+			}
+			catch (Exception)
+			{
+				TempData["AddedUnsuccessfully"] = "Có lỗi xảy ra khi thêm thông tin khóa học.";
+				return BadRequest();
+			}
+		}
 
-        public ActionResult Details(int? id)
+
+		public ActionResult Details(int? id)
         {
             try
             {
@@ -106,120 +111,124 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Edit(int? id)
-        {
-            try
-            {
-                if (id == null)
-                {
-                    return NotFound();
-                }
+		public ActionResult Edit(int? id)
+		{
+			try
+			{
+				if (id == null)
+				{
+					return NotFound();
+				}
 
-                var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
-                if (khoaHoc == null)
-                {
-                    return NotFound();
-                }
+				var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
+				var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
+				if (khoaHoc == null)
+				{
+					return NotFound();
+				}
 
-                ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh");
-                return View(khoaHoc);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+				ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>(
+					ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh");
+				return View(khoaHoc);
+			}
+			catch (Exception)
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin khóa học.";
+				return BadRequest();
+			}
+		}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind("IdkhoaHoc,TenKhoaHoc,SoGio,SoTuan,HocPhi,Mota,HinhAnh,IdchuongTrinh")] KhoaHocDTO model)
-        {
-            try
-            {
-                if (id != model.IdkhoaHoc)
-                {
-                    return NotFound();
-                }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(int id, [Bind("IdkhoaHoc,TenKhoaHoc,SoGio,SoTuan,HocPhi,Mota,HinhAnh,IdchuongTrinh")] KhoaHocDTO model, IFormFile? imageFile)
+		{
+			try
+			{
+				if (id != model.IdkhoaHoc)
+				{
+					return NotFound();
+				}
 
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        model.Mota = HttpUtility.HtmlEncode(model.Mota)!;                      
-                        Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.CapNhat, model);       
-                        
+				if (ModelState.IsValid)
+				{
+					try
+					{
+						model.Mota = HttpUtility.HtmlEncode(model.Mota)!;
+						Utilities.FromData<bool>(ConstantValues.KhoaHoc.CapNhat, model, imageFile);
+						TempData["UpdatedSuccessfully"] = "Thông tin khóa học đã được cập nhật thành công.";
+					}
+					catch (DbUpdateConcurrencyException)
+					{
+						if (!IsExist(model.IdkhoaHoc))
+						{
+							return NotFound();
+						}
+						else
+						{
+							throw;
+						}
+					}
+					return RedirectToAction(nameof(Index));
+				}
 
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!IsExist(model.IdkhoaHoc))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
+				ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>(
+					ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh", model.IdchuongTrinh);
 
-                ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>
-                    (ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh", model.IdchuongTrinh);
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin khóa học.";
+				return View(model);
+			}
+			catch (Exception)
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin khóa học.";
+				return BadRequest();
+			}
+		}
 
-        public ActionResult Delete(int? id)
-        {
-            try
-            {
-                if (id == null)
-                {
-                    return NotFound();
-                }
+		public ActionResult Delete(int? id)
+		{
+			try
+			{
+				if (id == null)
+				{
+					return NotFound();
+				}
 
-                var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
-                if (khoaHoc == null)
-                {
-                    return NotFound();
-                }
+				var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
+				var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
+				if (khoaHoc == null)
+				{
+					return NotFound();
+				}
 
-                return View(khoaHoc);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+				return View(khoaHoc);
+			}
+			catch (Exception)
+			{
+				TempData["DeletedUnsuccessfully"] = "Có lỗi xảy ra khi xóa khóa học.";
+				return BadRequest();
+			}
+		}
 
-        }
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			try
+			{
+				var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
+				var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
+				Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.Xoa, khoaHoc);
+				TempData["DeletedSuccessfully"] = "Khóa học đã được xóa thành công.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception)
+			{
+				TempData["DeletedUnsuccessfully"] = "Có lỗi xảy ra khi xóa khóa học.";
+				return BadRequest();
+			}
+		}
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
-                var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
-                Utilities.SendDataRequest<bool>(ConstantValues.KhoaHoc.Xoa, khoaHoc);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-        }
-
-        private bool IsExist(int id)
+		private bool IsExist(int id)
         {
             var url = string.Format(ConstantValues.KhoaHoc.KiemTraTonTai, id);
             var khoaHoc = Utilities.SendDataRequest<bool>(url).Data;

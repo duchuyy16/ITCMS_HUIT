@@ -107,7 +107,75 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Edit(string? id)
+		public ActionResult Edit(string? id)
+		{
+			try
+			{
+				if (id == null)
+				{
+					return NotFound();
+				}
+
+				var url = string.Format(ConstantValues.GiaoVien.ChiTietGiaoVien, id);
+				var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
+				if (giaoVien == null)
+				{
+					return NotFound();
+				}
+
+				return View(giaoVien);
+			}
+			catch (Exception)
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin giáo viên.";
+				return BadRequest();
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(string id, [Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model, IFormFile? imageFile)
+		{
+			try
+			{
+				if (id != model.IdgiaoVien)
+				{
+					return NotFound();
+				}
+
+				if (ModelState.IsValid)
+				{
+					try
+					{
+						Utilities.FromData<bool>(ConstantValues.GiaoVien.CapNhat, model, imageFile);
+						TempData["UpdatedSuccessfully"] = "Thông tin giáo viên đã được cập nhật thành công.";
+					}
+					catch (DbUpdateConcurrencyException)
+					{
+						if (!IsExist(model.IdgiaoVien))
+						{
+							return NotFound();
+						}
+						else
+						{
+							throw;
+						}
+					}
+					return RedirectToAction(nameof(Index));
+				}
+
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin giáo viên.";
+				return View(model);
+			}
+			catch (Exception)
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin giáo viên.";
+				return BadRequest();
+			}
+		}
+
+
+		public ActionResult Delete(string? id)
         {
             try
             {
@@ -127,70 +195,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, [Bind("IdgiaoVien,TenGiaoVien,TrinhDo,ChungChi,HinhAnh,HoSoCaNhan")] GiaoVienDTO model)
-        {
-            try
-            {
-                if (id != model.IdgiaoVien)
-                {
-                    return NotFound();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        Utilities.SendDataRequest<bool>(ConstantValues.GiaoVien.CapNhat, model);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!IsExist(model.IdgiaoVien))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-        public ActionResult Delete(string? id)
-        {
-            try
-            {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                var url = string.Format(ConstantValues.GiaoVien.ChiTietGiaoVien, id);
-                var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
-                if (giaoVien == null)
-                {
-                    return NotFound();
-                }
-
-                return View(giaoVien);
-            }
-            catch (Exception)
-            {
-                TempData["Message"] = "Xóa không thành công. Đã xảy ra lỗi.";
+                TempData["DeletedUnsuccessfully"] = "Xóa không thành công. Đã xảy ra lỗi.";
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -205,16 +210,15 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
                 var giaoVien = Utilities.SendDataRequest<GiaoVienDTO>(url).Data;
                 Utilities.SendDataRequest<bool>(ConstantValues.GiaoVien.Xoa, giaoVien);
 
-                TempData["Message"] = "Xóa thành công.";
+                TempData["DeletedSuccessfully"] = "Xóa thành công.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)
             {
-                TempData["Message"] = "Xóa không thành công. Đã xảy ra lỗi.";
+                TempData["DeletedUnsuccessfully"] = "Xóa không thành công. Đã xảy ra lỗi.";
                 return RedirectToAction(nameof(Index));
             }
         }
-
 
         private bool IsExist(string id)
         {

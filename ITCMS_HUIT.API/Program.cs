@@ -4,6 +4,7 @@ using ITCMS_HUIT.Repository.Implement;
 using ITCMS_HUIT.Repository.Interfaces;
 using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +45,7 @@ builder.Services.AddScoped<CoSoDuLieuService>();
 builder.Services.AddScoped<TrangThaiHocVienService>();
 builder.Services.AddScoped<DoiTuongDangKyService>();
 builder.Services.AddScoped<ChartService>();
+
 
 
 // For Identity

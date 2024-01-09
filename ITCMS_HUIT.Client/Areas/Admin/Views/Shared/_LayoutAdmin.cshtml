@@ -163,6 +163,91 @@
 	<div>
 		@RenderBody();
 	</div>
+
+	@if (TempData["UpdatedSuccessfully"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Cập nhật thành công!',
+					text: '@Html.Raw(TempData["UpdatedSuccessfully"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["UpdatedUnsuccessfully"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Cập nhật không thành công!',
+					text: '@Html.Raw(TempData["UpdatedUnsuccessfully"])',
+					icon: 'error',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["AddedSuccessfully"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Thêm thành công!',
+					text: '@Html.Raw(TempData["AddedSuccessfully"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["AddedUnsuccessfully"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Thêm không thành công!',
+					text: '@Html.Raw(TempData["AddedUnsuccessfully"])',
+					icon: 'error',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["DeletedSuccessfully"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Xóa thành công!',
+					text: '@Html.Raw(TempData["DeletedSuccessfully"])',
+					icon: 'success',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
+	@if (TempData["DeletedUnsuccessfully"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Xóa không thành công!',
+					text: '@Html.Raw(TempData["DeletedSuccessfully"])',
+					icon: 'error',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
+
 	@if (TempData["BackupSuccessMessage"] != null)
 	{
 		<script type="text/javascript">
@@ -182,9 +267,9 @@
 		<script type="text/javascript">
 			document.addEventListener('DOMContentLoaded', function () {
 				Swal.fire({
-					title: 'Sao lưu thành công!',
+					title: 'Sao lưu không thành công!',
 					text: '@Html.Raw(TempData["BackupErrorMessage"])',
-					icon: 'success',
+					icon: 'error',
 					confirmButtonText: 'OK'
 				});
 			});
@@ -212,7 +297,7 @@
 				Swal.fire({
 					title: 'Phục hồi thành công!',
 					text: '@Html.Raw(TempData["RestoreErrorMessage"])',
-					icon: 'success',
+					icon: 'error',
 					confirmButtonText: 'OK'
 				});
 			});

@@ -105,37 +105,37 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Create()
-        {
-            ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                   (ConstantValues.HocVien.DanhSach).Data, "IdhocVien", "TenHocVien");
-            ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                (ConstantValues.LopHoc.DanhSach).Data, "IdlopHoc", "TenLopHoc");
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
+        //           (ConstantValues.HocVien.DanhSach).Data, "IdhocVien", "TenHocVien");
+        //    ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
+        //        (ConstantValues.LopHoc.DanhSach).Data, "IdlopHoc", "TenLopHoc");
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThanhToan")] ThongTinHocVienDTO model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.Them, model);
-                    return RedirectToAction(nameof(Index));
-                }
-                ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
-                  (ConstantValues.HocVien.DanhSach).Data, "IdhocVien", "TenHocVien");
-                ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
-                    (ConstantValues.LopHoc.DanhSach).Data, "IdlopHoc", "TenLopHoc");
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThanhToan")] ThongTinHocVienDTO model)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.Them, model);
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //        ViewData["IdHocVien"] = new SelectList(Utilities.SendDataRequest<List<HocVienDTO>>
+        //          (ConstantValues.HocVien.DanhSach).Data, "IdhocVien", "TenHocVien");
+        //        ViewData["IdLopHoc"] = new SelectList(Utilities.SendDataRequest<List<LopHocDTO>>
+        //            (ConstantValues.LopHoc.DanhSach).Data, "IdlopHoc", "TenLopHoc");
+        //        return View(model);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         public ActionResult Details(int? IdhocVien, int? IdlopHoc)
         {
@@ -161,118 +161,125 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Edit(int? IdhocVien, int? IdlopHoc)
-        {
-            try
-            {
-                if (IdhocVien == null || IdlopHoc == null)
-                {
-                    return NotFound();
-                }
-                var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
+		public ActionResult Edit(int? IdhocVien, int? IdlopHoc)
+		{
+			try
+			{
+				if (IdhocVien == null || IdlopHoc == null)
+				{
+					return NotFound();
+				}
+				var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
+				var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
+
+				if (thongTinHocVien == null)
+				{
+					return NotFound();
+				}
+
+				return View(thongTinHocVien);
+			}
+			catch (Exception)
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin học viên.";
+				return BadRequest();
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(int IdhocVien, int IdlopHoc, [Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThanhToan")] ThongTinHocVienDTO model)
+		{
+			try
+			{
+				if (IdhocVien != model.IdhocVien || IdlopHoc != model.IdlopHoc)
+				{
+					return NotFound();
+				}
+				var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
+				var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
+
+				model.IdhocVienNavigation = thongTinHocVien.IdhocVienNavigation;
+
+				if (ModelState.IsValid)
+				{
+					try
+					{
+						Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.CapNhat, model);
+						TempData["UpdatedSuccessfully"] = "Thông tin học viên đã được cập nhật thành công.";
+						return RedirectToAction(nameof(Index));
+					}
+					catch (DbUpdateConcurrencyException)
+					{
+						if (!IsExist(model.IdhocVien, model.IdlopHoc))
+						{
+							return NotFound();
+						}
+						else
+						{
+							throw;
+						}
+					}
+				}
+
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin học viên.";
+				return View(model);
+			}
+			catch (Exception)
+			{
+				TempData["UpdatedUnsuccessfully"] = "Có lỗi xảy ra khi cập nhật thông tin học viên.";
+				return BadRequest();
+			}
+		}
 
 
-                if (thongTinHocVien == null)
-                {
-                    return NotFound();
-                }
+		public ActionResult Delete(int? IdhocVien, int? IdlopHoc)
+		{
+			try
+			{
+				if (IdhocVien == null || IdlopHoc == null)
+				{
+					return NotFound();
+				}
 
-                return View(thongTinHocVien);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+				var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
+				var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
+				if (thongTinHocVien == null)
+				{
+					return NotFound();
+				}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int IdhocVien, int IdlopHoc, [Bind("IdhocVien,IdlopHoc,Diem,NgayThongBao,TrangThaiThongBao,SoLanVangMat,LyDoThongBao,HocPhi,NgayGioGiaoDich,TrangThaiThanhToan")] ThongTinHocVienDTO model)
-        {
-            try
-            {
-                if (IdhocVien != model.IdhocVien || IdlopHoc != model.IdlopHoc)
-                {
-                    return NotFound();
-                }
-                var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
+				return View(thongTinHocVien);
+			}
+			catch (Exception)
+			{
+				TempData["DeletedUnsuccessfully"] = "Có lỗi xảy ra khi xóa học viên.";
+				return BadRequest();
+			}
+		}
 
-                model.IdhocVienNavigation = thongTinHocVien.IdhocVienNavigation;
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int IdhocVien, int IdlopHoc)
+		{
+			try
+			{
+				var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
+				var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
+				Utilities.SendDataRequest<bool>(ConstantValues.ThongTinHocVien.Xoa, thongTinHocVien);
 
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.CapNhat, model);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!IsExist(model.IdhocVien, model.IdlopHoc))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-             
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+				TempData["DeletedSuccessfully"] = "Học viên đã được xóa thành công.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception)
+			{
+				TempData["DeletedUnsuccessfully"] = "Có lỗi xảy ra khi xóa học viên.";
+				return BadRequest();
+			}
+		}
 
-        public ActionResult Delete(int? IdhocVien, int? IdlopHoc)
-        {
-            try
-            {
-                if (IdhocVien == null || IdlopHoc == null)
-                {
-                    return NotFound();
-                }
 
-                var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var khoaHoc = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
-                if (khoaHoc == null)
-                {
-                    return NotFound();
-                }
-
-                return View(khoaHoc);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int IdhocVien, int IdlopHoc)
-        {
-            try
-            {
-                var url = string.Format(ConstantValues.ThongTinHocVien.ThongTinChiTiet, IdhocVien, IdlopHoc);
-                var thongTinHocVien = Utilities.SendDataRequest<ThongTinHocVienDTO>(url).Data;
-                Utilities.SendDataRequest<bool>(ConstantValues.ThongTinHocVien.Xoa, thongTinHocVien);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-        }
-
-        private bool IsExist(int IdhocVien, int IdlopHoc)
+		private bool IsExist(int IdhocVien, int IdlopHoc)
         {
             var url = string.Format(ConstantValues.ThongTinHocVien.KiemTraTonTai, IdhocVien, IdlopHoc);
             var thongTinHocVien = Utilities.SendDataRequest<bool>(url).Data;
