@@ -15,6 +15,7 @@ namespace ITCMS_HUIT.Repository.Interfaces
         List<ThongTinHocVien> GetAllByUserId(string id);
         ThongTinHocVien GetById(int idHocVien, int idLopHoc);
         ThongTinHocVien GetByIdHocVien(int idHocVien);
+        List<ThongTinHocVien> GetAllByIdLopHoc(int idLopHoc);
         bool IsExist(int idHocVien,int idLopHoc);
     }
 }

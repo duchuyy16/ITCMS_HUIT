@@ -36,6 +36,7 @@
     .product-management-buttons {
         margin: 12px;
     }
+
 </style>
 <section class="pcoded-main-container">
     <div class="pcoded-wrapper">
@@ -63,21 +64,37 @@
                                     <div class="card-header">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="full-left">
-                                                <a class="btn btn-success" asp-action="ExportExcel">
-                                                    <i class="fas fa-file-excel"></i> Export Excel
-                                                </a>
                                                 <div class="full-left">
-                     
-                                                    <form asp-controller="ThongTinHocViens" asp-action="Import" method="post" class="d-flex flex-column" >
+                                                    <form asp-controller="ThongTinHocViens" asp-action="ExportExcelById" method="post" class="d-flex flex-column">
                                                         <div class="input-group">
-                                                            <button type="submit" class="btn btn-info"><i class="fas fa-file-excel"></i> Import Excel</button> <div class="input-group-append">
-                                                                <input type="file" id="fileInput" class="form-control" onchange="setFileName()" />
-                                                                <input type="hidden" id="fileNameInput" name="fileName" value="" />
-                                                            </div>
+                                                            <select class="form-control" name="id">
+                                                                <option value="">-- Chọn Lớp Học --</option>
+                                                                @foreach (var item in (ViewData["DanhSachLopHoc"] as List<LopHocDTO>)!)
+                                                                {
+                                                                    <option value="@item.IdlopHoc">@item.TenLopHoc</option>
+                                                                }
+                                                            </select>
+                                                            <button type="submit" class="btn btn-success">
+                                                                <i class="fas fa-file-excel"></i> Xuất Excel
+                                                            </button>
                                                         </div>
                                                     </form>
                                                 </div>
-                                                
+
+                                                <div class="full-left mb-2">
+                                                    <form asp-controller="ThongTinHocViens" asp-action="Import" method="post" class="d-flex flex-column">
+                                                        <div class="input-group">                                                       
+                                                            <div class="input-group-append">
+                                                                <div class="custom-file">
+                                                                    <input type="file" class="custom-file-input" id="fileInput" onchange="setFileName()" />
+                                                                    <label class="custom-file-label" for="fileInput">Chọn tệp Excel</label>
+                                                                </div>
+                                                                <input type="hidden" id="fileNameInput" name="fileName" value="" />
+                                                            </div>
+                                                            <button type="submit" class="btn btn-info"><i class="fas fa-file-excel"></i> Nhập Excel</button>
+                                                        </div>
+                                                    </form>
+                                                </div>                                     
                                             </div>
                                             <div class="full-right">
                                                 <form asp-controller="ThongTinHocViens" asp-action="TimKiemHocVienTheoTenHocVien" method="post" class="d-flex" style="margin-right:-15px;">
@@ -91,6 +108,59 @@
                                             </div>
                                         </div>
                                     </div>
+                                   @*  <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+
+                                            <!-- Xuất Excel -->
+                                            <div class="full-left">
+                                                <form asp-controller="ThongTinHocViens" asp-action="ExportExcelById" method="post" class="d-flex flex-column">
+                                                    <div class="input-group">
+                                                        <select class="form-control" name="id">
+                                                            <option value="">-- Chọn Lớp Học --</option>
+                                                            @foreach (var item in (ViewData["DanhSachLopHoc"] as List<LopHocDTO>)!)
+                                                            {
+                                                                <option value="@item.IdlopHoc">@item.TenLopHoc</option>
+                                                            }
+                                                        </select>
+                                                        <button type="submit" class="btn btn-success">
+                                                            <i class="fas fa-file-excel"></i> Xuất Excel
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!-- Nhập Excel -->
+                                            <div class="full-left">
+                                                <form asp-controller="ThongTinHocViens" asp-action="Import" method="post" class="d-flex flex-column">
+                                                    <div class="input-group">
+                                                        <button type="submit" class="btn btn-info">
+                                                            <i class="fas fa-file-excel"></i> Nhập Excel
+                                                        </button>
+                                                        <div class="input-group-append">
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input" id="fileInput" onchange="setFileName()" />
+                                                                <label class="custom-file-label" for="fileInput">Chọn tệp Excel</label>
+                                                            </div>
+                                                            <input type="hidden" id="fileNameInput" name="fileName" value="" />
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!-- Tìm kiếm -->
+                                            <div class="full-right">
+                                                <form asp-controller="ThongTinHocViens" asp-action="TimKiemHocVienTheoTenHocVien" method="post" class="d-flex" style="margin-right:-15px;">
+                                                    <div class="input-group mx-sm-3">
+                                                        <input type="text" class="form-control" id="searchInput" name="tenHocVien" placeholder="Tìm kiếm tên học viên">
+                                                        <div class="input-group-append">
+                                                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div> *@
+
                                     <div class="card-body table-border-style">
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
@@ -134,6 +204,7 @@
                                                     {
                                                         <tr>
                                                             <td>
+                                                               
                                                                 @Html.DisplayFor(modelItem => item.IdhocVienNavigation!.TenHocVien)
                                                             </td>
                                                             <td>

@@ -22,6 +22,11 @@ namespace ITCMS_HUIT.Repository.Implement
             return _context.ThongTinHocViens.Include(i=>i.IdhocVienNavigation).Include(l=>l.IdlopHocNavigation).OrderBy(o=>o.IdlopHoc).ToList();
         }
 
+        public List<ThongTinHocVien> GetAllByIdLopHoc(int idLopHoc)
+        {
+            return _context.ThongTinHocViens.Include(i => i.IdhocVienNavigation).Include(k => k.IdlopHocNavigation).Where(l => l.IdlopHoc == idLopHoc).ToList();
+        }
+
         public List<ThongTinHocVien> GetAllByUserId(string id)
         {
             return _context.ThongTinHocViens.Include(i => i.IdhocVienNavigation).Include(k => k.IdlopHocNavigation).Where(l => l.IdlopHocNavigation.IdgiaoVien == id).ToList();

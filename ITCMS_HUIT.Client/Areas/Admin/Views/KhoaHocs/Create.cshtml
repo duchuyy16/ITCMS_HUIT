@@ -32,7 +32,7 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label asp-for="IdchuongTrinh" class="control-label">Chương Trình</label>
-                                            <select asp-for="IdchuongTrinh" asp-items="ViewBag.IdChuongTrinh" class="form-control"></select>
+                                            <select asp-for="IdchuongTrinh" asp-items="@(ViewData["IdChuongTrinh"] as SelectList)" class="form-control"></select>
                                             <span asp-validation-for="IdchuongTrinh" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">

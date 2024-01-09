@@ -262,13 +262,60 @@ namespace Services
         //    return memoryStream;
         //}
 
-        public MemoryStream Export()
+        public List<ThongTinHocVienDTO> GetAllByIdLopHoc(int id)
+        {
+            var dsThongTinHocVien = _thongTin.GetAllByIdLopHoc(id);
+            var dsThongTinHocVienDTO = dsThongTinHocVien.Select(s => new ThongTinHocVienDTO
+            {
+                IdhocVien = s.IdhocVien,
+                IdlopHoc = s.IdlopHoc,
+                Diem = s.Diem,
+                NgayThongBao = s.NgayThongBao,
+                TrangThaiThongBao = s.TrangThaiThongBao!,
+                SoLanVangMat = s.SoLanVangMat,
+                LyDoThongBao = s.LyDoThongBao,
+                HocPhi = s.HocPhi,
+                NgayGioGiaoDich = s.NgayGioGiaoDich!,
+                TrangThaiThanhToan = s.TrangThaiThanhToan,
+                IdhocVienNavigation = s.IdhocVienNavigation.Adapt<HocVienModel>(),
+                IdlopHocNavigation = s.IdlopHocNavigation.Adapt<LopHocModel>(),
+            }).ToList();
+
+            return dsThongTinHocVienDTO;
+        }
+
+        public MemoryStream ExportById(int id)
+		{
+			var dsThongTin = _thongTin.GetAllByIdLopHoc(id);
+
+			var dsThongTinHocVienDTO = dsThongTin.Select(s => new
+			{
+				MaHocVien = s.IdhocVien,
+				TenHocVien = s.IdhocVienNavigation!.TenHocVien,
+				LopHoc = s.IdlopHocNavigation!.IdlopHoc,
+				TenLopHoc = s.IdlopHocNavigation.TenLopHoc,
+				Diem = s.Diem,
+				NgayThongBao = s.NgayThongBao,
+				TrangThaiThongBao = s.TrangThaiThongBao!,
+				SoLanVangMat = s.SoLanVangMat,
+				LyDoThongBao = s.LyDoThongBao,
+				HocPhi = s.HocPhi,
+				NgayGioGiaoDich = s.NgayGioGiaoDich!,
+				TrangThaiThanhToan = s.TrangThaiThanhToan,
+
+
+			}).ToList();
+
+			var memoryStream = new MemoryStream();
+			memoryStream.SaveAs(dsThongTinHocVienDTO);
+			memoryStream.Seek(0, SeekOrigin.Begin);
+
+			return memoryStream;
+		}
+
+		public MemoryStream Export()
         {
             var dsThongTin = GetAll();
-            var dsDoiTuong = _doiTuongDangKy.GetAll();
-            var dsTrangThai = _trangThai.GetAll();
-            var dsKhoaHoc = _khoaHoc.GetAll();
-            var dsGiaoVien = _giaoVien.GetAll();
 
             var dsThongTinHocVienDTO = dsThongTin.Select(s => new
             {

@@ -18,8 +18,13 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
         {
             try
             {
+                var url1 = string.Format(ConstantValues.ThongTinHocVien.DanhSachHocVienTheoGiaoVien, id);
+                ViewData["DanhSachLopHoc"] = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url1).Data
+                    .Select(m => new LopHocDTO { IdlopHoc = m.IdlopHoc, TenLopHoc = m.IdlopHocNavigation.TenLopHoc }).Distinct().ToList(); ;
+
                 var url = string.Format(ConstantValues.ThongTinHocVien.DanhSachHocVienTheoGiaoVien, id);
                 var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url).Data;
+
                 var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
                 return View(pagedList);
 
@@ -30,10 +35,16 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
+
+
         public ActionResult IndexAdmin(int pageNo = 1)
         {
             try
             {
+
+                ViewData["DanhSachLopHoc"] = Utilities.SendDataRequest<List<LopHocDTO>>
+                     (ConstantValues.LopHoc.DanhSach).Data
+                     .Select(m => new LopHocDTO { IdlopHoc = m.IdlopHoc, TenLopHoc = m.TenLopHoc }).Distinct().ToList();
                 var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(ConstantValues.ThongTinHocVien.DanhSach).Data;
                 var pagedList = thongTinHocViens.ToPagedList(pageNo, 5);
                 return View(pagedList);
@@ -45,25 +56,55 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult ExportExcel()
+        //public ActionResult ExportExcel()
+        //{
+        //    try
+        //    {
+        //        ValueTuple<MemoryStream, string> result = Utilities.SendDataRequestExcel(ConstantValues.ThongTinHocVien.Export);
+
+        //        if (result.Item1 != null && !string.IsNullOrEmpty(result.Item2))
+        //        {
+        //            return new FileStreamResult(result.Item1, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        //            {
+        //                FileDownloadName = result.Item2,
+        //            };
+        //        }
+        //        else
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
+        public ActionResult ExportExcelById(int id)
         {
             try
             {
-                ValueTuple<MemoryStream,string> file = Utilities.SendDataRequestExcel(ConstantValues.ThongTinHocVien.Export);
-                ValueTuple<MemoryStream, string> fileName = Utilities.SendDataRequestExcel(ConstantValues.ThongTinHocVien.Export);
-
-                return new FileStreamResult(file.Item1, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                var url = string.Format(ConstantValues.ThongTinHocVien.ExportById, id);
+                var result = Utilities.SendDataRequestExcel(url);
+                
+                if (result.Item1 != null && !string.IsNullOrEmpty(result.Item2))
                 {
-                    
-                    FileDownloadName = file.Item2,
-                };
-
+                    return new FileStreamResult(result.Item1, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = result.Item2,
+                    };
+                }
+                else
+                {
+                    return BadRequest("Không thể xuất Excel cho ID đã cho.");
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
 
         public ActionResult Import(string fileName)
         {

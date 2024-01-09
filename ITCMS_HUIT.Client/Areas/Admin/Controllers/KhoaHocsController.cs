@@ -71,7 +71,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 					return RedirectToAction(nameof(Index));
 				}
 				ViewData["IdChuongTrinh"] = new SelectList(Utilities.SendDataRequest<List<ChuongTrinhDaoTaoDTO>>(
-					ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, model.IdchuongTrinh);
+					ConstantValues.ChuongTrinhDaoTao.DanhSachChuongTrinhDaoTao).Data, "IdchuongTrinh", "TenChuongTrinh", model.IdchuongTrinh);
 
 				TempData["AddedUnsuccessfully"] = "Có lỗi xảy ra khi thêm thông tin khóa học.";
 				return View(model);
