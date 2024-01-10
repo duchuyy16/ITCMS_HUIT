@@ -55,14 +55,10 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- [ breadcrumb ] end -->
-                        <!-- [ Main Content ] start -->
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
-                                    @* <div class="card-header">
-                                        <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a> 
-                                    </div> *@
                                     <div class="card-body table-border-style">
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
@@ -124,10 +120,10 @@
                                                                 @Html.DisplayFor(modelItem => item.NgayDangKy)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.IddoiTuong)
+                                                                @Html.DisplayFor(modelItem => item.IddoiTuongNavigation!.DoiTuongDangKy1) 
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.IdtrangThai)
+                                                                @Html.DisplayFor(modelItem => item.IdtrangThaiNavigation!.TenTrangThai)
                                                             </td>
                                                             <td>
                                                                

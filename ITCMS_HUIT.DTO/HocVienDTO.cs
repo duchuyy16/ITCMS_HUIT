@@ -13,7 +13,7 @@ namespace ITCMS_HUIT.DTO
         public string TenHocVien { get; set; } = null!;
 
         [Required(ErrorMessage = "Ngày sinh là trường bắt buộc.")]
-        [Range(typeof(DateTime), "1/1/1900", "1/1/2006", ErrorMessage = "Ngày sinh phải nhỏ hơn hoặc bằng năm 2006.")]
+        [Range(typeof(DateTime), "1/1/1900", "1/1/2007", ErrorMessage = "Ngày sinh phải nhỏ hơn hoặc bằng năm 2006.")]
         public DateTime NgaySinh { get; set; }
 
         [Required(ErrorMessage = "Email là trường bắt buộc.")]
@@ -36,7 +36,7 @@ namespace ITCMS_HUIT.DTO
         public int IdhocVien { get; set; }
         public string TenHocVien { get; set; } = null!;
         [Required(ErrorMessage = "Ngày sinh là trường bắt buộc.")]
-        [Range(typeof(DateTime), "1/1/1900", "1/1/2006", ErrorMessage = "Ngày sinh phải nhỏ hơn hoặc bằng năm 2006.")]
+        [Range(typeof(DateTime), "1/1/1900", "1/1/2007", ErrorMessage = "Ngày sinh phải nhỏ hơn hoặc bằng năm 2006.")]
         public DateTime NgaySinh { get; set; }
         [Required(ErrorMessage = "Email là trường bắt buộc.")]
         [EmailAddress(ErrorMessage = "Email không đúng định dạng.")]

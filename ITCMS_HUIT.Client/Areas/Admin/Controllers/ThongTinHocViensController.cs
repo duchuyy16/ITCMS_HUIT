@@ -20,7 +20,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             {
                 var url1 = string.Format(ConstantValues.ThongTinHocVien.DanhSachHocVienTheoGiaoVien, id);
                 ViewData["DanhSachLopHoc"] = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url1).Data
-                    .Select(m => new LopHocDTO { IdlopHoc = m.IdlopHoc, TenLopHoc = m.IdlopHocNavigation.TenLopHoc }).Distinct().ToList(); ;
+                    .Select(m => new LopHocDTO { IdlopHoc = m.IdlopHoc, TenLopHoc = m.IdlopHocNavigation.TenLopHoc }).Distinct().ToList();
 
                 var url = string.Format(ConstantValues.ThongTinHocVien.DanhSachHocVienTheoGiaoVien, id);
                 var thongTinHocViens = Utilities.SendDataRequest<List<ThongTinHocVienDTO>>(url).Data;
@@ -35,13 +35,10 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
-
-
         public ActionResult IndexAdmin(int pageNo = 1)
         {
             try
             {
-
                 ViewData["DanhSachLopHoc"] = Utilities.SendDataRequest<List<LopHocDTO>>
                      (ConstantValues.LopHoc.DanhSach).Data
                      .Select(m => new LopHocDTO { IdlopHoc = m.IdlopHoc, TenLopHoc = m.TenLopHoc }).Distinct().ToList();
@@ -202,6 +199,19 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
         }
 
+        public RedirectToActionResult ReturnToIndex()
+        {
+            var sessionToken = Common.AppContext.Current!.Session.Get<string>("Token");
+            var idGiaoVien = sessionToken!.GetTeacherIdFromJwt();
+            var userRoles = sessionToken!.GetRolesFromJwt();
+              
+            if(userRoles.Contains("Admin"))
+                return RedirectToAction(nameof(IndexAdmin));
+
+            
+            return RedirectToAction(nameof(Index), new {id=idGiaoVien});
+        }
+
 		public ActionResult Edit(int? IdhocVien, int? IdlopHoc)
 		{
 			try
@@ -248,8 +258,10 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 					{
 						Utilities.SendDataRequest<ThongTinHocVienDTO>(ConstantValues.ThongTinHocVien.CapNhat, model);
 						TempData["UpdatedSuccessfully"] = "Thông tin học viên đã được cập nhật thành công.";
-						return RedirectToAction(nameof(Index));
-					}
+
+                        return ReturnToIndex();
+
+                    }
 					catch (DbUpdateConcurrencyException)
 					{
 						if (!IsExist(model.IdhocVien, model.IdlopHoc))
@@ -310,8 +322,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 				Utilities.SendDataRequest<bool>(ConstantValues.ThongTinHocVien.Xoa, thongTinHocVien);
 
 				TempData["DeletedSuccessfully"] = "Học viên đã được xóa thành công.";
-				return RedirectToAction(nameof(Index));
-			}
+                return ReturnToIndex();
+            }
 			catch (Exception)
 			{
 				TempData["DeletedUnsuccessfully"] = "Có lỗi xảy ra khi xóa học viên.";

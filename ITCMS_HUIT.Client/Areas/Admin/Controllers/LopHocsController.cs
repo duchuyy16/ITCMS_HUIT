@@ -88,7 +88,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 				{
 					Utilities.SendDataRequest<LopHocDTO>(ConstantValues.LopHoc.Them, model);
 					TempData["AddedSuccessfully"] = "Lớp học đã được thêm thành công.";
-					return RedirectToAction(nameof(Index));
+					return RedirectToAction(nameof(IndexAdmin));
 				}
 
 				ViewData["IdGiaoVien"] = new SelectList(Utilities.SendDataRequest<List<GiaoVienDTO>>(
@@ -177,8 +177,8 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 					{
 						Utilities.SendDataRequest<bool>(ConstantValues.LopHoc.CapNhat, model);
 						TempData["UpdatedSuccessfully"] = "Thông tin lớp học đã được cập nhật thành công.";
-						return RedirectToAction("IndexAdmin");
-					}
+                        return RedirectToAction(nameof(IndexAdmin));
+                    }
 					catch (DbUpdateConcurrencyException)
 					{
 						if (!IsExist(model.IdlopHoc))
@@ -244,7 +244,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 				Utilities.SendDataRequest<bool>(ConstantValues.LopHoc.Xoa, lopHoc);
 
 				TempData["DeletedSuccessfully"] = "Lớp học đã được xóa thành công.";
-				return RedirectToAction(nameof(Index));
+				return RedirectToAction(nameof(IndexAdmin));
 			}
 			catch (Exception)
 			{
@@ -252,8 +252,6 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 				return BadRequest();
 			}
 		}
-
-
 		private bool IsExist(int id)
         {
             var url = string.Format(ConstantValues.LopHoc.KiemTraTonTai, id);

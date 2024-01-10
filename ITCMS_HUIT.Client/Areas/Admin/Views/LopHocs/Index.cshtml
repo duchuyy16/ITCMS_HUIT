@@ -55,9 +55,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- [ breadcrumb ] end -->
-                        <!-- [ Main Content ] start -->
-                        @*   <a class="btn btn-success ml-2" asp-action="Create"><i class="fas fa-plus"></i></a> *@
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
@@ -133,16 +131,12 @@
                                                                 @Html.DisplayFor(modelItem => item.PhongHoc)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.IdkhoaHoc)
+                                                                @Html.DisplayFor(modelItem => item.IdkhoaHocNavigation!.TenKhoaHoc) 
                                                             </td>
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.IdgiaoVienNavigation!.TenGiaoVien)
                                                             </td>
                                                             <td>
-                                                                
-                                                                @* <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.IdlopHoc"><i class="fas fa-edit"></i></a> |
-                                                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdlopHoc"><i class="fas fa-info-circle"></i></a> |
-                                                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdlopHoc"><i class="fas fa-trash"></i></a> *@
                                                             </td>
                                                         </tr>
                                                     }
@@ -167,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- [ Main Content ] end -->
+
                     </div>
                 </div>
             </div>

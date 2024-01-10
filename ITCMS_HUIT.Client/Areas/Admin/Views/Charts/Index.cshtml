@@ -28,7 +28,7 @@
                             <div class="col-xl-6">
                                 <div class="card">
                                     <div class="card-header text-center bg-primary">
-                                        <h5 class="text-white">Biểu đồ cột số lượng khóa học theo chương trình</h5>
+                                        <h3 class="text-white">Biểu đồ cột số lượng khóa học theo chương trình</h3>
                                     </div>
                                     <div class="card-body">
                                         <div id="KhoaHocTheoChuongTrinh" style="height:300px"></div>
@@ -39,7 +39,7 @@
                             <div class="col-xl-6">
                                 <div class="card">
                                     <div class="card-header text-center bg-primary">
-                                        <h5 class="text-white">Biểu đồ cột số lượng đối tượng đăng ký</h5>
+                                        <h3 class="text-white">Biểu đồ cột số lượng đối tượng đăng ký</h3>
                                     </div>
                                     <div class="card-body">
                                         <div id="ThongKeDoiTuongDangKy" style="height:300px"></div>
@@ -47,6 +47,10 @@
                                 </div>
                             </div>
                         </div>
+
+                       @*  <div class="row">
+                            <div id="piechart" style="width: 900px; height: 500px;"></div>
+                        </div> *@
                         <!-- [ Main Content ] end -->
                     </div>
                 </div>
@@ -96,11 +100,16 @@
             chartArea: { width: '70%', height: '70%' },
             hAxis: {
                 title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học' : 'Số lượng',
-                minValue: 0
+                minValue: 0,
+                titleTextStyle: {
+                    fontSize: 16  // Kích thước chữ cho tiêu đề trục ngang
+                }
             },
             vAxis: {
                 title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Chương trình' : 'Đối tượng đăng ký',
-                // textStyle: { fontSize: 12 }
+                titleTextStyle: {
+                    fontSize: 16  // Kích thước chữ cho tiêu đề trục dọc
+                }
             },
             bars: 'horizontal'
         };
@@ -111,13 +120,18 @@
     }
 </script>
 
-@* <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
+
+@* <script type="text/javascript">
     google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(LoadData);
-    function LoadData() {
+    google.charts.setOnLoadCallback(function () {
+        LoadData('KhoaHocTheoChuongTrinh', '/Admin/Charts/GetCourseCountsByProgram');
+        LoadData('ThongKeDoiTuongDangKy', '/Admin/Charts/ThongKeDoiTuongDangKy');
+        LoadData('piechart', '/Admin/Charts/GetCourseCountsByProgram');
+    });
+
+    function LoadData(chartId, url) {
         $.ajax({
-            url: '/Admin/Charts/GetCourseCountsByProgram',
+            url: url,
             dataType: "json",
             type: "GET",
             error: function (xhr, status, error) {
@@ -125,17 +139,51 @@
                 toastr.error(err.message);
             },
             success: function (data) {
-                DrawChart(data);
+                if (chartId === 'piechart') {
+                    DrawPieChart(data, chartId);
+                } else {
+                    DrawBarChart(data, chartId);
+                }
                 return false;
             }
         });
         return false;
     }
 
-    function DrawChart(data) {
+    function DrawBarChart(data, chartId) {
+        var dataArray = [
+            [chartId === 'KhoaHocTheoChuongTrinh' ? 'TenChuongTrinh' : 'DoiTuongDangKy', chartId === 'KhoaHocTheoChuongTrinh' ? 'SoLuongKhoaHoc' : 'SoLuong']
+        ];
+
+        $.each(data, function (i, item) {
+            dataArray.push([item[chartId === 'KhoaHocTheoChuongTrinh' ? 'tenChuongTrinh' : 'doiTuongDangKy'], item[chartId === 'KhoaHocTheoChuongTrinh' ? 'soLuongKhoaHoc' : 'soLuong']]);
+        });
+
+        var myData = new google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học theo chương trình' : 'Số lượng đối tượng đăng ký',
+            legend: { position: 'none' },
+            chartArea: { width: '70%', height: '70%' },
+            hAxis: {
+                title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học' : 'Số lượng',
+                minValue: 0
+            },
+            vAxis: {
+                title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Chương trình' : 'Đối tượng đăng ký',
+            },
+            bars: 'horizontal'
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById(chartId));
+        chart.draw(myData, options);
+        return false;
+    }
+
+    function DrawPieChart(data, chartId) {
         var dataArray = [
             ['TenChuongTrinh', 'SoLuongKhoaHoc']
         ];
+
         $.each(data, function (i, item) {
             dataArray.push([item["tenChuongTrinh"], item["soLuongKhoaHoc"]]);
         });
@@ -145,69 +193,20 @@
             title: 'Số lượng khóa học theo chương trình',
             legend: { position: 'none' },
             chartArea: { width: '70%', height: '70%' },
-            hAxis: {
-                title: 'Số lượng khóa học',
-                minValue: 0
-            },
-            vAxis: {
-                title: 'Chương trình',
-                // textStyle: { fontSize: 12 }
-            },
-            bars: 'horizontal'
+            pieSliceText: 'label',
+            slices: {
+                0: { color: '#3366cc' },
+                1: { color: '#dc3912' },
+                2: { color: '#ff9900' },
+            }
         };
 
-        var chart = new google.visualization.BarChart(document.getElementById('KhoaHocTheoChuongTrinh'));
+        var chart = new google.visualization.PieChart(document.getElementById(chartId));
         chart.draw(myData, options);
         return false;
     }
 </script>
+ *@
 
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(LoadData);
-    function LoadData() {
-        $.ajax({
-            url: '/Admin/Charts/ThongKeDoiTuongDangKy',
-            dataType: "json",
-            type: "GET",
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                toastr.error(err.message);
-            },
-            success: function (data) {
-                DrawChart(data);
-                return false;
-            }
-        });
-        return false;
-    }
 
-    function DrawChart(data) {
-        var dataArray = [
-            ['DoiTuongDangKy', 'SoLuong']
-        ];
-        $.each(data, function (i, item) {
-            dataArray.push([item["doiTuongDangKy"], item["soLuong"]]);
-        });
 
-        var myData = new google.visualization.arrayToDataTable(dataArray);
-        var options = {
-            title: 'Số lượng đối tượng đăng ký',
-            legend: { position: 'none' },
-            chartArea: { width: '70%', height: '70%' },
-            hAxis: {
-                title: 'Số lượng',
-                minValue: 0
-            },
-            vAxis: {
-                title: 'Đối tượng đăng ký',
-                // textStyle: { fontSize: 12 }
-            },
-            bars: 'horizontal'
-        };
-
-        var chart = new google.visualization.BarChart(document.getElementById('ThongKeDoiTuongDangKy'));
-        chart.draw(myData, options);
-        return false;
-    }
-</script> *@

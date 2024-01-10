@@ -3,7 +3,6 @@
     ViewData["Title"] = "ThemHocVien";
     Layout = "~/Views/Shared/_LayoutChiTietKhoaHoc.cshtml";
 }
-
 <section class="section">
     <div class="container">
         <div class="boxed boxedp4">
@@ -27,6 +26,11 @@
                             <input asp-for="Email" type="email" class="form-control" placeholder="Nhập địa chỉ email" required>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <label asp-for="IddoiTuong" class="control-label">Đối Tượng</label>
+                            <select asp-for="IddoiTuong" class="form-control" asp-items="ViewBag.IdDoiTuong"></select>
+                            <span asp-validation-for="IddoiTuong" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -36,32 +40,142 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="DiaChi" class="control-label">Địa chỉ:</label>
-                            <input asp-for="DiaChi" class="form-control" placeholder="Nhập địa chỉ" required>
+                            <div>
+                                <select id="city" class="form-control">
+                                    <option value="" selected>Chọn tỉnh thành</option>
+                                </select>
+                                <div class="row" style="margin-top: 6px">
+                                    <div class="col-sm-6">
+                                        <select id="district" class="form-control">
+                                            <option value="" selected>Chọn quận huyện</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <select id="ward" class="form-control">
+                                            <option value="" selected>Chọn phường xã</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input id="inputDiaChi" class="form-control" style="margin-top: 6px" placeholder="Nhập địa chỉ" required>
+                            <input id="inputDiaChi2" style="display:none" asp-for="DiaChi" class="form-control">
                             <span asp-validation-for="DiaChi" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="IddoiTuong" class="control-label">Đối Tượng</label>
-                            <select asp-for="IddoiTuong" class="form-control" asp-items="ViewBag.IdDoiTuong"></select>
-                            <span asp-validation-for="IddoiTuong" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-                <div class="row" style="color: red;">
-                    <span><strong style="text-decoration: underline;">Lưu ý:</strong></span> <br />
-                    <label>- Các thông tin này sẽ được sử dụng để in Biên nhận học phí và cấp Chứng chỉ.</label> <br />
-                    <label>- Vui lòng điền đầy đủ và chính xác thông tin.</label>
-                </div>
-                <div class="row justify-content-between">
-                    <div class="col-sm-2">
-                        <button type="submit" class="btn btn-success">Đăng ký <i class="fa fa-arrow-right"></i></button>                     
+                <div class="card-footer bg-light text-muted">
+                    <div class="row">
+                        <div class="col-md-6 text-danger">
+                            <strong>Lưu ý:</strong>
+                            <ul>
+                                <li>Các thông tin này sẽ được sử dụng để in Biên nhận học phí và cấp Chứng chỉ.</li>
+                                <li>Vui lòng điền đầy đủ và chính xác thông tin.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button type="submit" class="btn btn-success">Đăng ký <i class="fa fa-arrow-right"></i></button>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </section>
+                
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    const host = "https://provinces.open-api.vn/api/";
+    var callAPI = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data, "city");
+            });
+    }
+    callAPI('https://provinces.open-api.vn/api/?depth=1');
+    var callApiDistrict = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.districts, "district");
+            });
+    }
+    var callApiWard = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.wards, "ward");
+            });
+    }
+
+    var renderData = (array, select) => {
+        let row = ' <option disable value="">Chọn</option>';
+        array.forEach(element => {
+            row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+        });
+        document.querySelector("#" + select).innerHTML = row
+    }
+
+    $("#city").change(() => {
+        callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+        printResult();
+    });
+    $("#district").change(() => {
+        callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+        printResult();
+    });
+    $("#ward").change(() => {
+        printResult();
+    })
+
+    var printResult = () => {
+        if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+            $("#ward").find(':selected').data('id') != "") {
+            let result = $("#city option:selected").text() +
+                " | " + $("#district option:selected").text() + " | " +
+                $("#ward option:selected").text();
+            $("#result").text(result)
+        }
+
+    }
+
+    $(document).ready(function () {
+        // Sự kiện khi giá trị của tỉnh thành thay đổi
+        $("#city").change(function () {
+            updateDiaChi();
+        });
+
+        // Sự kiện khi giá trị của quận huyện thay đổi
+        $("#district").change(function () {
+            updateDiaChi();
+        });
+
+        // Sự kiện khi giá trị của phường xã thay đổi
+        $("#ward").change(function () {
+            updateDiaChi();
+        });
+
+        $("#inputDiaChi").on("change", function () {
+            // Lấy giá trị từ trường nhập liệu và gán vào biến diaChi
+            //var diaChi = $(this).val();
+            updateDiaChi();
+        });
+
+        function updateDiaChi() {
+            // Lấy giá trị từ các select
+            var cityValue = $("#city").val();
+            var districtValue = $("#district").val();
+            var wardValue = $("#ward").val();
+            var address = $("#inputDiaChi").val();
+
+            // Tạo địa chỉ dựa trên giá trị của các select
+            var diaChi = address + ", " + (wardValue ? wardValue + ", " : "") + (districtValue ? districtValue + ", " : "") + (cityValue ? cityValue : "");
+
+            //Cập nhật giá trị của trường địa chỉ
+            $("#inputDiaChi2").val(diaChi);
+        }
+    });
+</script>
 
 
 

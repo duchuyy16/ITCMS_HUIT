@@ -149,11 +149,11 @@ namespace ITCMS_HUIT.API.Controllers
         }
 
         [HttpPost("them-hoc-vien/{idLopHoc}")]
-        public IActionResult Add(HocVienDTO model, int idLopHoc)
+        public IActionResult Add(int idLopHoc,HocVienDTO model)
         {
             try
             {
-                HocVienDTO addedHocVien = _hocVien.Add(model, idLopHoc);
+                HocVienDTO addedHocVien = _hocVien.Add(model,idLopHoc);
 
                 var apiResponse = new ApiResponse<HocVienDTO>
                 {

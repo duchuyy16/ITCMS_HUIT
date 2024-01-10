@@ -1,98 +1,212 @@
-﻿<!-- [ Main Content ] start -->
+﻿<style>
+    .page-header-title h5,
+    .card-header h5 {
+        font-size: 24px; /* Điều chỉnh kích thước font-size theo mong muốn */
+    }
+</style>
+
+<!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
-	<div class="pcoded-wrapper">
-		<div class="pcoded-content" style="margin-top: 60px;">
-			<div class="pcoded-inner-content">
-				<div class="main-body">
-					<div class="page-wrapper">
-						<!-- [ breadcrumb ] start -->
-						<div class="page-header">
-							<div class="page-block">
-								<div class="row align-items-center">
-									<div class="col-md-12">
-										<div class="page-header-title">
-											<h5>Home</h5>
-										</div>
-										<ul class="breadcrumb">
-											<li class="breadcrumb-item"><a href="/Admin/trangchu"><i class="feather icon-home"></i></a></li>
-											<li class="breadcrumb-item"><a href="/Admin/trangchu">Trang tổng quan phân tích</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- [ breadcrumb ] end -->
-						<!-- [ Main Content ] start -->
-						<div class="row">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content" style="margin-top: 60px;">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5>Home</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="/Admin/trangchu"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="/Admin/trangchu">Trang tổng quan phân tích</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- product profit start -->
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-red" style="height:150px;">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h3 class="m-b-5 text-white">Lớp học</h3>
+                                                <h3 class="m-b-0 text-white">@ViewBag.LopHoc</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-chalkboard text-c-red f-18"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-blue" style="height:150px;">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h3 class="m-b-5 text-white">Học viên</h3>
+                                                <h3 class="m-b-0 text-white">@ViewBag.HocVien</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-user-graduate text-c-blue f-18"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-green" style="height:150px;">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h3 class="m-b-5 text-white">Chương trình đào tạo</h3>
+                                                <h3 class="m-b-0 text-white">@ViewBag.ChuongTrinhDaoTao</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-list-alt text-c-green f-18"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-yellow" style="height:150px;">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h3 class="m-b-5 text-white">Giáo viên</h3>
+                                                <h3 class="m-b-0 text-white">@ViewBag.GiaoVien</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-chalkboard-teacher text-c-yellow f-18"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-							<!-- product profit start -->
-							<div class="col-xl-3 col-md-6">
-								<div class="card prod-p-card bg-c-red">
-									<div class="card-body">
-										<div class="row align-items-center m-b-25">
-											<div class="col">
-												<h6 class="m-b-5 text-white">Lớp học</h6>
-												<h3 class="m-b-0 text-white">@ViewBag.LopHoc</h3>
+                        <div class="row">
+                            <!-- [ bar-simple Chart ] start -->
+                            <div class="col-xl-6">
+                                <div class="card">
+                                    <div class="card-header text-center bg-primary">
+                                        <h3 class="text-white">Biểu đồ cột số lượng khóa học theo chương trình</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="KhoaHocTheoChuongTrinh" style="height:300px"></div>
+                                    </div>
+                                </div>
+                            </div>
 
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-chalkboard text-c-red f-18"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-3 col-md-6">
-								<div class="card prod-p-card bg-c-blue">
-									<div class="card-body">
-										<div class="row align-items-center m-b-25">
-											<div class="col">
-												<h6 class="m-b-5 text-white">Học viên</h6>
-												<h3 class="m-b-0 text-white">@ViewBag.HocVien</h3>
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-user-graduate text-c-blue f-18"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-3 col-md-6">
-								<div class="card prod-p-card bg-c-green">
-									<div class="card-body">
-										<div class="row align-items-center m-b-25">
-											<div class="col">
-												<h6 class="m-b-5 text-white">Chương trình đào tạo</h6>
-												<h3 class="m-b-0 text-white">@ViewBag.ChuongTrinhDaoTao</h3>
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-list-alt text-c-green f-18"></i>
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-3 col-md-6">
-								<div class="card prod-p-card bg-c-yellow">
-									<div class="card-body">
-										<div class="row align-items-center m-b-25">
-											<div class="col">
-												<h6 class="m-b-5 text-white">Giáo viên</h6>
-												<h3 class="m-b-0 text-white">@ViewBag.GiaoVien</h3>
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-chalkboard-teacher text-c-yellow f-18"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- [ Main Content ] end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                            <div class="col-xl-6">
+                                <div class="card">
+                                    <div class="card-header text-center bg-primary">
+                                        <h3 class="text-white">Biểu đồ cột số lượng đối tượng đăng ký</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="ThongKeDoiTuongDangKy" style="height:300px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(function () {
+        LoadData('KhoaHocTheoChuongTrinh', '/Admin/Charts/GetCourseCountsByProgram');
+        LoadData('ThongKeDoiTuongDangKy', '/Admin/Charts/ThongKeDoiTuongDangKy');
+    });
+
+    function LoadData(chartId, url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                DrawChart(data, chartId);
+                return false;
+            }
+        });
+        return false;
+    }
+
+	function DrawChart(data, chartId) {
+		var dataArray = [
+			[chartId === 'KhoaHocTheoChuongTrinh' ? 'TenChuongTrinh' : 'DoiTuongDangKy', chartId === 'KhoaHocTheoChuongTrinh' ? 'SoLuongKhoaHoc' : 'SoLuong']
+		];
+
+		$.each(data, function (i, item) {
+			dataArray.push([item[chartId === 'KhoaHocTheoChuongTrinh' ? 'tenChuongTrinh' : 'doiTuongDangKy'], item[chartId === 'KhoaHocTheoChuongTrinh' ? 'soLuongKhoaHoc' : 'soLuong']]);
+		});
+
+		var myData = new google.visualization.arrayToDataTable(dataArray);
+
+		var options = {
+			title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học theo chương trình' : 'Số lượng đối tượng đăng ký',
+			chartArea: { width: '70%', height: '70%' },
+            titleTextStyle: {
+                fontSize: 20,  
+                bold: true    
+            },
+			hAxis: {
+				title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Số lượng khóa học' : 'Số lượng',
+				minValue: 0,
+                titleTextStyle: {
+                    fontSize: 16  // Kích thước chữ cho tiêu đề trục ngang
+                },
+                textStyle: {
+                    fontSize: 14  // Kích thước chữ cho nhãn trục ngang
+                }
+			},
+            vAxis: {
+                title: chartId === 'KhoaHocTheoChuongTrinh' ? 'Chương trình' : 'Đối tượng đăng ký',
+                titleTextStyle: {
+                    fontSize: 16  // Kích thước chữ cho tiêu đề trục dọc
+                },
+                textStyle: {
+                    fontSize: 14  // Kích thước chữ cho nhãn trục dọc
+                }
+            },
+            legend: {
+                textStyle: {
+                    fontSize: 14  // Kích thước chữ cho chú thích
+                }
+            },
+		};
+
+		// Sử dụng PieChart nếu là KhoaHocTheoChuongTrinh, ngược lại sử dụng BarChart
+		var chart;
+		if (chartId === 'KhoaHocTheoChuongTrinh') {
+			chart = new google.visualization.PieChart(document.getElementById(chartId));
+		} else {
+			chart = new google.visualization.BarChart(document.getElementById(chartId));
+			options.bars = 'horizontal';
+		}
+
+		chart.draw(myData, options);
+		return false;
+	}
+
+</script>
