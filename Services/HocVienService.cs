@@ -38,6 +38,11 @@ namespace Services
             return _hocVien.IsExist(id);
         }
 
+        public bool IsEmailExist(string email)
+        {
+            return _hocVien.IsEmailExist(email);
+        }
+
         public bool Update(HocVienDTO model)
         {
             var hocVien = new HocVien
@@ -71,6 +76,12 @@ namespace Services
             return result;
         }
 
+        private bool IsEmailExistInClass(string email, int idLopHoc)
+        {
+            return _thongTin.GetAll().Any(tt => tt.IdhocVienNavigation.Email.Equals(email) && tt.IdlopHoc == idLopHoc);
+        }
+
+
         public HocVienDTO Add(HocVienDTO model, int idLopHoc)
         {
             var hocVien = new HocVien
@@ -85,9 +96,24 @@ namespace Services
                 IdtrangThai = 2,
             };
 
-            var result = _hocVien.Add(hocVien);
+            // Kiểm tra Email tồn tại và thuộc lớp học
+            if (IsEmailExistInClass(model.Email, idLopHoc))            
+                return null!;
 
-            var addTTHV = _thongTin.Add(new ThongTinHocVien { IdhocVien = result!.IdhocVien, IdlopHoc = idLopHoc });
+            //var dsTTHocVien = _thongTin.GetAll();
+            //if (IsEmailExist(model.Email))
+            //{
+            //    foreach (var item in dsTTHocVien)
+            //    {
+            //        if (item.IdhocVienNavigation.Email.Equals(model.Email))
+            //            if(item.IdlopHoc==idLopHoc)
+            //            return null!;
+            //    }    
+            //}
+
+            var result = _hocVien.Add(hocVien);          
+
+            var addTTHV = _thongTin.Add(new ThongTinHocVien { IdhocVien = result!.IdhocVien, IdlopHoc = idLopHoc });        
 
             var hocVienDTO = _mapper.Map<HocVienDTO>(result);
 

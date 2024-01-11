@@ -35,6 +35,11 @@ namespace ITCMS_HUIT.Repository.Implement
                 .FirstOrDefault(w => w.IdhocVien==id)!;
         }
 
+        public bool IsEmailExist(string email)
+        {
+            return _context.HocViens.Any(g => g.Email == email);
+        }
+
         public bool IsExist(int id)
         {
             return _context.HocViens.Any(g => g.IdhocVien == id);

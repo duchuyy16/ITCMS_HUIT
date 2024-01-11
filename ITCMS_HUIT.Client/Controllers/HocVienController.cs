@@ -34,9 +34,17 @@ namespace ITCMS_HUIT.Client.Controllers
                     var idLopHoc = Request.RouteValues["idLopHoc"];
                     var url = string.Format(ConstantValues.HocVien.Them, idLopHoc);
                     var themHocVien = Utilities.SendDataRequest<HocVienDTO>(url, model).Data;
-            
-                    TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.";
-                    return RedirectToAction("Index", "Home");
+                    
+                    if(themHocVien == null)
+                    {
+                        TempData["ErrorMessage"] = "Email đã đăng ký khóa học này!!!";
+                        return RedirectToAction("Index", "Home");
+                    }    
+                    else
+                    {
+                        TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.";
+                        return RedirectToAction("Index", "Home");
+                    }                    
                 }
                 ViewData["IdDoiTuong"] = new SelectList(Utilities.SendDataRequest<List<DoiTuongDangKyDTO>>
                     (ConstantValues.DoiTuongDangKy.DanhSachDoiTuongDangKy).Data, model.IddoiTuong);

@@ -155,6 +155,9 @@ namespace ITCMS_HUIT.API.Controllers
             {
                 HocVienDTO addedHocVien = _hocVien.Add(model,idLopHoc);
 
+                if(addedHocVien == null) 
+                    return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<HocVienDTO> { Status = "Lỗi", Message = "Email đã đăng ký khóa học này!!!" });
+
                 var apiResponse = new ApiResponse<HocVienDTO>
                 {
                     Status = "Thành công",

@@ -14,6 +14,7 @@ namespace ITCMS_HUIT.Repository.Interfaces
         List<HocVien> Search(string keyword);
         List<HocVien> GetAll();
         bool IsExist(int id);
+        bool IsEmailExist(string email);
         int Count();
     }
 }
