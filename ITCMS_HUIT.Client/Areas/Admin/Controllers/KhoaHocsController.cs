@@ -11,7 +11,7 @@ using X.PagedList;
 namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [CheckToken("Teacher,Admin")]
+    [CheckToken("Admin")]
     public class KhoaHocsController : Controller
     {
         public ActionResult Index(int? IdchuongTrinh, int pageNo = 1)

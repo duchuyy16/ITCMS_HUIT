@@ -8,20 +8,19 @@ namespace ITCMS_HUIT.Client.Controllers
 {
     public class KhoaHocController : Controller
     {
+
         public IActionResult TimKiemKhoaHocTheoTen(string keyword)
         {
-            ViewBag.Name = keyword;
             if (!string.IsNullOrEmpty(keyword))
             {
                 var url = string.Format(ConstantValues.KhoaHoc.TimKiem, keyword);
                 var dsKhoaHoc = Utilities.SendDataRequest<List<KhoaHocDTO>>(url).Data;
-                return View(dsKhoaHoc);
+                return View(dsKhoaHoc); 
             }
-            else
-            {
-                return RedirectToAction("Index","Home");
-            }
+
+            return NotFound();
         }
+
 
         public IActionResult ChiTietKhoaHoc(int id)
         {
