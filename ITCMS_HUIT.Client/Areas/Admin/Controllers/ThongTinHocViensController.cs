@@ -139,7 +139,7 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(Index));
+                return ReturnToIndex();
             }
         }
 

@@ -193,9 +193,11 @@ namespace ITCMS_HUIT.Client.Areas.Admin.Controllers
 					return NotFound();
 				}
 
-				var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
+               
+                var url = string.Format(ConstantValues.KhoaHoc.ChiTietKhoaHoc, id);
 				var khoaHoc = Utilities.SendDataRequest<KhoaHocDTO>(url).Data;
-				if (khoaHoc == null)
+                
+                if (khoaHoc == null)
 				{
 					return NotFound();
 				}

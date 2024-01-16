@@ -61,9 +61,9 @@ public class CheckTokenAttribute : ActionFilterAttribute
             {
                 var tempData = (context.Controller as Controller)?.TempData;
 
-                tempData!["Warning"] = "Bạn không có quyền truy cập vào tài nguyên này!";
+                tempData!["Warning"] = "Xin lỗi, bạn không có quyền truy cập trang này!";
 
-                context.Result = new RedirectToActionResult("Login", "Auth", null);
+                context.Result = new RedirectToActionResult("Index", "Admin", null);
             }
         }
 

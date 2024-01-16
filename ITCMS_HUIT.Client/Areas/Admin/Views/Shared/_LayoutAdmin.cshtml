@@ -332,6 +332,19 @@
 		</script>
 	}
 
+	@if (TempData["Warning"] != null)
+	{
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					title: 'Truy cập bị từ chối',
+					text: '@Html.Raw(TempData["Warning"])',
+					icon: 'warning',
+					confirmButtonText: 'OK'
+				});
+			});
+		</script>
+	}
 	<!-- [ Body ] end -->
 
 	<!-- Required Js -->
